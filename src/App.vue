@@ -1,13 +1,8 @@
 <template>
-  <div
-    id="app"
-    class="h-100"
-    :class="[skinClasses]"
-  >
+  <div id="app" class="h-100" :class="[skinClasses]">
     <component :is="layout">
       <router-view />
     </component>
-
   </div>
 </template>
 
@@ -67,6 +62,9 @@ export default {
     // Set RTL
     const { isRTL } = $themeConfig.layout
     document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr')
+
+
+    store.dispatch('auth/user')
   },
   setup() {
     const { skin, skinClasses } = useAppConfig()
