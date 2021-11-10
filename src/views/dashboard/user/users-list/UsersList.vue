@@ -1,14 +1,61 @@
 <template>
   <div>
-    <!-- Filters -->
-    <users-list-filters
-      :role-filter.sync="roleFilter"
-      :plan-filter.sync="planFilter"
-      :status-filter.sync="statusFilter"
-      :role-options="roleOptions"
-      :plan-options="planOptions"
-      :status-options="statusOptions"
-    />
+    <!-- Tambah To Soal -->
+    <b-modal id="tambah-user" size="lg" title="Tambah Pengguna" cancel-title="Close" ok-title="Simpan" cancel-variant="outline-secondary" @show="resetModal" @hidden="resetModal" @ok="submitUser">
+      <validation-observer ref="registerForm" #default="{}">
+        <b-form class="mt-2">
+          <b-row>
+            <!-- username -->
+            <b-col lg="6">
+              <b-form-group label="Nama Lengkap" label-for="vi-first-name">
+                <b-input-group class="input-group-merge">
+                  <b-input-group-prepend is-text>
+                    <feather-icon icon="UserIcon" />
+                  </b-input-group-prepend>
+                  <b-form-input id="vi-first-name" v-model="form.name" placeholder="Nama Lengkap" />
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+
+            <!-- email -->
+            <b-col lg="6">
+              <b-form-group label="Email" label-for="register-email" class="w-100">
+                <b-input-group class="input-group-merge">
+                  <b-input-group-prepend is-text>
+                    <feather-icon icon="MailIcon" />
+                  </b-input-group-prepend>
+                  <b-form-input id="login-email" v-model="form.email" name="login-email" placeholder="john@example.com" />
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+
+            <b-col lg="6">
+              <b-form-group>
+                <label for="basic-password1">Password</label>
+                <b-input-group class="input-group-merge">
+                  <b-form-input id="basic-password1" :type="passwordFieldType" placeholder="Masukkan password" v-model="form.password" />
+                  <b-input-group-append is-text>
+                    <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+
+            <b-col lg="6" hidden>
+              <b-form-group>
+                <label for="basic-password1">Password Confirmation</label>
+                <b-input-group class="input-group-merge">
+                  <b-form-input id="basic-password1" :type="passwordFieldType" placeholder="Masukkan password confirmation" v-model="form.password_confirmation" />
+                  <b-input-group-append is-text>
+                    <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </b-form>
+      </validation-observer>
+    </b-modal>
 
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
@@ -16,32 +63,18 @@
         <!-- Table Top -->
         <b-row>
           <!-- Per Page -->
-          <b-col
-            cols="12"
-            md="6"
-            class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
-          >
+          <b-col cols="12" md="6" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
             <label>Show</label>
-            <v-select
-              v-model="perPage"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="perPageOptions"
-              :clearable="false"
-              class="per-page-selector d-inline-block mx-50"
-            />
+            <!-- <v-select v-model="perPage" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" :options="perPageOptions" :clearable="false" class="per-page-selector d-inline-block mx-50" /> -->
             <label>entries</label>
           </b-col>
 
           <!-- Search -->
           <b-col cols="12" md="6">
             <div class="d-flex align-items-center justify-content-end">
-              <b-form-input
-                v-model="searchQuery"
-                class="d-inline-block mr-1"
-                placeholder="Search..."
-              />
+              <!-- <b-form-input v-model="searchQuery" class="d-inline-block mr-1" placeholder="Search..." /> -->
 
-              <b-button variant="primary" v-b-modal.formTambahUser>
+              <b-button variant="primary" v-b-modal.tambah-user>
                 <span class="text-nowrap">Tambah Pengguna</span>
               </b-button>
             </div>
@@ -49,34 +82,21 @@
         </b-row>
       </div>
 
-      <b-table
-        ref="refUserListTable"
-        class="position-relative"
-        :items="fetchUsers"
-        responsive
-        :fields="tableColumns"
-        primary-key="id"
-        :sort-by.sync="sortBy"
-        show-empty
-        empty-text="No matching records found"
-        :sort-desc.sync="isSortDirDesc"
-      >
+      <b-table ref="refUserListTable" :busy="isLoading" class="position-relative" responsive :items="listUser" :fields="tableColumns" primary-key="id" show-empty empty-text="No matching records found">
+        <template #table-busy>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle mr-1"></b-spinner>
+            <strong>Sedang memuat data...</strong>
+          </div>
+        </template>
+
         <!-- Column: User -->
-        <template #cell(user)="data">
+        <template #cell(nama)="data">
           <b-media vertical-align="center">
             <template #aside>
-              <b-avatar
-                size="32"
-                :src="data.item.avatar"
-                :text="avatarText(data.item.fullName)"
-                :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              />
+              <!-- <b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName)" :variant="`light-${resolveUserRoleVariant(data.item.role)}`" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" /> -->
             </template>
-            <b-link
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              class="font-weight-bold d-block text-nowrap"
-            >{{ data.item.fullName }}</b-link>
+            <b-link :to="{ name: 'apps-users-view', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">{{ data.item.fullName }}</b-link>
             <small class="text-muted">@{{ data.item.username }}</small>
           </b-media>
         </template>
@@ -84,23 +104,14 @@
         <!-- Column: Role -->
         <template #cell(role)="data">
           <div class="text-nowrap">
-            <feather-icon
-              :icon="resolveUserRoleIcon(data.item.role)"
-              size="18"
-              class="mr-50"
-              :class="`text-${resolveUserRoleVariant(data.item.role)}`"
-            />
+            <feather-icon :icon="resolveUserRoleIcon(data.item.role)" size="18" class="mr-50" :class="`text-${resolveUserRoleVariant(data.item.role)}`" />
             <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
           </div>
         </template>
 
         <!-- Column: Status -->
         <template #cell(status)="data">
-          <b-badge
-            pill
-            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
-            class="text-capitalize"
-          >{{ data.item.status }}</b-badge>
+          <b-badge pill :variant="`light-${resolveUserStatusVariant(data.item.status)}`" class="text-capitalize">{{ data.item.status }}</b-badge>
         </template>
 
         <!-- Column: Actions -->
@@ -128,208 +139,285 @@
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
-          <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-start"
-          >
-            <span
-              class="text-muted"
-            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>
+          <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-start">
+            <!-- <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span> -->
           </b-col>
           <!-- Pagination -->
-          <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-end"
-          >
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="totalUsers"
-              :per-page="perPage"
-              first-number
-              last-number
-              class="mb-0 mt-1 mt-sm-0"
-              prev-class="prev-item"
-              next-class="next-item"
-            >
+          <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
+            <!-- <b-pagination v-model="currentPage" :total-rows="totalUsers" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
               <template #prev-text>
                 <feather-icon icon="ChevronLeftIcon" size="18" />
               </template>
               <template #next-text>
                 <feather-icon icon="ChevronRightIcon" size="18" />
               </template>
-            </b-pagination>
+            </b-pagination>-->
           </b-col>
         </b-row>
       </div>
     </b-card>
 
-    <b-modal
-      id="formTambahUser"
-      ok-title="Simpan"
-      centered
-      size="lg"
-      title="Large Modal"
-      cancel-variant="outline-secondary"
-      @show="resetModal"
-      @hidden="resetModal"
-      @ok="storeUser"
-    >
-   
-    </b-modal>
+    <!-- <b-modal id="formTambahUser" ok-title="Simpan" centered size="lg" title="Large Modal" cancel-variant="outline-secondary" @show="resetModal" @hidden="resetModal" @ok="storeUser"></b-modal> -->
   </div>
 </template>
 
 <script setup>
 import {
-   BFormGroup, BFormCheckbox, BForm, BInputGroup, BInputGroupPrepend,
-  BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, VBModal
-} from 'bootstrap-vue'
-import vSelect from 'vue-select'
-import store from '@/store'
-import { ref, onUnmounted } from '@vue/composition-api'
-import { avatarText } from '@core/utils/filter'
-import UsersListFilters from './UsersListFilters.vue'
-import useUsersList from './useUsersList'
-import userStoreModule from '../userStoreModule'
+  BFormGroup,
+  BFormCheckbox,
+  BForm,
+  BInputGroup,
+  BInputGroupPrepend,
+  BInputGroupAppend,
+  BCard,
+  BRow,
+  BCol,
+  BFormInput,
+  BFormTextarea,
+  BButton,
+  BTable,
+  BMedia,
+  BAvatar,
+  BLink,
+  BBadge,
+  BDropdown,
+  BSpinner,
+  BDropdownItem,
+  BPagination,
+  BFormRadio,
+  BFormDatepicker,
+  VBModal,
+} from "bootstrap-vue";
+import vSelect from "vue-select";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import store from "@/store";
+import { ref, onMounted, computed } from "@vue/composition-api";
+import { avatarText } from "@core/utils/filter";
+
+import { useToast } from "vue-toastification/composition";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+
+import repository from "@repofactory";
+const user = repository.get("userRepository");
 
 export default {
   components: {
-    UsersListFilters,
-
+    BFormGroup,
+    BFormCheckbox,
+    BForm,
+    BInputGroup,
+    BInputGroupPrepend,
+    BInputGroupAppend,
     BCard,
     BRow,
     BCol,
     BFormInput,
+    BFormTextarea,
     BButton,
     BTable,
     BMedia,
     BAvatar,
     BLink,
+    BSpinner,
     BBadge,
     BDropdown,
     BDropdownItem,
     BPagination,
+    BFormRadio,
+    BFormDatepicker,
+    VBModal,
 
     vSelect,
+
+    //validations
+    ValidationProvider,
+    ValidationObserver,
   },
   directives: {
-    'b-modal': VBModal,
+    "b-modal": VBModal,
   },
+  mixins: [togglePasswordVisibility],
+
+  computed: {
+    passwordToggleIcon() {
+      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+    },
+  },
+
   setup() {
-    const USER_APP_STORE_MODULE_NAME = 'app-user'
+    const isLoading = ref(true);
+    const isSubmitting = ref(false);
+    const isError = ref(false);
+    const toast = useToast();
 
-    // Register module
-    if (!store.hasModule(USER_APP_STORE_MODULE_NAME)) store.registerModule(USER_APP_STORE_MODULE_NAME, userStoreModule)
+    const listUser = ref([]);
 
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
-    })
+    // let passwordFieldType = ref("password");
 
-
-    const roleOptions = [
-      { label: 'Admin', value: 'admin' },
-      { label: 'Author', value: 'author' },
-      { label: 'Editor', value: 'editor' },
-      { label: 'Maintainer', value: 'maintainer' },
-      { label: 'Subscriber', value: 'subscriber' },
-    ]
-
-    const planOptions = [
-      { label: 'Basic', value: 'basic' },
-      { label: 'Company', value: 'company' },
-      { label: 'Enterprise', value: 'enterprise' },
-      { label: 'Team', value: 'team' },
-    ]
-
-    const statusOptions = [
-      { label: 'Pending', value: 'pending' },
-      { label: 'Active', value: 'active' },
-      { label: 'Inactive', value: 'inactive' },
-    ]
+    //form input
+    const form = ref({
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      province_id: null,
+      city_id: null,
+      district_id: null,
+      alamat: null,
+      no_wa: null,
+      sekolah_asal: null,
+      tanggal_lahir: null,
+      jenis_kelamin: null,
+    });
 
     const resetModal = () => {
+      form.value = {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        province_id: null,
+        city_id: null,
+        district_id: null,
+        alamat: null,
+        no_wa: null,
+        sekolah_asal: null,
+        tanggal_lahir: null,
+        jenis_kelamin: null,
+      };
+    };
 
-      console.log('hidden')
-    }
+    const showToast = (title, text, variant, icon = "BellIcon") => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title,
+          icon,
+          text,
+          variant,
+        },
+      });
+    };
 
-    const storeUser = (bvModalEvt) => {
-      bvModalEvt.preventDefault()
-      console.log('ok')
-    }
+    const fetchUser = async () => {
+      isLoading.value = true;
+      await user
+        .get()
+        .then((response) => {
+          isLoading.value = false;
+          listUser.value = response.data.data.data;
+        })
+        .catch((error) => {
+          isLoading.value = false;
+          isError.value = true;
+          if (error.response) {
+            showToast(
+              "Error",
+              error.response.data.message,
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else if (error.request) {
+            showToast(
+              "Error",
+              "Tidak bisa request data ke server",
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else {
+            showToast("Error", error.message, "danger", "AlertTriangleIcon");
+          }
+        });
+    };
 
+    onMounted(async () => {
+      fetchUser();
+    });
 
-    const {
-      fetchUsers,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
+    //submit User
+    const submitUser = async () => {
+      isSubmitting.value = true;
 
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
+      await user
+        .create({
+          name: form.value.name,
+          email: form.value.email,
+          password: form.value.password,
+          password_confirmation: form.value.password,
+          province_id: null,
+          city_id: null,
+          district_id: null,
+          alamat: null,
+          no_wa: null,
+          sekolah_asal: null,
+          tanggal_lahir: null,
+          jenis_kelamin: null,
+        })
+        .then((response) => {
+          fetchUser();
+          showToast("Notifikasi", response.data.message, "primary");
 
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    } = useUsersList()
+          isSubmitting.value = false;
+          resetModal();
+        })
+        .catch((error) => {
+          if (error.response) {
+            showToast(
+              "Error",
+              error.response.data.message,
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else if (error.request) {
+            showToast(
+              "Error",
+              "Tidak bisa request data ke server",
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else {
+            showToast("Error", error.message, "danger", "AlertTriangleIcon");
+          }
+          isSubmitting.value = false;
+          resetModal();
+        });
+    };
+
+    const tableColumns = [
+      { key: "id", label: "ID", sortable: true },
+      {
+        key: "name",
+        label: "Nama",
+      },
+      {
+        key: "email",
+        label: "Email",
+      },
+      {
+        key: "no_wa",
+        label: "Whatsapp",
+      },
+      {
+        key: "jenis_kelamin",
+        label: "Gender",
+      },
+      { key: "actions" },
+    ];
 
     return {
-
-      resetModal, storeUser,
-
-      fetchUsers,
       tableColumns,
-      perPage,
-      currentPage,
-      totalUsers,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refUserListTable,
-      refetchData,
-
-      // Filter
-      avatarText,
-
-      // UI
-      resolveUserRoleVariant,
-      resolveUserRoleIcon,
-      resolveUserStatusVariant,
-
-      roleOptions,
-      planOptions,
-      statusOptions,
-
-      // Extra Filters
-      roleFilter,
-      planFilter,
-      statusFilter,
-    }
+      listUser,
+      form,
+      isLoading,
+      isError,
+      isSubmitting,
+      resetModal,
+      submitUser,
+    };
   },
-}
+};
 </script>
-
-<style lang="scss" scoped>
-.per-page-selector {
-  width: 90px;
-}
-</style>
 
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";

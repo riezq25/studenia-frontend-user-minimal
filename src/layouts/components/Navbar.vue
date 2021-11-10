@@ -15,21 +15,12 @@
       <div class="bookmark-wrapper align-items-center flex-grow-1 d-flex">
         <dark-Toggler class="d-block" />
       </div>
-      <b-nav-item-dropdown
-        right
-        toggle-class="d-flex align-items-center dropdown-user-link"
-        class="dropdown-user"
-      >
+      <b-nav-item-dropdown right toggle-class="d-flex align-items-center dropdown-user-link" class="dropdown-user">
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">{{ nama }}</p>
           </div>
-          <b-avatar
-            size="40"
-            variant="light-primary"
-            class="badge-minimal"
-            badge-variant="success"
-          />
+          <b-avatar size="40" variant="light-primary" class="badge-minimal" badge-variant="success" />
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -50,11 +41,16 @@
 
 <script>
 import {
-  BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
-} from 'bootstrap-vue'
-import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
+  BLink,
+  BNavbarNav,
+  BNavItemDropdown,
+  BDropdownItem,
+  BDropdownDivider,
+  BAvatar,
+} from "bootstrap-vue";
+import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
 import { ref } from "@vue/composition-api";
-import store from '@/store/index'
+import store from "@/store/index";
 
 export default {
   components: {
@@ -71,15 +67,15 @@ export default {
   props: {
     toggleVerticalMenuActive: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
   },
   setup() {
-    const nama = ref(store.state.auth.user.info.name)
+    const nama = ref(store.state.auth.user.info.name);
     const logout = () => {
-      store.dispatch('auth/logout')
-    }
-    return { logout, nama }
-  }
-}
+      store.dispatch("auth/logout");
+    };
+    return { logout, nama };
+  },
+};
 </script>
