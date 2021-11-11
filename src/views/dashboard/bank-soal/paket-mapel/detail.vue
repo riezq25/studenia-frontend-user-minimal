@@ -16,7 +16,7 @@
                     class="mb-75 p-2 text-left"
                     block
                   >
-                    <div class="resize-font">
+                    <div class="resize-font d-flex">
                       <span>{{ button.toUpperCase() }}.&nbsp;</span>
                       <span v-html="listSoal[currentIndex][`pil_${button}`]"></span>
                     </div>
@@ -51,7 +51,7 @@
           </div>
         </b-col>
         <b-col cols="12" xl="3" md="4" class="mb-5">
-            <b-card  title="Ubah Ukuran Teks" class="p-1"> 
+          <b-card title="Ubah Ukuran Teks" class="p-1">
             <div>
               <b-form-spinbutton
                 id="sb-maxmin"
@@ -63,7 +63,7 @@
             </div>
           </b-card>
 
-         <b-card>
+          <b-card>
             <div class="card-header px-0">
               <h4 class="card-title">Nomor Soal</h4>
             </div>
@@ -112,8 +112,6 @@
               </div>
             </div>
           </b-card>
-
-       
         </b-col>
       </b-row>
     </app-collapse>
