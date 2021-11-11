@@ -6,8 +6,8 @@
           <b-card-actions title="Pertanyaaan" action-collapse>
             <b-row class="invoice-spacing my-0">
               <b-col cols="12" class="mb-lg-1">
-                <span>Soal {{ currentIndex + 1 }}</span>
-                <div class="resize-font" v-html="listSoal[currentIndex].pertanyaan"></div>
+                <p class="font-weight-bolder mb-0">Soal {{ currentIndex + 1 }}</p>
+                <p class="resize-font lh-base" v-html="listSoal[currentIndex].pertanyaan"></p>
                 <div class="mt-1">
                   <b-button
                     v-for="(button) in buttons"
@@ -18,7 +18,7 @@
                   >
                     <div class="resize-font d-flex">
                       <span>{{ button.toUpperCase() }}.&nbsp;</span>
-                      <span v-html="listSoal[currentIndex][`pil_${button}`]"></span>
+                      <span class="lh-base" v-html="listSoal[currentIndex][`pil_${button}`]"></span>
                     </div>
                   </b-button>
                 </div>
@@ -45,7 +45,12 @@
                     ></iframe>
                   </div>
                 </div>
-                <div v-else>Tidak ada pembahasan Video</div>
+                <div v-else>
+                  <div class="d-flex align-items-center">
+                    <feather-icon icon="VideoOffIcon" size="23" class="mr-1" />
+                    <span>Tidak ada pembahasan Video</span>
+                  </div>
+                </div>
               </b-card-actions>
             </div>
           </div>
@@ -96,7 +101,7 @@
             </div>
             <div>
               <div class="overflow-auto my-1">
-                <div class="d-flex justify-content-center flex-wrap btn-listSoal">
+                <div class="d-flex justify-content-center flex-wrap btn-soal">
                   <b-button
                     v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                     size="sm"
@@ -218,7 +223,7 @@ export default {
     const isError = ref(false);
 
     const listSoal = ref([])
-    const jumlah = ref(listSoal.value.length);
+    const jumlah = ref(0);
 
     const defaultFontSize = ref('1')
 
@@ -242,6 +247,7 @@ export default {
           console.log(response)
           isLoading.value = false;
           listSoal.value = response.data.data.soals;
+          jumlah.value = listSoal.value.length
         })
         .catch(function (error) {
           if (error.response) {
@@ -304,7 +310,6 @@ export default {
       clickPrev,
       clickSoal,
       resizeFont
-
     };
   },
 };
@@ -316,12 +321,12 @@ export default {
 }
 .btn-soal {
   gap: 5px !important;
-  height: 150px;
+  /* height: 150px; */
 }
 
-@media (max-width: 767.98px) {
+/* @media (max-width: 767.98px) {
   .btn-soal {
     height: auto;
   }
-}
+} */
 </style>

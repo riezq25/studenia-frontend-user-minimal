@@ -1,7 +1,17 @@
 <template>
   <div>
     <!-- Tambah To Soal -->
-    <b-modal id="tambah-user" size="lg" title="Tambah Pengguna" cancel-title="Close" ok-title="Simpan" cancel-variant="outline-secondary" @show="resetModal" @hidden="resetModal" @ok="submitUser">
+    <b-modal
+      id="tambah-user"
+      size="lg"
+      title="Tambah Pengguna"
+      cancel-title="Close"
+      ok-title="Simpan"
+      cancel-variant="outline-secondary"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="submitUser"
+    >
       <validation-observer ref="registerForm" #default="{}">
         <b-form class="mt-2">
           <b-row>
@@ -24,7 +34,12 @@
                   <b-input-group-prepend is-text>
                     <feather-icon icon="MailIcon" />
                   </b-input-group-prepend>
-                  <b-form-input id="login-email" v-model="form.email" name="login-email" placeholder="john@example.com" />
+                  <b-form-input
+                    id="login-email"
+                    v-model="form.email"
+                    name="login-email"
+                    placeholder="john@example.com"
+                  />
                 </b-input-group>
               </b-form-group>
             </b-col>
@@ -33,9 +48,18 @@
               <b-form-group>
                 <label for="basic-password1">Password</label>
                 <b-input-group class="input-group-merge">
-                  <b-form-input id="basic-password1" :type="passwordFieldType" placeholder="Masukkan password" v-model="form.password" />
+                  <b-form-input
+                    id="basic-password1"
+                    :type="passwordFieldType"
+                    placeholder="Masukkan password"
+                    v-model="form.password"
+                  />
                   <b-input-group-append is-text>
-                    <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                    <feather-icon
+                      :icon="passwordToggleIcon"
+                      class="cursor-pointer"
+                      @click="togglePasswordVisibility"
+                    />
                   </b-input-group-append>
                 </b-input-group>
               </b-form-group>
@@ -45,9 +69,18 @@
               <b-form-group>
                 <label for="basic-password1">Password Confirmation</label>
                 <b-input-group class="input-group-merge">
-                  <b-form-input id="basic-password1" :type="passwordFieldType" placeholder="Masukkan password confirmation" v-model="form.password_confirmation" />
+                  <b-form-input
+                    id="basic-password1"
+                    :type="passwordFieldType"
+                    placeholder="Masukkan password confirmation"
+                    v-model="form.password_confirmation"
+                  />
                   <b-input-group-append is-text>
-                    <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                    <feather-icon
+                      :icon="passwordToggleIcon"
+                      class="cursor-pointer"
+                      @click="togglePasswordVisibility"
+                    />
                   </b-input-group-append>
                 </b-input-group>
               </b-form-group>
@@ -57,13 +90,34 @@
       </validation-observer>
     </b-modal>
 
+    <!-- Delete User -->
+    <b-modal
+      id="hapus-user"
+      cancel-variant="outline-secondary"
+      ok-title="Hapus"
+      cancel-title="Close"
+      centered
+      title="Hapus User"
+      @ok="deleteUser(form.id)"
+    >
+      <b-form>
+        <b-form-group>
+          <p>Apakah anda akan User ini?</p>
+        </b-form-group>
+      </b-form>
+    </b-modal>
+
     <!-- Table Container Card -->
     <b-card no-body class="mb-0">
       <div class="m-2">
         <!-- Table Top -->
         <b-row>
           <!-- Per Page -->
-          <b-col cols="12" md="6" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+          <b-col
+            cols="12"
+            md="6"
+            class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
+          >
             <label>Show</label>
             <!-- <v-select v-model="perPage" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" :options="perPageOptions" :clearable="false" class="per-page-selector d-inline-block mx-50" /> -->
             <label>entries</label>
@@ -82,7 +136,17 @@
         </b-row>
       </div>
 
-      <b-table ref="refUserListTable" :busy="isLoading" class="position-relative" responsive :items="listUser" :fields="tableColumns" primary-key="id" show-empty empty-text="No matching records found">
+      <b-table
+        ref="refUserListTable"
+        :busy="isLoading"
+        class="position-relative"
+        responsive
+        :items="listUser"
+        :fields="tableColumns"
+        primary-key="id"
+        show-empty
+        empty-text="No matching records found"
+      >
         <template #table-busy>
           <div class="text-center text-danger my-2">
             <b-spinner class="align-middle mr-1"></b-spinner>
@@ -96,7 +160,10 @@
             <template #aside>
               <!-- <b-avatar size="32" :src="data.item.avatar" :text="avatarText(data.item.fullName)" :variant="`light-${resolveUserRoleVariant(data.item.role)}`" :to="{ name: 'apps-users-view', params: { id: data.item.id } }" /> -->
             </template>
-            <b-link :to="{ name: 'apps-users-view', params: { id: data.item.id } }" class="font-weight-bold d-block text-nowrap">{{ data.item.fullName }}</b-link>
+            <b-link
+              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
+              class="font-weight-bold d-block text-nowrap"
+            >{{ data.item.fullName }}</b-link>
             <small class="text-muted">@{{ data.item.username }}</small>
           </b-media>
         </template>
@@ -104,14 +171,23 @@
         <!-- Column: Role -->
         <template #cell(role)="data">
           <div class="text-nowrap">
-            <feather-icon :icon="resolveUserRoleIcon(data.item.role)" size="18" class="mr-50" :class="`text-${resolveUserRoleVariant(data.item.role)}`" />
+            <feather-icon
+              :icon="resolveUserRoleIcon(data.item.role)"
+              size="18"
+              class="mr-50"
+              :class="`text-${resolveUserRoleVariant(data.item.role)}`"
+            />
             <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
           </div>
         </template>
 
         <!-- Column: Status -->
         <template #cell(status)="data">
-          <b-badge pill :variant="`light-${resolveUserStatusVariant(data.item.status)}`" class="text-capitalize">{{ data.item.status }}</b-badge>
+          <b-badge
+            pill
+            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
+            class="text-capitalize"
+          >{{ data.item.status }}</b-badge>
         </template>
 
         <!-- Column: Actions -->
@@ -120,7 +196,7 @@
             <template #button-content>
               <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
             </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
+            <b-dropdown-item :to="{ name: 'manajemen-users-detail' , params:{id:data.item.id} }">
               <feather-icon icon="FileTextIcon" />
               <span class="align-middle ml-50">Details</span>
             </b-dropdown-item>
@@ -130,7 +206,7 @@
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
 
-            <b-dropdown-item>
+            <b-dropdown-item @click="getUser(data.item.id)" v-b-modal.hapus-user>
               <feather-icon icon="TrashIcon" />
               <span class="align-middle ml-50">Delete</span>
             </b-dropdown-item>
@@ -139,11 +215,19 @@
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
-          <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-start">
+          <b-col
+            cols="12"
+            sm="6"
+            class="d-flex align-items-center justify-content-center justify-content-sm-start"
+          >
             <!-- <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span> -->
           </b-col>
           <!-- Pagination -->
-          <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
+          <b-col
+            cols="12"
+            sm="6"
+            class="d-flex align-items-center justify-content-center justify-content-sm-end"
+          >
             <!-- <b-pagination v-model="currentPage" :total-rows="totalUsers" :per-page="perPage" first-number last-number class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
               <template #prev-text>
                 <feather-icon icon="ChevronLeftIcon" size="18" />
@@ -269,6 +353,8 @@ export default {
       sekolah_asal: null,
       tanggal_lahir: null,
       jenis_kelamin: null,
+      id: null,
+      index: null
     });
 
     const resetModal = () => {
@@ -285,6 +371,8 @@ export default {
         sekolah_asal: null,
         tanggal_lahir: null,
         jenis_kelamin: null,
+        id: null,
+        index: null
       };
     };
 
@@ -335,6 +423,28 @@ export default {
       fetchUser();
     });
 
+    // Get User
+    const getUser = (id) => {
+      const index = listUser.value.findIndex((user) => user.id == id);
+      const currentUser = listUser.value[index];
+      form.value = {
+        id: currentUser.id,
+        index: index,
+        name: currentUser.name,
+        email: currentUser.email,
+        password: currentUser.password,
+        password_confirmation: currentUser.password_confirmation,
+        province_id: currentUser.province_id,
+        city_id: currentUser.city_id,
+        district_id: currentUser.district_id,
+        alamat: currentUser.alamat,
+        no_wa: currentUser.no_wa,
+        sekolah_asal: currentUser.sekolah_asal,
+        tanggal_lahir: currentUser.tanggal_lahir,
+        jenis_kelamin: currentUser.jenis_kelamin,
+      };
+    };
+
     //submit User
     const submitUser = async () => {
       isSubmitting.value = true;
@@ -384,6 +494,44 @@ export default {
         });
     };
 
+    // Delete User
+    const deleteUser = async (id) => {
+      isSubmitting.value = true;
+
+      await user
+        .delete(id)
+        .then((response) => {
+          fetchUser()
+
+          showToast("Notifikasi", response.data.message, "primary");
+          resetModal();
+
+          isSubmitting.value = false;
+        })
+        .catch((error) => {
+          if (error.response) {
+            showToast(
+              "Error",
+              error.response.data.message,
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else if (error.request) {
+            showToast(
+              "Error",
+              "Tidak bisa request data ke server",
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else {
+            showToast("Error", error.message, "danger", "AlertTriangleIcon");
+          }
+          isSubmitting.value = false;
+          resetModal();
+        });
+    };
+
+
     const tableColumns = [
       { key: "id", label: "ID", sortable: true },
       {
@@ -414,6 +562,8 @@ export default {
       isSubmitting,
       resetModal,
       submitUser,
+      getUser,
+      deleteUser
     };
   },
 };
