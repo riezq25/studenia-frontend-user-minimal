@@ -4,6 +4,7 @@ import store from "@/store";
 
 import usersRoute from "@/router/users/index";
 import manajemenSoal from "@/router/bank-soal/index";
+import accessControl from '@/router/access-control'
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,7 @@ const router = new VueRouter({
     },
     ...usersRoute,
     ...manajemenSoal,
+    ...accessControl,
     {
       path: "/login",
       name: "login",
