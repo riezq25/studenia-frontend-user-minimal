@@ -18,7 +18,7 @@ export default [
   },
   {
     title: 'Kategori',
-    icon: 'MenuIcon',
+    icon: 'GridIcon',
     children: [
       {
         title: 'Kategori Soal',
@@ -33,6 +33,6 @@ export default [
   {
     title: 'Manajemen Paket',
     route: 'manajemen-paket',
-    icon: 'DropletIcon',
+    icon: 'FolderIcon',
   },
 ]

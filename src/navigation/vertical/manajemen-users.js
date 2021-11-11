@@ -4,8 +4,13 @@ export default [
   },
   {
     title: 'Daftar Pengguna',
-    icon: 'FileTextIcon',
+    icon: 'UsersIcon',
     route: { name: 'manajemen-users' },
+  },
+  {
+    title: 'Access Control',
+    icon: 'UnlockIcon',
+    route: { name: 'access-control' },
   },
 
   // {

@@ -1,7 +1,6 @@
-import manajemenUsers from "@navigation/vertical/manajemen-users";
-import manajemenSoal from "@navigation/vertical/bank-soal";
-import manajemenTo from "@navigation/vertical/manajemen-try-out";
-import accessControl from "@/navigation/vertical/access-control";
+import manajemenUsers from '@navigation/vertical/manajemen-users'
+import manajemenSoal from '@navigation/vertical/bank-soal'
+import manajemenTo from '@navigation/vertical/manajemen-try-out'
 
 export default [
   {
@@ -12,5 +11,4 @@ export default [
   ...manajemenUsers,
   ...manajemenSoal,
   ...manajemenTo,
-  ...accessControl
 ]
