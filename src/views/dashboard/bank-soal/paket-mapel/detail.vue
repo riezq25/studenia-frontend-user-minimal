@@ -2,6 +2,7 @@
   <div class="pb-6">
     <app-collapse accordion :type="'margin'">
       <b-row>
+        Index : {{currentIndex}}
         <b-col cols="12" xl="9" md="8">
           <b-card-actions title="Pertanyaaan" action-collapse>
             <b-row class="invoice-spacing my-0">
@@ -9,13 +10,7 @@
                 <span>Soal {{ currentIndex + 1 }}</span>
                 <div class="resize-font" v-html="listSoal[currentIndex].pertanyaan"></div>
                 <div class="mt-1">
-                  <b-button
-                    v-for="(button) in buttons"
-                    :key="button"
-                    :variant="listSoal[currentIndex].kunci_jawaban.toLowerCase() == button ? 'primary' : 'outline-dark'"
-                    class="mb-75 p-2 text-left"
-                    block
-                  >
+                  <b-button v-for="(button) in buttons" :key="button" :variant="listSoal[currentIndex].kunci_jawaban.toLowerCase() == button ? 'primary' : 'outline-dark'" class="mb-75 p-2 text-left" block>
                     <div class="resize-font d-flex">
                       <span>{{ button.toUpperCase() }}.&nbsp;</span>
                       <span v-html="listSoal[currentIndex][`pil_${button}`]"></span>
@@ -38,11 +33,7 @@
               <b-card-actions title="Pembahasan Video" action-collapse>
                 <div v-if="listSoal[currentIndex].pembahasan_video">
                   <div class="embed-responsive embed-responsive-16by9">
-                    <iframe
-                      class="embed-responsive-item"
-                      :src="listSoal[currentIndex].pembahasan_video"
-                      allowfullscreen
-                    ></iframe>
+                    <iframe class="embed-responsive-item" :src="listSoal[currentIndex].pembahasan_video" allowfullscreen></iframe>
                   </div>
                 </div>
                 <div v-else>Tidak ada pembahasan Video</div>
@@ -53,13 +44,7 @@
         <b-col cols="12" xl="3" md="4" class="mb-5">
           <b-card title="Ubah Ukuran Teks" class="p-1">
             <div>
-              <b-form-spinbutton
-                id="sb-maxmin"
-                v-model="defaultFontSize"
-                min="1"
-                max="10"
-                @change="resizeFont('resize-font')"
-              />
+              <b-form-spinbutton id="sb-maxmin" v-model="defaultFontSize" min="1" max="10" @change="resizeFont('resize-font')" />
             </div>
           </b-card>
 
@@ -69,27 +54,13 @@
             </div>
             <hr />
 
-            <div
-              class="d-sm-flex my-2 d-none justify-content-between align-items-center nav-bottom"
-            >
-              <b-button
-                class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
-                block
-                variant="primary"
-                :disabled="currentIndex == 0 ? true : false"
-                @click="clickPrev"
-              >
+            <div class="d-sm-flex my-2 d-none justify-content-between align-items-center nav-bottom">
+              <b-button class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == 0 ? true : false" @click="clickPrev">
                 <feather-icon icon="ChevronLeftIcon" size="20" />
                 <span>Prev</span>
               </b-button>
 
-              <b-button
-                class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
-                block
-                variant="primary"
-                :disabled="currentIndex == (jumlah - 1) ? true : false"
-                @click="clickNext"
-              >
+              <b-button class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == (jumlah - 1) ? true : false" @click="clickNext">
                 <span>Next</span>
                 <feather-icon icon="ChevronRightIcon" size="20" />
               </b-button>
@@ -97,15 +68,7 @@
             <div>
               <div class="overflow-auto my-1">
                 <div class="d-flex justify-content-center flex-wrap btn-listSoal">
-                  <b-button
-                    v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                    size="sm"
-                    style="width:40px; height:40px"
-                    :variant="currentIndex == index ? 'primary' : 'outline-secondary'"
-                    v-for="(jml,index) in listSoal"
-                    :key="jml.id"
-                    @click="clickSoal(index)"
-                  >
+                  <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" size="sm" style="width:40px; height:40px" :variant="currentIndex == index ? 'primary' : 'outline-secondary'" v-for="(jml,index) in listSoal" :key="jml.id" @click="clickSoal(index)">
                     <div class="d-flex justify-content-center align-items-center">{{ index + 1 }}</div>
                   </b-button>
                 </div>
@@ -119,23 +82,11 @@
     <b-card-body class="w-100 p-0 d-sm-none fixed-bottom">
       <b-card class="p-0 m-0">
         <div class="d-flex justify-content-between align-items-center nav-bottom">
-          <b-button
-            class="m-0 py-1 d-flex align-items-center justify-content-center"
-            block
-            variant="primary"
-            :disabled="currentIndex == 0 ? true : false"
-            @click="clickPrev"
-          >
+          <b-button class="m-0 py-1 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == 0 ? true : false" @click="clickPrev">
             <feather-icon icon="ChevronLeftIcon" size="20" />
             <span>Prev</span>
           </b-button>
-          <b-button
-            class="m-0 py-1 d-flex align-items-center justify-content-center"
-            block
-            variant="primary"
-            :disabled="currentIndex == (jumlah - 1) ? true : false"
-            @click="clickNext"
-          >
+          <b-button class="m-0 py-1 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == (jumlah - 1) ? true : false" @click="clickNext">
             <span>Next</span>
             <feather-icon icon="ChevronRightIcon" size="20" />
           </b-button>
@@ -172,7 +123,8 @@ import {
   BPopover,
   BAlert,
   BLink,
-  VBToggle, BFormSpinbutton
+  VBToggle,
+  BFormSpinbutton,
 } from "bootstrap-vue";
 
 import repository from "@repofactory";
@@ -199,7 +151,8 @@ export default {
     BPopover,
     BAlert,
     BLink,
-    VBToggle, BFormSpinbutton
+    VBToggle,
+    BFormSpinbutton,
   },
   directives: {
     Ripple,
@@ -207,20 +160,20 @@ export default {
   },
 
   setup() {
-    const { route } = useRouter()
+    const { route } = useRouter();
     const toast = useToast();
 
-    const idMapel = route.value.params.id
+    const idMapel = route.value.params.id;
 
     const isLoading = ref(true);
     const currentIndex = ref(0);
     const isSubmitting = ref(false);
     const isError = ref(false);
 
-    const listSoal = ref([])
+    const listSoal = ref([]);
     const jumlah = ref(listSoal.value.length);
 
-    const defaultFontSize = ref('1')
+    const defaultFontSize = ref("1");
 
     const showToast = (title, text, variant, icon = "BellIcon") => {
       toast({
@@ -239,7 +192,7 @@ export default {
       await repoPaket
         .show(id)
         .then(function (response) {
-          console.log(response)
+          console.log(response);
           isLoading.value = false;
           listSoal.value = response.data.data.soals;
         })
@@ -266,11 +219,9 @@ export default {
         });
     };
 
-
-    onMounted(() => {
-      fetchSoal(idMapel)
-    })
-
+    onMounted(async () => {
+      fetchSoal(idMapel);
+    });
 
     let buttons = ref(["a", "b", "c", "d", "e"]);
 
@@ -287,12 +238,12 @@ export default {
     };
 
     const resizeFont = (className) => {
-      const els = document.getElementsByClassName(className)
-      els.forEach(el => {
-        const size = `${defaultFontSize.value + 13}px`
-        el.style.fontSize = size
+      const els = document.getElementsByClassName(className);
+      els.forEach((el) => {
+        const size = `${defaultFontSize.value + 13}px`;
+        el.style.fontSize = size;
       });
-    }
+    };
 
     return {
       jumlah,
@@ -303,8 +254,7 @@ export default {
       clickNext,
       clickPrev,
       clickSoal,
-      resizeFont
-
+      resizeFont,
     };
   },
 };
