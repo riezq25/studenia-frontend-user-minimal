@@ -1,5 +1,5 @@
 import tryOutGratis from './try-out-gratis.js'
-import tryOutPremium from './try-out-premium'
+import tryOutPremium from './try-out'
 
 const manajemenTryOut = [...tryOutGratis, ...tryOutPremium]
 

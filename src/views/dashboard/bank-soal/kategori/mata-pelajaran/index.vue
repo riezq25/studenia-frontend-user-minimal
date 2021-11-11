@@ -189,7 +189,7 @@ export default {
         };
       });
     });
-    B;
+    ;
 
     const tableColumns = [
       { key: "id", label: "ID", sortable: true },
@@ -221,7 +221,6 @@ export default {
       const index = mataPelajaran.value.findIndex((map) => map.id == id);
       const currentMataPelajaran = mataPelajaran.value[index];
 
-      console.log(currentMataPelajaran);
 
       form.value = {
         kode: currentMataPelajaran.kode,
@@ -231,7 +230,6 @@ export default {
         index,
       };
 
-      console.log(form.value);
     };
 
     const resetModal = () => {
@@ -282,7 +280,6 @@ export default {
           isLoading.value = false;
           listKategoriSoal.value = response.data.data;
 
-          console.log(listKategoriSoal);
         })
         .catch((error) => {
           if (error.response) {
@@ -309,8 +306,6 @@ export default {
 
     const submitMapel = async () => {
       isSubmitting.value = true;
-
-      // console.log(form.value)
 
       await repoMapel
         .create({
@@ -390,7 +385,6 @@ export default {
     };
 
     const deleteMapel = async (id) => {
-      console.log(id);
       isSubmitting.value = true;
 
       await repoMapel
