@@ -38,11 +38,8 @@
               <b-card-actions title="Pembahasan Video" action-collapse>
                 <div v-if="listSoal[currentIndex].pembahasan_video">
                   <div class="embed-responsive embed-responsive-16by9">
-                    <iframe
-                      class="embed-responsive-item"
-                      :src="listSoal[currentIndex].pembahasan_video"
-                      allowfullscreen
-                    ></iframe>
+
+                    <iframe :src="listSoal[currentIndex].pembahasan_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                 </div>
                 <div v-else>
