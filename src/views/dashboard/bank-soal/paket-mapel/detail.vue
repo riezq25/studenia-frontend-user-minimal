@@ -2,7 +2,6 @@
   <div class="pb-6">
     <app-collapse accordion :type="'margin'">
       <b-row>
-        Index : {{currentIndex}}
         <b-col cols="12" xl="9" md="8">
           <b-card-actions title="Pertanyaaan" action-collapse>
             <b-row class="invoice-spacing my-0">
