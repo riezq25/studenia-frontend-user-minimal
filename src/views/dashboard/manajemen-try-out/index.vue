@@ -37,7 +37,7 @@
         cancel-title="Cancel"
         centered
         size="lg"
-        title="Tambah Kategori Tryout"
+        title="Tambah Paket Tryout"
         @show="resetModal"
         @hidden="resetModal"
         @ok="(e) => handleOk(e, 'store')"
@@ -272,6 +272,63 @@
         </b-form>
       </b-modal>
 
+      <!-- modal lihat paket Tryout-->
+      <b-modal
+        id="lihat-kategori-Tryout"
+        cancel-variant="outline-secondary"
+        cancel-title="Cancel"
+        centered
+        size="lg"
+        title="Lihat Kategori Tryout"
+      >
+        <b-form>
+          <ul class="list-group">
+            <li
+              class="list-group-item d-flex align-items-center"
+              v-for="(element, idx) in form.paket_mapels"
+              :key="idx"
+            >
+              <div class="w-100">
+                <b-row class="w-100">
+                  <b-col>
+                    <b-form-group label="Paket Mapel" label-for="paket-mapel">
+                    <b-form-input
+                        id="paket-mapel"
+                        type="text"
+                        v-model.number="element.nama"
+                        disabled
+                      />
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="3">
+                    <b-form-group label="Durasi" label-for="durasi">
+                      <b-form-input
+                        id="durasi"
+                        type="number"
+                        v-model.number="element.pivot.durasi"
+                        disabled
+                      />
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row class="w-100">
+                  <b-col>
+                    <b-form-group label="Kategori/ Mapel" label-for="kategori-mapel">
+                      <b-form-input id="kategori-mapel" disabled v-model="element.kategori_mapel" />
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="3">
+                    <b-form-group label="Jumlah Soal" label-for="jumlah-soal">
+                      <b-form-input id="jumlah-soal" disabled v-model="element.jumlah" />
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </div>
+            </li>
+          </ul>
+        </b-form>
+      </b-modal>
+
       <b-table
         :busy="isLoading"
         class="position-relative"
@@ -297,7 +354,7 @@
               <feather-icon icon="MoreVerticalIcon" size="16" class="align-middle text-body" />
             </template>
 
-            <b-dropdown-item @click="setRowIndex(data.item)" v-b-modal.edit-kategori-Tryout>
+            <b-dropdown-item @click="show(data.item.id)" v-b-modal.lihat-kategori-Tryout>
               <feather-icon icon="EyeIcon" />
               <span class="align-middle ml-50">Lihat Paket</span>
             </b-dropdown-item>
@@ -337,7 +394,7 @@ import {
   BSpinner, BFormCheckbox, BOverlay
 } from "bootstrap-vue";
 // import store from "@/store";
-import { ref, onMounted, computed } from "@vue/composition-api";
+import { ref, onMounted, } from "@vue/composition-api";
 import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
 import flatPickr from 'vue-flatpickr-component'
 import Ripple from "vue-ripple-directive";
@@ -558,6 +615,22 @@ export default {
         });
     }
 
+    const show = async (id) => {
+      await repoPaketTryout.show(id).then(function (response) {
+        form.value.paket_mapels = response.data.data.paket_mapels
+      })
+        .catch(function (error) {
+          if (error.response) {
+            showToast('Error', error.response.data.message, 'danger', 'AlertTriangleIcon')
+          } else if (error.request) {
+            showToast('Error', "Tidak bisa request data ke server", 'danger', 'AlertTriangleIcon')
+          } else {
+            showToast('Error', error.message, 'danger', 'AlertTriangleIcon')
+          }
+          isError.value = true
+        });
+    }
+
     const fetchPaketMapel = async () => {
       await repoPaketMapel.get().then(function (response) {
         listPaketMapel.value = response.data.data.map((val) => {
@@ -702,7 +775,7 @@ export default {
       updatekategoryTryout,
       deletePaketTryout,
       tambahPaketMapel,
-      setSelectedPaketMapel, removePaketMapel, handleOk
+      setSelectedPaketMapel, removePaketMapel, handleOk, show
 
     };
   },
