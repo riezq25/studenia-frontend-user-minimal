@@ -225,7 +225,8 @@
         </template>
 
         <template #cell(pertanyaan)="data">
-          <div v-html="data.item.pertanyaan"></div>
+          <!-- <div v-html="data.item.pertanyaan"></div> -->
+          <vue-mathjax :safe="false" :formula="data.item.pertanyaan"></vue-mathjax>
         </template>
 
         <template #cell(actions)="data">
@@ -317,7 +318,7 @@ import { ref, onMounted, computed } from "@vue/composition-api";
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
-
+import { VueMathjax } from 'vue-mathjax'
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
@@ -357,8 +358,8 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
+    VueMathjax,
     BCardActions,
-
     vSelect,
     AppCollapse,
     AppCollapseItem,
@@ -417,8 +418,11 @@ export default {
         key: "mapel_soal_id",
         label: "Mata Pelajaran",
         sortable: true,
-        formatter: (value, key, item) =>
-          listMapel.value.find((val) => val.id == value).nama.toUpperCase(),
+        formatter: (value, key, item) => {
+          const format = listMapel.value.find((val) => val.id == value)
+
+          return format.nama.toUpperCase()
+        },
       },
       { key: "actions" },
     ];
@@ -596,7 +600,7 @@ export default {
 
     const editSoal = async () => {
       isSubmitting.value = true;
-
+      const currentToSoal = listSoal.value[form.value.index];
       await repoSoal
         .update(
           {
@@ -611,10 +615,22 @@ export default {
             pembahasan_text: form.value.pembahasan.text,
             pembahasan_video: form.value.pembahasan.video,
           },
-          form.value.id_mapel
+          currentToSoal.id
         )
         .then((response) => {
-          listSoal.value.push(response.data.data);
+          listSoal.value[form.value.index].kunci_jawaban = response.data.data.kunci_jawaban;
+          listSoal.value[form.value.index].mapel_soal_id = response.data.data.mapel_soal_id;
+          listSoal.value[form.value.index].pembahasan_text = response.data.data.pembahasan_text;
+          listSoal.value[form.value.index].pembahasan_video = response.data.data.pembahasan_video;
+          listSoal.value[form.value.index].pertanyaan = response.data.data.pertanyaan;
+
+          listSoal.value[form.value.index].pil_a = response.data.data.pil_a;
+          listSoal.value[form.value.index].pil_b = response.data.data.pil_b;
+          listSoal.value[form.value.index].pil_c = response.data.data.pil_c;
+          listSoal.value[form.value.index].pil_d = response.data.data.pil_d;
+          listSoal.value[form.value.index].pil_e = response.data.data.pil_e;
+
+          listSoal.value[form.value.index].updated_at = response.data.data.updated_at;
 
           showToast("Notifikasi", response.data.message, "primary");
 
