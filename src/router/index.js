@@ -5,6 +5,7 @@ import store from "@/store";
 import usersRoute from "@/router/users/index";
 import manajemenSoal from "@/router/bank-soal/index";
 import accessControl from '@/router/access-control'
+import paketTryout from '@/router/manajemen-try-out'
 
 Vue.use(VueRouter);
 
@@ -29,24 +30,9 @@ const router = new VueRouter({
         ],
       },
     },
-    
-    {
-      path: "/pagebaru/soshum/:id",
-      name: "soshum",
-      component: () => import("@/views/Pagebaru.vue"),
-      meta: {
-        pageTitle: "Soshum",
-        breadcrumb: [
-          {
-            text: "Soshum",
-            active: true,
-          },
-        ],
-      },
-    },
     ...usersRoute,
     ...manajemenSoal,
-    ...accessControl,
+    ...accessControl, ...paketTryout,
     {
       path: "/login",
       name: "login",
@@ -74,7 +60,7 @@ router.beforeEach((to, _, next) => {
   const isLogin = store.state.auth.isLogin;
   const user = store.state.auth.user;
   const permissions = user ? user.permissions : null;
-
+  
   if (to.path == "/login" && isLogin) {
     next("/");
   }

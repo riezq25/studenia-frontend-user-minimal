@@ -19,8 +19,8 @@
       <!-- Login-->
       <b-col lg="5" class="d-flex align-items-center auth-bg px-2 p-lg-5">
         <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
-          <b-card-title title-tag="h2" class="font-weight-bold mb-1">Welcome to Studenia! 👋</b-card-title>
-          <b-card-text class="mb-2">Silahkan Login & mulai belajarmu</b-card-text>
+          <b-card-title title-tag="h2" class="font-weight-bold mb-1">Admin Panel Studenia</b-card-title>
+          <b-card-text class="mb-2">Silahkan Login untuk masuk ke dalam sistem</b-card-text>
 
           <!-- form -->
           <validation-observer ref="loginValidation">
@@ -28,7 +28,13 @@
               <!-- email -->
               <b-form-group label="Email" label-for="login-email">
                 <validation-provider #default="{ errors }" name="Email" rules="required|email">
-                  <b-form-input id="login-email" v-model="userEmail" :state="errors.length > 0 ? false : null" name="login-email" placeholder="john@example.com" />
+                  <b-form-input
+                    id="login-email"
+                    v-model="userEmail"
+                    :state="errors.length > 0 ? false : null"
+                    name="login-email"
+                    placeholder="john@example.com"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -42,10 +48,25 @@
                   </b-link>
                 </div>
                 <validation-provider #default="{ errors }" name="Password" rules="required">
-                  <b-input-group class="input-group-merge" :class="errors.length > 0 ? 'is-invalid' : null">
-                    <b-form-input id="login-password" v-model="password" :state="errors.length > 0 ? false : null" class="form-control-merge" :type="passwordFieldType" name="login-password" placeholder="············" />
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
+                  >
+                    <b-form-input
+                      id="login-password"
+                      v-model="password"
+                      :state="errors.length > 0 ? false : null"
+                      class="form-control-merge"
+                      :type="passwordFieldType"
+                      name="login-password"
+                      placeholder="············"
+                    />
                     <b-input-group-append is-text>
-                      <feather-icon class="cursor-pointer" :icon="passwordToggleIcon" @click="togglePasswordVisibility" />
+                      <feather-icon
+                        class="cursor-pointer"
+                        :icon="passwordToggleIcon"
+                        @click="togglePasswordVisibility"
+                      />
                     </b-input-group-append>
                   </b-input-group>
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -58,37 +79,24 @@
               </b-form-group>
 
               <!-- submit buttons -->
-              <b-button type="submit" variant="primary" block @click="validationForm">Sign in</b-button>
+              <b-button
+                type="submit"
+                variant="primary"
+                block
+                @click="validationForm"
+                :disabled="isSubmiting"
+              >
+                <div v-if="isSubmiting">
+                  <b-spinner small />
+                  <span class="sr-only">Loading...</span>
+                </div>
+
+                <div v-else>
+                  <span>Sign in</span>
+                </div>
+              </b-button>
             </b-form>
           </validation-observer>
-
-          <b-card-text class="text-center mt-2">
-            <span>New on our platform?</span>
-            <b-link :to="{ name: 'page-auth-register-v2' }">
-              <span>&nbsp;Create an account</span>
-            </b-link>
-          </b-card-text>
-
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">or</div>
-          </div>
-
-          <!-- social buttons -->
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button variant="facebook" href="javascript:void(0)">
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button variant="twitter" href="javascript:void(0)">
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button variant="google" href="javascript:void(0)">
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button variant="github" href="javascript:void(0)">
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
       <!-- /Login-->
@@ -113,13 +121,17 @@ import {
   BCardTitle,
   BImg,
   BForm,
-  BButton,
+  BButton, BSpinner
 } from "bootstrap-vue";
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import repository from "@repofactory"
+import auth from "@/store/auth";
+import router from '@/router'
 
+const authRepo = repository.get('auth')
 export default {
   components: {
     BRow,
@@ -138,10 +150,12 @@ export default {
     VuexyLogo,
     ValidationProvider,
     ValidationObserver,
+    BSpinner
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
+      isSubmiting: false,
       status: "",
       password: "admin123",
       userEmail: "super-admin@studenia.id",
@@ -165,22 +179,39 @@ export default {
     },
   },
   methods: {
+    showToast(title, text, variant, icon) {
+      this.$toast({
+        component: ToastificationContent,
+        props: {
+          title, text, variant, icon
+        },
+      })
+    },
     validationForm() {
       this.$refs.loginValidation.validate().then((success) => {
         if (success) {
-          // this.$toast({
-          //   component: ToastificationContent,
-          //   props: {
-          //     title: 'Form Submitted',
-          //     icon: 'EditIcon',
-          //     variant: 'success',
-          //   },
-          // })
 
-          store.dispatch("auth/login", {
+          this.isSubmiting = true;
+          authRepo.login({
             email: this.userEmail,
             password: this.password,
-          });
+          }).then((response) => {
+            store.state.auth.isLogin = true
+            store.state.auth.user = response.data.user
+            store.state.auth.permissions = response.data.user.permissions
+            localStorage.setItem('token', response.data.access_token)
+            router.push('/')
+            this.isSubmiting = false;
+          }).catch((error) => {
+            if (error.response) {
+              this.showToast('Error', error.response.data.message, 'danger', 'AlertTriangleIcon')
+            } else if (error.request) {
+              this.showToast('Error', "Tidak bisa request data ke server", 'danger', 'AlertTriangleIcon')
+            } else {
+              this.showToast('Error', error.message, 'danger', 'AlertTriangleIcon')
+            }
+            this.isSubmiting = false;
+          })
         }
       });
     },
