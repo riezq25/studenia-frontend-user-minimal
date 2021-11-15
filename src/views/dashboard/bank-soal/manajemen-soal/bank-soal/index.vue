@@ -1,7 +1,17 @@
 <template>
   <div>
     <!-- Tambah To Soal -->
-    <b-modal id="tambah-to-soal" size="xl" title="Tambah Soal" cancel-title="Close" ok-title="Simpan" cancel-variant="outline-secondary" @show="resetModal" @hidden="resetModal" @ok="submitSoal">
+    <b-modal
+      id="tambah-to-soal"
+      size="xl"
+      title="Tambah Soal"
+      cancel-title="Close"
+      ok-title="Simpan"
+      cancel-variant="outline-secondary"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="submitSoal"
+    >
       <b-form>
         <b-card-actions title="Pertanyaan" action-collapse>
           <quill-editor v-model="form.pertanyaan" />
@@ -33,13 +43,25 @@
           <b-row>
             <b-col>
               <b-form-group>
-                <v-select v-model="form.id_mapel" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" label="title" :options="listSoalMapped" :reduce="mapel => mapel.value" />
+                <v-select
+                  v-model="form.id_mapel"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="listSoalMapped"
+                  :reduce="mapel => mapel.value"
+                />
               </b-form-group>
             </b-col>
 
             <b-col>
               <b-form-group>
-                <v-select v-model="form.kunci_jawaban" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" label="title" :options="pilihanJawaban" :reduce="kj => kj.title" />
+                <v-select
+                  v-model="form.kunci_jawaban"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="pilihanJawaban"
+                  :reduce="kj => kj.title"
+                />
               </b-form-group>
             </b-col>
           </b-row>
@@ -52,14 +74,25 @@
             <b-input-group-prepend is-text>
               <feather-icon icon="VideoIcon" />
             </b-input-group-prepend>
-            <b-form-input placeholder="Masukkan link youtube pembahasan" v-model="form.pembahasan.video" />
+            <b-form-input
+              placeholder="Masukkan link youtube pembahasan"
+              v-model="form.pembahasan.video"
+            />
           </b-input-group>
         </b-card-actions>
       </b-form>
     </b-modal>
 
     <!-- Edit To Soal -->
-    <b-modal id="edit-to-soal" size="xl" title="Edit Soal" cancel-title="Close" ok-title="Simpan" cancel-variant="outline-secondary" @ok="editSoal">
+    <b-modal
+      id="edit-to-soal"
+      size="xl"
+      title="Edit Soal"
+      cancel-title="Close"
+      ok-title="Simpan"
+      cancel-variant="outline-secondary"
+      @ok="editSoal"
+    >
       <b-form>
         <b-card-actions title="Pertanyaan" action-collapse>
           <quill-editor v-model="form.pertanyaan" />
@@ -91,13 +124,25 @@
           <b-row>
             <b-col>
               <b-form-group>
-                <v-select v-model="form.id_mapel" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" label="title" :options="listSoalMapped" :reduce="mapel => mapel.value" />
+                <v-select
+                  v-model="form.id_mapel"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="listSoalMapped"
+                  :reduce="mapel => mapel.value"
+                />
               </b-form-group>
             </b-col>
 
             <b-col>
               <b-form-group>
-                <v-select v-model="form.kunci_jawaban" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" label="title" :options="pilihanJawaban" :reduce="kj => kj.title" />
+                <v-select
+                  v-model="form.kunci_jawaban"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="pilihanJawaban"
+                  :reduce="kj => kj.title"
+                />
               </b-form-group>
             </b-col>
           </b-row>
@@ -110,14 +155,25 @@
             <b-input-group-prepend is-text>
               <feather-icon icon="VideoIcon" />
             </b-input-group-prepend>
-            <b-form-input placeholder="Masukkan link youtube pembahasan" v-model="form.pembahasan.video" />
+            <b-form-input
+              placeholder="Masukkan link youtube pembahasan"
+              v-model="form.pembahasan.video"
+            />
           </b-input-group>
         </b-card-actions>
       </b-form>
     </b-modal>
 
     <!-- Delete Try Out -->
-    <b-modal id="hapus-to-soal" cancel-variant="outline-secondary" ok-title="Hapus" cancel-title="Close" centered title="Hapus Soal" @ok="deleteSoal(form.id_mapel)">
+    <b-modal
+      id="hapus-to-soal"
+      cancel-variant="outline-secondary"
+      ok-title="Hapus"
+      cancel-title="Close"
+      centered
+      title="Hapus Soal"
+      @ok="deleteSoal(form.id_mapel)"
+    >
       <b-form>
         <b-form-group>
           <p>Apakah anda akan menghapus Soal ini?</p>
@@ -148,7 +204,19 @@
         </div>
       </div>
 
-      <b-table :busy="isLoading" ref="refSoalListTable" class="position-relative" :items="listSoal" responsive :fields="tableColumns" primary-key="id" show-empty striped hover empty-text="Tidak ada data ditemukan">
+      <b-table
+        :busy="isLoading"
+        ref="refSoalListTable"
+        class="position-relative"
+        :items="listSoal"
+        responsive
+        :fields="tableColumns"
+        primary-key="id"
+        show-empty
+        striped
+        hover
+        empty-text="Tidak ada data ditemukan"
+      >
         <template #table-busy>
           <div class="text-center text-danger my-2">
             <b-spinner class="align-middle mr-1"></b-spinner>
@@ -157,7 +225,8 @@
         </template>
 
         <template #cell(pertanyaan)="data">
-          <div v-html="data.item.pertanyaan"></div>
+          <!-- <div v-html="data.item.pertanyaan"></div> -->
+          <vue-mathjax :safe="false" :formula="data.item.pertanyaan"></vue-mathjax>
         </template>
 
         <template #cell(actions)="data">
@@ -180,13 +249,21 @@
       </b-table>
       <div class="mx-2 mb-2">
         <b-row>
-          <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-start">
+          <b-col
+            cols="12"
+            sm="6"
+            class="d-flex align-items-center justify-content-center justify-content-sm-start"
+          >
             <!-- <span
               class="text-muted"
             >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>-->
           </b-col>
           <!-- Pagination -->
-          <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
+          <b-col
+            cols="12"
+            sm="6"
+            class="d-flex align-items-center justify-content-center justify-content-sm-end"
+          >
             <!-- <b-pagination
               v-model="currentPage"
               :total-rows="totalUsers"
@@ -241,7 +318,7 @@ import { ref, onMounted, computed } from "@vue/composition-api";
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
-
+import { VueMathjax } from 'vue-mathjax'
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
@@ -281,8 +358,8 @@ export default {
     BDropdown,
     BDropdownItem,
     BPagination,
+    VueMathjax,
     BCardActions,
-
     vSelect,
     AppCollapse,
     AppCollapseItem,
@@ -341,8 +418,11 @@ export default {
         key: "mapel_soal_id",
         label: "Mata Pelajaran",
         sortable: true,
-        formatter: (value, key, item) =>
-          listMapel.value.find((val) => val.id == value).nama.toUpperCase(),
+        formatter: (value, key, item) => {
+          const format = listMapel.value.find((val) => val.id == value)
+
+          return format.nama.toUpperCase()
+        },
       },
       { key: "actions" },
     ];
@@ -520,7 +600,7 @@ export default {
 
     const editSoal = async () => {
       isSubmitting.value = true;
-
+      const currentToSoal = listSoal.value[form.value.index];
       await repoSoal
         .update(
           {
@@ -535,10 +615,22 @@ export default {
             pembahasan_text: form.value.pembahasan.text,
             pembahasan_video: form.value.pembahasan.video,
           },
-          form.value.id_mapel
+          currentToSoal.id
         )
         .then((response) => {
-          listSoal.value.push(response.data.data);
+          listSoal.value[form.value.index].kunci_jawaban = response.data.data.kunci_jawaban;
+          listSoal.value[form.value.index].mapel_soal_id = response.data.data.mapel_soal_id;
+          listSoal.value[form.value.index].pembahasan_text = response.data.data.pembahasan_text;
+          listSoal.value[form.value.index].pembahasan_video = response.data.data.pembahasan_video;
+          listSoal.value[form.value.index].pertanyaan = response.data.data.pertanyaan;
+
+          listSoal.value[form.value.index].pil_a = response.data.data.pil_a;
+          listSoal.value[form.value.index].pil_b = response.data.data.pil_b;
+          listSoal.value[form.value.index].pil_c = response.data.data.pil_c;
+          listSoal.value[form.value.index].pil_d = response.data.data.pil_d;
+          listSoal.value[form.value.index].pil_e = response.data.data.pil_e;
+
+          listSoal.value[form.value.index].updated_at = response.data.data.updated_at;
 
           showToast("Notifikasi", response.data.message, "primary");
 

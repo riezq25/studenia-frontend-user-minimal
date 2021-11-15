@@ -6,7 +6,8 @@ export default {
     namespaced: true,
     state: {
         isLogin: false,
-        user: null
+        user: {},
+        permissions: []
     },
     getters: {
     },

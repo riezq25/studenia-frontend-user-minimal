@@ -25,6 +25,10 @@ export default [
         route: 'kategori-soal',
       },
       {
+        title: 'Kategori Tryout',
+        route: 'kategori-tryout',
+      },
+      {
         title: 'Mata Pelajaran',
         route: 'mata-pelajaran',
       },

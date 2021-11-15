@@ -7,16 +7,16 @@ export default [
     icon: 'MenuIcon',
     children: [
       {
-        title: 'TO Campuran',
-        route: 'admin/manajemen-try-out/gratis/campuran',
+        title: 'Campuran',
+        route: 'to-gratis-campuran',
       },
       {
-        title: 'TO Saintek',
-        route: 'admin/manajemen-try-out/gratis/saintek',
+        title: 'Saintek',
+        route: 'to-gratis-saintek',
       },
       {
-        title: 'TO Soshum',
-        route: 'admin/manajemen-try-out/gratis/soshum',
+        title: 'Soshum',
+        route: 'to-gratis-soshum',
       },
     ],
   },
@@ -25,22 +25,16 @@ export default [
     icon: 'MenuIcon',
     children: [
       {
-        title: 'TO Campuran',
-        route: 'admin/manajemen-try-out/premium/campuran',
-        // params: { id },
-        // route: {
-        //   name: 'admin/manajemen-try-out/premium/:campuran',
-        //   params: { campuran },
-        // },
-        // <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
+        title: 'Campuran',
+        route: 'to-premium-campuran',
       },
       {
-        title: 'TO Saintek',
-        route: 'admin/manajemen-try-out/premium/saintek',
+        title: 'Saintek',
+        route: 'to-premium-saintek',
       },
       {
-        title: 'TO Soshum',
-        route: 'admin/manajemen-try-out/premium/soshum',
+        title: 'Soshum',
+        route: 'to-premium-soshum',
       },
     ],
   },

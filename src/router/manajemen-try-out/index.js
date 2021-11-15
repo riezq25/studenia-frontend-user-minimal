@@ -1,6 +1,6 @@
-import tryOutGratis from './try-out-gratis.js'
-import tryOutPremium from './try-out'
+// import tryOutGratis from './try-out-gratis.js'
+import tryOutGratis from './try-out'
 
-const manajemenTryOut = [...tryOutGratis, ...tryOutPremium]
+const manajemenTryOut = [...tryOutGratis,]
 
 export default manajemenTryOut

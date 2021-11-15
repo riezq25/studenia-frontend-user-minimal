@@ -7,7 +7,10 @@
             <b-row class="invoice-spacing my-0">
               <b-col cols="12" class="mb-lg-1">
                 <p class="font-weight-bolder mb-0">Soal {{ currentIndex + 1 }}</p>
-                <p class="resize-font lh-base" v-html="listSoal[currentIndex].pertanyaan"></p>
+                <!-- <p class="resize-font lh-base" v-html="listSoal[currentIndex].pertanyaan"></p> -->
+
+                <vue-mathjax :safe="false" class="resize-font lh-base" :formula="listSoal[currentIndex].pertanyaan"></vue-mathjax>
+
                 <div class="mt-1">
                   <b-button v-for="(button) in buttons" :key="button" :variant="listSoal[currentIndex].kunci_jawaban.toLowerCase() == button ? 'primary' : 'outline-dark'" class="mb-75 p-2 text-left" block>
                     <div class="resize-font d-flex">
@@ -32,7 +35,7 @@
               <b-card-actions title="Pembahasan Video" action-collapse>
                 <div v-if="listSoal[currentIndex].pembahasan_video">
                   <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" :src="listSoal[currentIndex].pembahasan_video" allowfullscreen></iframe>
+                    <iframe :src="'https://www.youtube.com/embed/' + listSoal[currentIndex].pembahasan_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                 </div>
                 <div v-else>
@@ -108,6 +111,7 @@ import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import { useRouter } from "@core/utils/utils";
+import { VueMathjax } from "vue-mathjax";
 
 import Ripple from "vue-ripple-directive";
 import {
@@ -156,6 +160,7 @@ export default {
     BAlert,
     BLink,
     VBToggle,
+    VueMathjax,
     BFormSpinbutton,
   },
   directives: {
