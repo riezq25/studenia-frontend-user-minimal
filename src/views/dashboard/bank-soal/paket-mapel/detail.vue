@@ -9,20 +9,10 @@
                 <p class="font-weight-bolder mb-0">Soal {{ currentIndex + 1 }}</p>
                 <!-- <p class="resize-font lh-base" v-html="listSoal[currentIndex].pertanyaan"></p> -->
 
-                <vue-mathjax
-                  :safe="false"
-                  class="resize-font lh-base"
-                  :formula="listSoal[currentIndex].pertanyaan"
-                ></vue-mathjax>
+                <vue-mathjax :safe="false" class="resize-font lh-base" :formula="listSoal[currentIndex].pertanyaan"></vue-mathjax>
 
                 <div class="mt-1">
-                  <b-button
-                    v-for="(button) in buttons"
-                    :key="button"
-                    :variant="listSoal[currentIndex].kunci_jawaban.toLowerCase() == button ? 'primary' : 'outline-dark'"
-                    class="mb-75 p-2 text-left"
-                    block
-                  >
+                  <b-button v-for="(button) in buttons" :key="button" :variant="listSoal[currentIndex].kunci_jawaban.toLowerCase() == button ? 'primary' : 'outline-dark'" class="mb-75 p-2 text-left" block>
                     <div class="resize-font d-flex">
                       <span>{{ button.toUpperCase() }}.&nbsp;</span>
                       <span class="lh-base" v-html="listSoal[currentIndex][`pil_${button}`]"></span>
@@ -45,13 +35,7 @@
               <b-card-actions title="Pembahasan Video" action-collapse>
                 <div v-if="listSoal[currentIndex].pembahasan_video">
                   <div class="embed-responsive embed-responsive-16by9">
-                    <iframe
-                      :src="'https://www.youtube.com/embed/' + listSoal[currentIndex].pembahasan_video"
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
+                    <iframe :src="'https://www.youtube.com/embed/' + listSoal[currentIndex].pembahasan_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                 </div>
                 <div v-else>
@@ -67,13 +51,7 @@
         <b-col cols="12" xl="3" md="4" class="mb-5">
           <b-card title="Ubah Ukuran Teks" class="p-1">
             <div>
-              <b-form-spinbutton
-                id="sb-maxmin"
-                v-model="defaultFontSize"
-                min="1"
-                max="10"
-                @change="resizeFont('resize-font')"
-              />
+              <b-form-spinbutton id="sb-maxmin" v-model="defaultFontSize" min="1" max="10" @change="resizeFont('resize-font')" />
             </div>
           </b-card>
 
@@ -83,27 +61,13 @@
             </div>
             <hr />
 
-            <div
-              class="d-sm-flex my-2 d-none justify-content-between align-items-center nav-bottom"
-            >
-              <b-button
-                class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
-                block
-                variant="primary"
-                :disabled="currentIndex == 0 ? true : false"
-                @click="clickPrev"
-              >
+            <div class="d-sm-flex my-2 d-none justify-content-between align-items-center nav-bottom">
+              <b-button class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == 0 ? true : false" @click="clickPrev">
                 <feather-icon icon="ChevronLeftIcon" size="20" />
                 <span>Prev</span>
               </b-button>
 
-              <b-button
-                class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
-                block
-                variant="primary"
-                :disabled="currentIndex == (jumlah - 1) ? true : false"
-                @click="clickNext"
-              >
+              <b-button class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == (jumlah - 1) ? true : false" @click="clickNext">
                 <span>Next</span>
                 <feather-icon icon="ChevronRightIcon" size="20" />
               </b-button>
@@ -111,15 +75,7 @@
             <div>
               <div class="overflow-auto my-1">
                 <div class="d-flex justify-content-center flex-wrap btn-soal">
-                  <b-button
-                    v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                    size="sm"
-                    style="width:40px; height:40px"
-                    :variant="currentIndex == index ? 'primary' : 'outline-secondary'"
-                    v-for="(jml,index) in listSoal"
-                    :key="jml.id"
-                    @click="clickSoal(index)"
-                  >
+                  <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" size="sm" style="width:40px; height:40px" :variant="currentIndex == index ? 'primary' : 'outline-secondary'" v-for="(jml,index) in listSoal" :key="jml.id" @click="clickSoal(index)">
                     <div class="d-flex justify-content-center align-items-center">{{ index + 1 }}</div>
                   </b-button>
                 </div>
@@ -133,23 +89,11 @@
     <b-card-body class="w-100 p-0 d-sm-none fixed-bottom">
       <b-card class="p-0 m-0">
         <div class="d-flex justify-content-between align-items-center nav-bottom">
-          <b-button
-            class="m-0 py-1 d-flex align-items-center justify-content-center"
-            block
-            variant="primary"
-            :disabled="currentIndex == 0 ? true : false"
-            @click="clickPrev"
-          >
+          <b-button class="m-0 py-1 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == 0 ? true : false" @click="clickPrev">
             <feather-icon icon="ChevronLeftIcon" size="20" />
             <span>Prev</span>
           </b-button>
-          <b-button
-            class="m-0 py-1 d-flex align-items-center justify-content-center"
-            block
-            variant="primary"
-            :disabled="currentIndex == (jumlah - 1) ? true : false"
-            @click="clickNext"
-          >
+          <b-button class="m-0 py-1 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == (jumlah - 1) ? true : false" @click="clickNext">
             <span>Next</span>
             <feather-icon icon="ChevronRightIcon" size="20" />
           </b-button>
@@ -167,7 +111,7 @@ import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import { useRouter } from "@core/utils/utils";
-import { VueMathjax } from 'vue-mathjax'
+import { VueMathjax } from "vue-mathjax";
 
 import Ripple from "vue-ripple-directive";
 import {
@@ -215,7 +159,8 @@ export default {
     BPopover,
     BAlert,
     BLink,
-    VBToggle, VueMathjax,
+    VBToggle,
+    VueMathjax,
     BFormSpinbutton,
   },
   directives: {
@@ -235,7 +180,7 @@ export default {
     const isError = ref(false);
 
     const listSoal = ref([]);
-    const jumlah = ref(0);
+    const jumlah = ref(null);
 
     const defaultFontSize = ref(1);
 
