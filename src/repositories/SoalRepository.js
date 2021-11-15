@@ -17,5 +17,7 @@ export default {
     delete(id) {
         return Client.delete(`${resource}/${id}`)
     },
-
+    importExcel(payload) {
+        return Client.post(`${resource}/import-excel`, payload);
+    }
 };
