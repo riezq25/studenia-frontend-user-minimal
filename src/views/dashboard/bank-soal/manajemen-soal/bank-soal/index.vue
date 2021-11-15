@@ -8,25 +8,35 @@
         </b-card-actions>
 
         <b-card-actions title="Pilihan Jawaban" action-collapse>
-          <b-input-group class="mb-1" prepend="A">
-            <b-form-textarea rows="1" v-model="form.pilihan.a" />
-          </b-input-group>
+          <b-card class="pilihan-jawaban">
+            <b-card-actions bg-variant="light" title="Pilihan A" action-collapse>
+              <quill-editor v-model="form.pilihan.a" class="bg-white" />
+            </b-card-actions>
+          </b-card>
 
-          <b-input-group class="mb-1" prepend="B">
-            <b-form-textarea rows="1" v-model="form.pilihan.b" />
-          </b-input-group>
+          <b-card class="pilihan-jawaban">
+            <b-card-actions bg-variant="light" title="Pilihan B" action-collapse>
+              <quill-editor v-model="form.pilihan.b" class="bg-white" />
+            </b-card-actions>
+          </b-card>
 
-          <b-input-group class="mb-1" prepend="C">
-            <b-form-textarea rows="1" v-model="form.pilihan.c" />
-          </b-input-group>
+          <b-card class="pilihan-jawaban">
+            <b-card-actions bg-variant="light" title="Pilihan C" action-collapse>
+              <quill-editor v-model="form.pilihan.c" class="bg-white" />
+            </b-card-actions>
+          </b-card>
 
-          <b-input-group class="mb-1" prepend="D">
-            <b-form-textarea rows="1" v-model="form.pilihan.d" />
-          </b-input-group>
+          <b-card class="pilihan-jawaban">
+            <b-card-actions bg-variant="light" title="Pilihan D" action-collapse>
+              <quill-editor v-model="form.pilihan.d" class="bg-white" />
+            </b-card-actions>
+          </b-card>
 
-          <b-input-group prepend="E">
-            <b-form-textarea rows="1" v-model="form.pilihan.e" />
-          </b-input-group>
+          <b-card class="pilihan-jawaban">
+            <b-card-actions bg-variant="light" title="Pilihan E" action-collapse>
+              <quill-editor v-model="form.pilihan.e" class="bg-white" />
+            </b-card-actions>
+          </b-card>
         </b-card-actions>
 
         <b-card-actions title="Kategori dan Kunci Jawaban" action-collapse>
@@ -660,4 +670,10 @@ export default {
 
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
+</style>
+
+<style scoped>
+.pilihan-jawaban {
+  margin-bottom: 0 !important;
+}
 </style>
