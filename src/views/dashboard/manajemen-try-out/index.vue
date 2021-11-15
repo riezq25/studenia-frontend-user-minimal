@@ -216,7 +216,7 @@
       </b-modal>
 
       <!-- modal edit kategori Tryout-->
-      <b-modal
+      <!-- <b-modal
         id="edit-kategori-Tryout"
         cancel-variant="outline-secondary"
         ok-title="Edit"
@@ -249,10 +249,10 @@
 
           <b-card-actions title="List Paket Mapel" action-collapse></b-card-actions>
         </b-form>
-      </b-modal>
+      </b-modal>-->
 
       <!-- modal hapus kategori Tryout-->
-      <b-modal
+      <!-- <b-modal
         id="hapus-paket-tryout"
         cancel-variant="outline-secondary"
         ok-title="Hapus"
@@ -270,7 +270,7 @@
             </b-form-group>
           </b-overlay>
         </b-form>
-      </b-modal>
+      </b-modal>-->
 
       <!-- modal lihat paket Tryout-->
       <b-modal
@@ -292,7 +292,7 @@
                 <b-row class="w-100">
                   <b-col>
                     <b-form-group label="Paket Mapel" label-for="paket-mapel">
-                    <b-form-input
+                      <b-form-input
                         id="paket-mapel"
                         type="text"
                         v-model.number="element.nama"
@@ -300,7 +300,7 @@
                       />
                     </b-form-group>
                   </b-col>
-                  <b-col cols="3">
+                  <b-col cols="2">
                     <b-form-group label="Durasi" label-for="durasi">
                       <b-form-input
                         id="durasi"
@@ -310,8 +310,13 @@
                       />
                     </b-form-group>
                   </b-col>
+                  <b-col cols="1" class="col align-self-center">
+                    <b-button variant="outline-primary" class="btn-icon rounded-circle" :to="{name: 'manajemen-paket-detail', params:{id:element.id}}">
+                      <feather-icon icon="EyeIcon" />
+                    </b-button>
+                  </b-col>
                 </b-row>
-                <b-row class="w-100">
+                <!-- <b-row class="w-100">
                   <b-col>
                     <b-form-group label="Kategori/ Mapel" label-for="kategori-mapel">
                       <b-form-input id="kategori-mapel" disabled v-model="element.kategori_mapel" />
@@ -322,7 +327,7 @@
                       <b-form-input id="jumlah-soal" disabled v-model="element.jumlah" />
                     </b-form-group>
                   </b-col>
-                </b-row>
+                </b-row>-->
               </div>
             </li>
           </ul>
@@ -359,7 +364,7 @@
               <span class="align-middle ml-50">Lihat Paket</span>
             </b-dropdown-item>
 
-            <b-dropdown-item @click="setRowIndex(data.item)" v-b-modal.edit-kategori-Tryout>
+            <!-- <b-dropdown-item @click="setRowIndex(data.item)" v-b-modal.edit-kategori-Tryout>
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
@@ -367,7 +372,7 @@
             <b-dropdown-item @click="setRowIndex(data.item)" v-b-modal.hapus-paket-tryout>
               <feather-icon icon="TrashIcon" />
               <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
+            </b-dropdown-item>-->
           </b-dropdown>
         </template>
       </b-table>
