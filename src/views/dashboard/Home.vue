@@ -1,6 +1,7 @@
 <template>
   <section id="dashboard-ecommerce">
     <b-row class="match-height"></b-row>
+    <h3>Ini dashboard</h3>
   </section>
 </template>
 
@@ -13,8 +14,6 @@ export default {
   components: {
     BRow,
     BCol,
-
-   
   },
   data() {
     return {
@@ -25,7 +24,6 @@ export default {
     // data
     // this.$http.get("/ecommerce/data").then((response) => {
     //   this.data = response.data;
-
     //   // ? Your API will return name of logged in user or you might just directly get name of logged in user
     //   // ? This is just for demo purpose
     //   const userData = getUserData();
