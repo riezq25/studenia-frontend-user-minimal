@@ -1,221 +1,474 @@
 <template>
-  <div>
-    <form-wizard color="#7367F0" :title="null" :subtitle="null" shape="square" finish-button-text="Submit" back-button-text="Previous" class="mb-3" @on-complete="formSubmitted">
-      <!-- accoint details tab -->
-      <tab-content title="Account Details" :before-change="validationForm">
-        <validation-observer ref="accountRules">
-          <b-row>
-            <b-col cols="12" class="mb-2">
-              <h5 class="mb-0">Account Details</h5>
-              <small class="text-muted">Masukkan Detail akun kamu.</small>
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Email" label-for="email">
-                <validation-provider name="email" rules="required|email">
-                  <b-input-group class="input-group-merge">
-                    <b-input-group-prepend is-text>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
-                      </svg>
-                    </b-input-group-prepend>
-                    <b-form-input id="vi-first-name" placeholder="Email" v-model="email" />
-                  </b-input-group>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Whatsapp" label-for="name">
-                <validation-provider name="whatsapp" rules="required">
-                  <b-input-group class="input-group-merge">
-                    <b-input-group-prepend is-text>
-                      <div>+62</div>
-                    </b-input-group-prepend>
-                    <b-form-input id="whatsapp" placeholder="Nomor WA" v-model="no_wa" />
-                  </b-input-group>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Password" label-for="password">
-                <validation-provider name="Password" vid="Password" rules="required|password">
-                  <b-input-group class="input-group-merge">
-                    <b-input-group-prepend is-text>
-                      <feather-icon icon="LockIcon" />
-                    </b-input-group-prepend>
-                    <b-form-input id="hi-password" type="password" placeholder="Password" v-model="password" />
-                  </b-input-group>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-            <b-col md="6">
-              <b-form-group label="Konfirmasi Password" label-for="c-password">
-                <validation-provider name="Password Confirm" rules="required|confirmed:Password">
-                  <b-input-group class="input-group-merge">
-                    <b-input-group-prepend is-text>
-                      <feather-icon icon="LockIcon" />
-                    </b-input-group-prepend>
-                    <b-form-input id="hi-password" type="password" placeholder="Konfirmasi Password" v-model="password_confirmation" />
-                  </b-input-group>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-          </b-row>
-        </validation-observer>
-      </tab-content>
+  <div class="auth-wrapper auth-v2">
+    <b-row class="auth-inner m-0">
+      <!-- Brand logo-->
+      <b-link class="brand-logo">
+        <vuexy-logo />
 
-      <!-- personal details tab -->
-    </form-wizard>
+        <h2 class="brand-text text-primary ml-1">Studenia</h2>
+      </b-link>
+      <!-- /Brand logo-->
+
+      <!-- Left Text-->
+      <b-col lg="5" class="d-none d-lg-flex align-items-center p-5">
+        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+          <b-img fluid :src="imgUrl" alt="Register V2" />
+        </div>
+      </b-col>
+      <!-- /Left Text-->
+
+      <!-- Register-->
+      <b-col lg="7" class="d-flex align-items-center auth-bg px-2 p-lg-5 pt-5 pt-lg-0">
+        <b-col sm="10" md="10" lg="12" class="px-xl-2 mx-auto py-5 py-lg-0">
+          <b-card-title class="mb-1">Adventure starts here 🚀</b-card-title>
+          <b-card-text class="mb-2">Silahkan Daftar Akun terlebih dahulu</b-card-text>
+
+          <!-- form -->
+          <validation-observer ref="registerForm">
+            <b-form class="mt-2" @submit.prevent>
+              <b-row>
+                <!-- nama -->
+                <b-col md="6">
+                  <b-form-group label="Nama" label-for="nama">
+                    <b-input-group class="input-group-merge">
+                      <b-input-group-prepend is-text>
+                        <feather-icon icon="UserIcon" />
+                      </b-input-group-prepend>
+                      <b-form-input id="nama" placeholder="Nama" v-model="name" />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+
+                <!-- email -->
+                <b-col md="6">
+                  <b-form-group label="Email" label-for="email" class="w-100">
+                    <b-input-group class="input-group-merge">
+                      <b-input-group-prepend is-text>
+                        <feather-icon icon="MailIcon" />
+                      </b-input-group-prepend>
+                      <b-form-input id="email" v-model="email" placeholder="john@example.com" />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <!-- whatsapp -->
+                <b-col md="6">
+                  <b-form-group label="Whatsapp" label-for="whatsapp">
+                    <b-input-group class="input-group-merge">
+                      <b-input-group-prepend is-text>+62</b-input-group-prepend>
+                      <b-form-input id="whatsapp" placeholder="Whatsapp" v-model="no_wa" />
+                    </b-input-group>
+                    <small class="text-danger">* tanpa 0 di depannya</small>
+                  </b-form-group>
+                </b-col>
+
+                <!-- sekolah -->
+                <b-col md="6">
+                  <b-form-group label="Asal Sekolah" label-for="asal_sekolah" class="w-100">
+                    <b-input-group class="input-group-merge">
+                      <b-input-group-prepend is-text>
+                        <feather-icon icon="HomeIcon" />
+                      </b-input-group-prepend>
+                      <b-form-input id="asal_sekolah" v-model="asal_sekolah" placeholder="SMA/MA" />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <!-- tanggal lahir -->
+                <b-col md="6">
+                  <b-form-group label="Tanggal Lahir" label-for="tanggal_lahir">
+                    <b-form-datepicker id="tanggal_lahir" v-model="tanggal_lahir" class="mb-1" placeholder="Tanggal Lahir" />
+                  </b-form-group>
+                </b-col>
+
+                <!-- jenis kelamin -->
+                <b-col md="6">
+                  <b-form-group label="Jenis Kelamin">
+                    <div class="d-flex justify-content-start">
+                      <b-form-radio v-model="jenis_kelamin" name="some-radios" value="LAKI-LAKI">Laki Laki</b-form-radio>
+                      <b-form-radio v-model="jenis_kelamin" name="some-radios" value="PEREMPUAN" class="ml-2">Perempuan</b-form-radio>
+                    </div>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <!-- provinsi -->
+                <b-col md="6">
+                  <b-form-group label="Provinsi">
+                    <b-form-group>
+                      <v-select v-model="provinsi" placeholder="--Provinsi--" :options="optionProvinsi" :reduce="name => name.id" label="name" />
+                    </b-form-group>
+                  </b-form-group>
+                </b-col>
+
+                <!-- kab/kota -->
+                <b-col md="6">
+                  <b-form-group label="Kab/Kota">
+                    <v-select v-if="provinsi" v-model="kab_kota" placeholder="--Kab/Kota--" :options="optionKabKota" :reduce="name => name.id" label="name" />
+                    <v-select v-else disabled placeholder="Pilih provinsi dulu" />
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <!-- kecamatan -->
+                <b-col md="6">
+                  <b-form-group label="Kecamatan">
+                    <v-select v-if="kab_kota" v-model="kecamatan" placeholder="--Kecamatan--" :options="optionKecamatan" :reduce="name => name.id" label="name" />
+                    <v-select v-else disabled placeholder="Pilih Kab/Kota dulu" />
+                  </b-form-group>
+                </b-col>
+
+                <!-- alamat -->
+                <b-col md="6">
+                  <b-form-group label="Alamat" label-for="alamat" class="w-100">
+                    <b-form-textarea v-model="alamat" id="alamat" placeholder="Tuliskan Alamat anda" rows="3" />
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <!-- password -->
+                <b-col md="6">
+                  <b-form-group label-for="register-password" label="Password" class="w-100">
+                    <b-input-group class="input-group-merge">
+                      <b-input-group-prepend is-text>
+                        <feather-icon icon="LockIcon" />
+                      </b-input-group-prepend>
+                      <b-form-input id="register-password" v-model="password" class="form-control-merge" :type="passwordFieldType" name="register-password" placeholder="············" />
+                      <b-input-group-append is-text>
+                        <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                      </b-input-group-append>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+
+                <!-- password confirmation -->
+                <b-col md="6">
+                  <b-form-group label-for="register-password-confirmation" label="Password Confirmation" class="w-100">
+                    <b-input-group class="input-group-merge">
+                      <b-input-group-prepend is-text>
+                        <feather-icon icon="LockIcon" />
+                      </b-input-group-prepend>
+                      <b-form-input id="register-password-confirmation" v-model="password_confirmation" class="form-control-merge" :type="passwordFieldType" name="register-password" placeholder="············" />
+                      <b-input-group-append is-text>
+                        <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                      </b-input-group-append>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-button variant="primary" block @click="register" type="submit" class="mt-2">{{isSubmitting ? 'Silahkan lengkapi data':'Daftar'}}</b-button>
+            </b-form>
+          </validation-observer>
+
+          <p class="text-center mt-2">
+            <span>Sudah mempunyai akun?</span>
+            <b-link :to="{name:'login'}">
+              <span>&nbsp;Silahkan Login</span>
+            </b-link>
+          </p>
+
+          <!-- divider -->
+          <div class="divider my-2">
+            <div class="divider-text">or</div>
+          </div>
+
+          <div>
+            <b-button type="submit" block v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="outline-primary">Daftar dengan Google</b-button>
+          </div>
+        </b-col>
+      </b-col>
+      <!-- /Register-->
+    </b-row>
   </div>
 </template>
 
 <script>
-import { FormWizard, TabContent } from "vue-form-wizard";
-import vSelect from "vue-select";
+/* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import "vue-form-wizard/dist/vue-form-wizard.min.css";
+import VuexyLogo from "@core/layouts/components/Logo.vue";
 import {
   BRow,
   BCol,
+  BLink,
+  BButton,
+  BForm,
+  BFormTextarea,
+  BFormCheckbox,
   BFormGroup,
   BFormInput,
-  BFormCheckbox,
-  BForm,
-  BButton,
   BInputGroup,
+  BInputGroupAppend,
   BInputGroupPrepend,
-  BFormInvalidFeedback,
+  BImg,
+  BCardTitle,
+  BCardText,
+  BFormDatepicker,
+  BFormRadio,
 } from "bootstrap-vue";
-import { required, email } from "@validations";
-import { codeIcon } from "./code";
+import vSelect from "vue-select";
+// import { required, email } from "@validations";
+import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import Ripple from "vue-ripple-directive";
+import store from "@/store/index";
+import router from "@/router";
+
+import repository from "@repofactory";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+
+const authRepo = repository.get("auth");
+const apiProvinsi = repository.get("ProvinsiRepository");
+const apiKota = repository.get("KotaRepository");
+const apiKecamatan = repository.get("KecamatanRepository");
 
 export default {
   components: {
-    ValidationProvider,
-    ValidationObserver,
-    FormWizard,
-    TabContent,
+    VuexyLogo,
     BRow,
+    BImg,
     BCol,
+    BLink,
+    BButton,
+    BForm,
+    BFormTextarea,
+    BCardText,
+    BCardTitle,
+    BFormCheckbox,
     BFormGroup,
     BFormInput,
-    vSelect,
-    BFormInvalidFeedback,
-    BFormCheckbox,
-    BForm,
-    BButton,
+    BFormDatepicker,
+    BFormRadio,
     BInputGroup,
+    BInputGroupAppend,
     BInputGroupPrepend,
-    // eslint-disable-next-line vue/no-unused-components
-    ToastificationContent,
+    vSelect,
+    // validations
+    ValidationProvider,
+    ValidationObserver,
   },
+  directives: {
+    Ripple,
+  },
+  mixins: [togglePasswordVisibility],
   data() {
     return {
-      selectedContry: "",
-      selectedLanguage: "",
       name: "",
       email: "",
       no_wa: "",
+      asal_sekolah: "",
+      tanggal_lahir: "",
+      jenis_kelamin: "",
+      provinsi: "",
+      kab_kota: "",
+      kecamatan: "",
+      alamat: "",
       password: "",
       password_confirmation: "",
-      first_name: "",
-      last_name: "",
-      address: "",
-      landMark: "",
-      pincode: "",
-      twitterUrl: "",
-      facebookUrl: "",
-      googleUrl: "",
-      linkedinUrl: "",
-      city: "",
-      required,
-      email,
-      codeIcon,
-      countryName: [
-        { value: "select_value", text: "Select Value" },
-        { value: "Russia", text: "Russia" },
-        { value: "Canada", text: "Canada" },
-        { value: "China", text: "China" },
-        { value: "United States", text: "United States" },
-        { value: "Brazil", text: "Brazil" },
-        { value: "Australia", text: "Australia" },
-        { value: "India", text: "India" },
-      ],
-      languageName: [
-        { value: "nothing_selected", text: "Nothing Selected" },
-        { value: "English", text: "English" },
-        { value: "Chinese", text: "Mandarin Chinese" },
-        { value: "Hindi", text: "Hindi" },
-        { value: "Spanish", text: "Spanish" },
-        { value: "Arabic", text: "Arabic" },
-        { value: "Malay", text: "Malay" },
-        { value: "Russian", text: "Russian" },
-      ],
+      isSubmitting: false,
+      sideImg: require("@/assets/images/pages/register-v2.svg"),
+      optionProvinsi: [],
+      optionKabKota: [],
+      optionKecamatan: [],
     };
   },
+  computed: {
+    passwordToggleIcon() {
+      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+    },
+    imgUrl() {
+      if (store.state.appConfig.layout.skin === "dark") {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.sideImg = require("@/assets/images/pages/register-v2-dark.svg");
+        return this.sideImg;
+      }
+      return this.sideImg;
+    },
+  },
+  mounted() {
+    this.getProvinsi();
+  },
+  watch: {
+    provinsi(newValue, oldValue) {
+      if (newValue) {
+        this.kab_kota = "";
+      }
+      this.getKabKota();
+    },
 
+    kab_kota(newValue, oldValue) {
+      if (newValue) {
+        this.kecamatan = "";
+      }
+      this.getKecamatan();
+    },
+  },
   methods: {
-    formSubmitted() {
+    showToast(title, text, variant, icon) {
       this.$toast({
         component: ToastificationContent,
         props: {
-          title: "Form Submitted",
-          icon: "EditIcon",
-          variant: "success",
+          title,
+          text,
+          variant,
+          icon,
         },
       });
     },
-    validationForm() {
-      //   this.$refs.accountRules.validate().then((success) => {
-      //     if (success) {
-      //       console.log(this.email);
-      //     }
-      //   });
+    getProvinsi: async function () {
+      await apiProvinsi
+        .get()
+        .then((response) => {
+          this.optionProvinsi = response.data;
+        })
+        .catch((error) => {
+          console.log("error bos");
+        });
+    },
 
-      this.$refs.accountRules.validate().then((success) => {
+    getKabKota: async function () {
+      await apiKota
+        .get(this.provinsi)
+        .then((response) => {
+          this.optionKabKota = response.data.cities;
+        })
+        .catch((error) => {
+          console.log("error kota/ provinsi");
+        });
+    },
+
+    getKecamatan: async function () {
+      await apiKecamatan
+        .get(this.kab_kota)
+        .then((response) => {
+          this.optionKecamatan = response.data.districts;
+        })
+        .catch((error) => {
+          console.log("error kecamatan");
+        });
+    },
+
+    register() {
+      this.$refs.registerForm.validate().then((success) => {
         if (success) {
-          alert("halo bro");
-          console.log(this.email);
+          //   if (
+          //     (this.name,
+          //     this.email,
+          //     this.no_wa,
+          //     this.asal_sekolah,
+          //     this.tanggal_lahir,
+          //     this.jenis_kelamin,
+          //     this.provinsi,
+          //     this.kab_kota,
+          //     this.kecamatan,
+          //     this.alamat,
+          //     this.password,
+          //     this.password_confirmation)
+          //   ) {
+
+          //   }
+          this.isSubmitting = false;
+          //   console.log("name: ", this.name);
+          //   console.log("email: ", this.email);
+          //   console.log("no_wa: ", this.no_wa);
+          //   console.log("asal_sekolah: ", this.asal_sekolah);
+          //   console.log("tanggal_lahir: ", this.tanggal_lahir);
+          //   console.log("jenis_kelamin: ", this.jenis_kelamin);
+          //   console.log("provinsi: ", this.provinsi);
+          //   console.log("kab_kota: ", this.kab_kota);
+          //   console.log("kecamatan: ", this.kecamatan);
+          //   console.log("alamat: ", this.alamat);
+          //   console.log("password: ", this.password);
+          //   console.log("password_confirmation: ", this.password_confirmation);
+          authRepo
+            .signup({
+              name: this.name,
+              email: this.email,
+              password: this.password,
+              password_confirmation: this.password_confirmation,
+              province_id: this.provinsi,
+              city_id: this.kab_kota,
+              district_id: this.kecamatan,
+              alamat: this.alamat,
+              no_wa: this.no_wa,
+              sekolah_asal: this.asal_sekolah,
+              tanggal_lahir: this.tanggal_lahir,
+              jenis_kelamin: this.jenis_kelamin,
+            })
+            .then((response) => {
+              //   store.state.auth.isLogin = true;
+              //   store.state.auth.user = response.data.user;
+              //   store.state.auth.permissions = response.data.user.permissions;
+              //   localStorage.setItem("token", response.data.access_token);
+              // console.log(response);
+              // console.log("name: ", this.name);
+              // console.log("email: ", this.email);
+              // console.log("no_wa: ", this.no_wa);
+              // console.log("asal_sekolah: ", this.asal_sekolah);
+              // console.log("tanggal_lahir: ", this.tanggal_lahir);
+              // console.log("jenis_kelamin: ", this.jenis_kelamin);
+              // console.log("provinsi: ", this.provinsi);
+              // console.log("kab_kota: ", this.kab_kota);
+              // console.log("kecamatan: ", this.kecamatan);
+              // console.log("alamat: ", this.alamat);
+              // console.log("password: ", this.password);
+              // console.log(
+              //   "password_confirmation: ",
+              //   this.password_confirmation
+              // );
+              this.isSubmiting = false;
+              this.showToast(
+                "Sukses",
+                response.data.message,
+                "success",
+                "BellIcon"
+              );
+              setTimeout(() => {
+                router.push("/login");
+              }, 1000);
+
+              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
+            })
+            .catch((error) => {
+              if (error.response) {
+                this.showToast(
+                  "Error",
+                  error.response.data.message,
+                  "danger",
+                  "AlertTriangleIcon"
+                );
+              } else if (error.request) {
+                this.showToast(
+                  "Error",
+                  "Tidak bisa request data ke server",
+                  "danger",
+                  "AlertTriangleIcon"
+                );
+              } else {
+                this.showToast(
+                  "Error",
+                  error.message,
+                  "danger",
+                  "AlertTriangleIcon"
+                );
+              }
+              this.isSubmiting = false;
+            });
         }
       });
     },
-    // validationFormInfo() {
-    //   return new Promise((resolve, reject) => {
-    //     this.$refs.infoRules.validate().then((success) => {
-    //       if (success) {
-    //         resolve(true);
-    //       } else {
-    //         reject();
-    //       }
-    //     });
-    //   });
-    // },
-    // validationFormAddress() {
-    //   return new Promise((resolve, reject) => {
-    //     this.$refs.addressRules.validate().then((success) => {
-    //       if (success) {
-    //         resolve(true);
-    //       } else {
-    //         reject();
-    //       }
-    //     });
-    //   });
-    // },
-    // validationFormSocial() {
-    //   return new Promise((resolve, reject) => {
-    //     this.$refs.socialRules.validate().then((success) => {
-    //       if (success) {
-    //         resolve(true);
-    //       } else {
-    //         reject();
-    //       }
-    //     });
-    //   });
-    // },
   },
 };
+/* eslint-disable global-require */
 </script>
 
 <style lang="scss">
-@import "@core/scss/vue/libs/vue-wizard.scss";
+@import "@core/scss/vue/pages/page-auth.scss";
+@import "@core/scss/vue/libs/vue-select.scss";
 </style>

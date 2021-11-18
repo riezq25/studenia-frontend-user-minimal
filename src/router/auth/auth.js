@@ -13,15 +13,6 @@ export default [
     component: () => import('@/views/auth/Register.vue'),
     meta: {
       layout: 'full',
-      // breadcrumb: [
-      //   {
-      //     text: 'Forms',
-      //   },
-      //   {
-      //     text: 'Form Wizard',
-      //     active: true,
-      //   },
-      // ],
     },
   },
 ]

@@ -15,6 +15,11 @@
       <div class="bookmark-wrapper align-items-center flex-grow-1 d-flex">
         <dark-Toggler class="d-block" />
       </div>
+
+      <cart-dropdown />
+      <!-- <notification-dropdown /> -->
+      <notification-dropdown />
+
       <b-nav-item-dropdown right toggle-class="d-flex align-items-center dropdown-user-link" class="dropdown-user">
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
@@ -49,6 +54,8 @@ import {
   BAvatar,
 } from "bootstrap-vue";
 import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
+import NotificationDropdown from "@core/layouts/components/app-navbar/components/NotificationDropdown.vue";
+import CartDropdown from "@core/layouts/components/app-navbar/components/CartDropdown.vue";
 import { ref } from "@vue/composition-api";
 import store from "@/store/index";
 
@@ -63,6 +70,8 @@ export default {
 
     // Navbar Components
     DarkToggler,
+    NotificationDropdown,
+    CartDropdown,
   },
   props: {
     toggleVerticalMenuActive: {

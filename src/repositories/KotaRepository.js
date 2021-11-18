@@ -1,5 +1,5 @@
 import Client from './Clients/AxiosClient'
-const resource = '/api/indonesia/provinsi'
+const resource = '/api/indonesia/provinsi/kota'
 
 export default {
   get(province_id) {

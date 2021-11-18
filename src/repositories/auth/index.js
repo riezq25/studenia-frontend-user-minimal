@@ -6,7 +6,7 @@ export default {
     return Request.post(`${resource}/login`, payload)
   },
   signup(payload) {
-    return Request.post(`${resource}/register`, payload)
+    return Request.post(`${resource}/signup`, payload)
   },
   logout() {
     return Request.post(`${resource}/logout`)
