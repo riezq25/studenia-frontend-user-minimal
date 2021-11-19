@@ -176,13 +176,13 @@
           </p>
 
           <!-- divider -->
-          <div class="divider my-2">
+          <!-- <div class="divider my-2">
             <div class="divider-text">or</div>
           </div>
 
           <div>
             <b-button type="submit" block v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="outline-primary">Daftar dengan Google</b-button>
-          </div>
+          </div>-->
         </b-col>
       </b-col>
       <!-- /Register-->

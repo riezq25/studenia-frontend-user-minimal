@@ -4,17 +4,17 @@ export default [
   },
   {
     title: 'TPS',
-    route: 'apps-e-commerce-shop',
+    route: 'cooming-soon',
   },
   {
     title: 'TKA IPA',
     route: {
-      name: 'apps-e-commerce-product-details',
-      params: { slug: 'apple-watch-series-5-27' },
+      name: 'cooming-soon',
+      // params: { slug: 'apple-watch-series-5-27' },
     },
   },
   {
     title: 'TKA IPS',
-    route: 'apps-e-commerce-wishlist',
+    route: 'cooming-soon',
   },
 ]

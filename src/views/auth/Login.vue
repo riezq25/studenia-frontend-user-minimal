@@ -102,30 +102,13 @@
             </b-link>
           </b-card-text>
 
-          <!-- divider -->
-          <div class="divider my-2">
+          <!-- <div class="divider my-2">
             <div class="divider-text">or</div>
           </div>
 
-          <!-- social buttons -->
           <div>
-            <!-- <b-button variant="facebook" href="javascript:void(0)">
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button variant="twitter" href="javascript:void(0)">
-              <feather-icon icon="TwitterIcon" />
-            </b-button>-->
-            <!-- <b-button variant="google" href="javascript:void(0)"></b-button> -->
-            <!-- <b-button type="submit" variant="primary" block :disabled="invalid">
-              <feather-icon icon="MailIcon" class="mr-1" />Masuk dengan Google
-            </b-button>-->
-
             <b-button type="submit" block v-ripple.400="'rgba(113, 102, 240, 0.15)'" variant="outline-primary">Masuk dengan Google</b-button>
-
-            <!-- <b-button variant="github" href="javascript:void(0)">
-              <feather-icon icon="GithubIcon" />
-            </b-button>-->
-          </div>
+          </div>-->
         </b-col>
       </b-col>
       <!-- /Login-->

@@ -8,17 +8,14 @@ export default [
     children: [
       {
         title: 'TO Campuran',
-        // route: 'user/try-out/gratis/pengerjaan',
         route: {
           name: 'user/try-out/gratis',
-          params: { jenis: 'campuran' },
         },
       },
       {
         title: 'TO Saintek',
         route: {
           name: 'user/try-out/gratis/saintek',
-          params: { jenis: 'saintek' },
         },
       },
       {
@@ -33,21 +30,15 @@ export default [
     children: [
       {
         title: 'TO Campuran',
-        route: 'admin/manajemen-try-out/premium/campuran',
-        // params: { id },
-        // route: {
-        //   name: 'admin/manajemen-try-out/premium/:campuran',
-        //   params: { campuran },
-        // },
-        // <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
+        route: 'cooming-soon',
       },
       {
         title: 'TO Saintek',
-        route: 'admin/manajemen-try-out/premium/saintek',
+        route: 'cooming-soon',
       },
       {
         title: 'TO Soshum',
-        route: 'admin/manajemen-try-out/premium/soshum',
+        route: 'cooming-soon',
       },
     ],
   },

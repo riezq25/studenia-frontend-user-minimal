@@ -4,12 +4,12 @@ export default [
   },
   {
     title: 'Video Belajar',
-    route: 'ui-typography',
+    route: 'cooming-soon',
     icon: 'TypeIcon',
   },
   {
     title: 'Kelas Live Zoom',
-    route: 'ui-colors',
+    route: 'cooming-soon',
     icon: 'DropletIcon',
   },
   // {

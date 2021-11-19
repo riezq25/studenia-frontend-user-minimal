@@ -4,12 +4,12 @@ export default [
   },
   {
     title: 'Ringkasan Materi',
-    route: 'form-layout',
+    route: 'cooming-soon',
     icon: 'CopyIcon',
   },
   {
     title: 'Materi Ebook',
-    route: 'form-wizard',
+    route: 'cooming-soon',
     icon: 'PackageIcon',
   },
 ]

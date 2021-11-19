@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import store from '@/store'
 
 import authRoute from '@/router/auth/index'
+import tryOutRoute from '@/router/try-out'
+import other from '@/router/other'
 
 Vue.use(VueRouter)
 
@@ -22,6 +24,8 @@ const router = new VueRouter({
       },
     },
     ...authRoute,
+    ...tryOutRoute,
+    ...other,
     {
       path: '/error-404',
       name: 'error-404',

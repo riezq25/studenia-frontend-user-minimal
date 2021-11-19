@@ -4,13 +4,13 @@ export default [
   },
   {
     title: 'Upload Soal',
-    route: 'apps-e-commerce-shop',
+    route: 'cooming-soon',
   },
   {
     title: 'Upload E-Book',
     route: {
-      name: 'apps-e-commerce-product-details',
-      params: { slug: 'apple-watch-series-5-27' },
+      name: 'cooming-soon',
+      // params: { slug: 'apple-watch-series-5-27' },
     },
   },
 ]
