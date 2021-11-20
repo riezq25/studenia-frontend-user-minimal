@@ -4,17 +4,16 @@ export default [
   },
   {
     title: 'TPS',
-    route: 'cooming-soon',
+    route: 'drilling-soal/tps',
   },
   {
     title: 'TKA IPA',
     route: {
-      name: 'cooming-soon',
-      // params: { slug: 'apple-watch-series-5-27' },
+      name: 'drilling-soal/tka-saintek',
     },
   },
   {
     title: 'TKA IPS',
-    route: 'cooming-soon',
+    route: 'drilling-soal/tka-soshum',
   },
 ]

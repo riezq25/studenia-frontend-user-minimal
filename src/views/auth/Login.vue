@@ -2,10 +2,10 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
       <!-- Brand logo-->
-      <b-link class="brand-logo mb-3">
+      <!-- <b-link class="brand-logo mb-3">
         <vuexy-logo />
         <h2 class="brand-text text-primary ml-1">Studenia</h2>
-      </b-link>
+      </b-link>-->
       <!-- /Brand logo -->
 
       <!-- Left Text-->
@@ -17,9 +17,12 @@
       <!-- /Left Text-->
 
       <!-- Login-->
-      <b-col lg="5" class="d-flex align-items-center auth-bg px-2 p-lg-5">
-        <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto mt-5 mt-md-0">
-          <b-card-title class="mb-1 font-weight-bold" title-tag="h2">Selamat Datang di Studenia! 👋</b-card-title>
+      <b-col lg="5" class="auth-bg px-2 p-lg-2">
+        <div class="text-center my-2 my-lg-1">
+          <vuexy-logo width="80" />
+        </div>
+        <b-col sm="10" md="6" lg="12" class="px-xl-2 mx-auto pt-1 pt-lg-2">
+          <b-card-title class="mb-1 font-weight-bold" title-tag="h3">Selamat Datang di Studenia! 👋</b-card-title>
           <b-card-text class="mb-2">Silahkan Login ke Akun kamu</b-card-text>
 
           <!-- <b-alert variant="primary" show>
@@ -183,8 +186,8 @@ export default {
     return {
       isSubmiting: false,
       status: "",
-      password: "admin123",
-      userEmail: "super-admin@studenia.id",
+      password: "",
+      userEmail: "",
       sideImg: require("@/assets/images/pages/login-v2.svg"),
 
       // validation rules

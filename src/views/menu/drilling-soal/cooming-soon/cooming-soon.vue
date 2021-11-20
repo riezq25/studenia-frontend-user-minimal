@@ -1,20 +1,20 @@
 <template>
   <!-- Coming soon page-->
-  <div class="misc-wrapper">
-    <b-link class="brand-logo">
-      <vuexy-logo />
-      <h2 class="brand-text text-primary ml-1">Studenia</h2>
-    </b-link>
-
-    <div class="misc-inner p-2 p-sm-3">
-      <div class="w-100 text-center">
-        <h2 class="mb-1">We are launching soon 🚀</h2>
-        <p class="mb-3">We're creating something awesome. ❤️</p>
-
-        <b-img fluid :src="imgUrl" alt="Coming soon page" />
+  <div class="mt-5">
+    <div class="w-100 text-center">
+      <div class="mb-2">
+        <vuexy-logo width="150" />
       </div>
+      <h2 class="my-1 fw-bolder">Fitur kami segera launcing 🚀</h2>
+      <h4>
+        Follow ig kami di
+        <a href="https://www.instagram.com/studenia.id/" target="_blank">@studenia.id</a> untuk update selanjutnya 😊
+      </h4>
+
+      <!-- <b-img fluid :src="imgUrl" alt="Coming soon page" /> -->
     </div>
   </div>
+
   <!-- / Coming soon page-->
 </template>
 

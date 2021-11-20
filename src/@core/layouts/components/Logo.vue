@@ -29,7 +29,7 @@
   </svg>-->
   <div>
     <!-- <img src="public/logo.png" alt /> -->
-    <img :src="`${publicPath}logo.png`" width="40px" />
+    <img :src="`${publicPath}studenia.svg`" :width="width" />
     <!-- <img src="<%= BASE_URL %>logo.png" alt="Logo" /> -->
   </div>
 </template>
@@ -40,6 +40,9 @@ export default {
     return {
       publicPath: process.env.BASE_URL,
     };
+  },
+  props: {
+    width: "String",
   },
 };
 </script>

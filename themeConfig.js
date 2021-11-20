@@ -11,7 +11,7 @@ export const $themeConfig = {
   app: {
     appName: 'Studenia', // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
-    appLogoImage: require('@/assets/images/logo/logo.png'), // Will update logo in navigation menu (Branding)
+    appLogoImage: require('@public/studenia.svg'), // Will update logo in navigation menu (Branding)
   },
   layout: {
     isRTL: false,

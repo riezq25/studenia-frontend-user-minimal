@@ -4,7 +4,11 @@ import store from '@/store'
 
 import authRoute from '@/router/auth/index'
 import tryOutRoute from '@/router/try-out'
-import other from '@/router/other'
+import drillingSoalRoute from '@/router/drilling-soal'
+import kelasOnlineRoute from '@/router/kelas-online'
+import materiRoute from '@/router/materi'
+import kontribusiPengguna from '@/router/kontribusi-pengguna'
+import othersRoute from '@/router/others'
 
 Vue.use(VueRouter)
 
@@ -18,14 +22,18 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: () => import('@/views/dashboard/Ecommerce.vue'),
+      component: () => import('@/views/menu/dashboard/Ecommerce.vue'),
       meta: {
         pageTitle: 'Dashboard',
       },
     },
     ...authRoute,
     ...tryOutRoute,
-    ...other,
+    ...drillingSoalRoute,
+    ...kelasOnlineRoute,
+    ...materiRoute,
+    ...kontribusiPengguna,
+    ...othersRoute,
     {
       path: '/error-404',
       name: 'error-404',

@@ -4,13 +4,12 @@ export default [
   },
   {
     title: 'Upload Soal',
-    route: 'cooming-soon',
+    route: 'kontribusi-pengguna/upload-soal',
   },
   {
     title: 'Upload E-Book',
     route: {
-      name: 'cooming-soon',
-      // params: { slug: 'apple-watch-series-5-27' },
+      name: 'kontribusi-pengguna/upload-ebook',
     },
   },
 ]

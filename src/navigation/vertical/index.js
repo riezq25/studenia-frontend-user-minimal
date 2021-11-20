@@ -36,7 +36,7 @@ import drillingSoal from './drilling-soal'
 import kelasOnline from './kelas-online'
 import materi from './materi'
 import kontribusi from './kontribusi'
-import pengguna from './pengguna'
+import others from './others'
 
 // Array of sections
 export default [
@@ -46,5 +46,5 @@ export default [
   ...kelasOnline,
   ...materi,
   ...kontribusi,
-  ...pengguna,
+  ...others,
 ]

@@ -4,12 +4,12 @@ export default [
   },
   {
     title: 'Ringkasan Materi',
-    route: 'cooming-soon',
+    route: 'materi/ringkasan-materi',
     icon: 'CopyIcon',
   },
   {
     title: 'Materi Ebook',
-    route: 'cooming-soon',
+    route: 'materi/materi-ebook',
     icon: 'PackageIcon',
   },
 ]

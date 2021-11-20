@@ -4,7 +4,7 @@ export default [
   },
   {
     title: 'Profil',
-    route: 'cooming-soon',
+    route: 'others/profile',
     icon: 'ShieldIcon',
     // acl: {
     action: 'read',

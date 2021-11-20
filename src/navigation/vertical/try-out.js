@@ -9,18 +9,23 @@ export default [
       {
         title: 'TO Campuran',
         route: {
-          name: 'user/try-out/gratis',
+          name: 'try-out/gratis',
+          params: { jenis: 'campuran' },
         },
       },
       {
         title: 'TO Saintek',
         route: {
-          name: 'user/try-out/gratis/saintek',
+          name: 'try-out/gratis',
+          params: { jenis: 'saintek' },
         },
       },
       {
         title: 'TO Soshum',
-        route: 'admin/manajemen-try-out/gratis/soshum',
+        route: {
+          name: 'try-out/gratis',
+          params: { jenis: 'soshum' },
+        },
       },
     ],
   },
@@ -30,15 +35,15 @@ export default [
     children: [
       {
         title: 'TO Campuran',
-        route: 'cooming-soon',
+        route: 'try-out/premium/campuran',
       },
       {
         title: 'TO Saintek',
-        route: 'cooming-soon',
+        route: 'try-out/premium/saintek',
       },
       {
         title: 'TO Soshum',
-        route: 'cooming-soon',
+        route: 'try-out/premium/soshum',
       },
     ],
   },

@@ -2,10 +2,10 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
       <!-- Brand logo-->
-      <b-link class="brand-logo">
-        <vuexy-logo />
+      <b-link class="brand-logo mb-3">
+        <vuexy-logo width="80" />
 
-        <h2 class="brand-text text-primary ml-1">Studenia</h2>
+        <!-- <h2 class="brand-text text-primary ml-1">Studenia</h2> -->
       </b-link>
       <!-- /Brand logo-->
 
@@ -18,8 +18,8 @@
       <!-- /Left Text-->
 
       <!-- Register-->
-      <b-col lg="7" class="d-flex align-items-center auth-bg px-2 p-lg-5 pt-5 pt-lg-0">
-        <b-col sm="10" md="10" lg="12" class="px-xl-2 mx-auto py-5 py-lg-0">
+      <b-col lg="7" class="d-flex align-items-center auth-bg px-1 p-lg-5 pt-3 pt-lg-0">
+        <b-col sm="12" md="12" lg="12" class="px-xl-2 mx-auto py-5 py-lg-0 mt-5 mt-lg-0">
           <b-card-title class="mb-1">Adventure starts here 🚀</b-card-title>
           <b-card-text class="mb-2">Silahkan Daftar Akun terlebih dahulu</b-card-text>
 

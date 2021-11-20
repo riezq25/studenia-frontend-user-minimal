@@ -35,7 +35,7 @@
 
           <!-- Action Buttons -->
           <div>
-            <b-link :to="{name: 'user/try-out/gratis/campuran/detail-try-out'}">
+            <b-link :to="{name: 'try-out/gratis/campuran/detail-try-out'}">
               <b-button block variant="primary" class="btn-cart move-cart py-1">
                 <feather-icon icon="Edit2Icon" class="mr-50" size="15" />
                 <span>Kerjakan</span>
