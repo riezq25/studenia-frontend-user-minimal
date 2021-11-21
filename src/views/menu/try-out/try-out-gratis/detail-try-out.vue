@@ -4,7 +4,7 @@
       <b-row>
         <div class="d-flex align-items-center justify-content-end">
           <div class="d-none d-sm-block">
-            <b-button variant="relief-success py-1" v-b-modal.modal-success>
+            <b-button variant="relief-success py-1" v-b-modal.modal-success :to="{name: 'try-out/gratis/pengerjaan'}">
               <span style="font-size:1.2rem">Kerjakan</span>
             </b-button>
           </div>
@@ -65,7 +65,7 @@
       <div class="d-flex align-items-center justify-content-between">
         <h3 class="my-2">TPS</h3>
         <div class="d-none d-sm-block">
-          <b-button variant="relief-success py-1" v-b-modal.modal-success>
+          <b-button variant="relief-success py-1" v-b-modal.modal-success :to="{name: 'try-out/gratis/pengerjaan'}">
             <span style="font-size:1.2rem">Kerjakan</span>
           </b-button>
         </div>
@@ -102,7 +102,7 @@
 
     <div class="w-100 p-0 d-sm-none fixed-bottom">
       <div>
-        <b-button block variant="relief-success py-2" v-b-modal.modal-success>
+        <b-button block variant="relief-success py-2" v-b-modal.modal-success :to="{name: 'try-out/gratis/pengerjaan'}">
           <span style="font-size:1.2rem">Kerjakan</span>
         </b-button>
       </div>
