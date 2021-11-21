@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 // Modules
 import app from './app'
 import auth from './auth'
+import tryout from './tryout'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     app,
     auth,
     appConfig,
+    tryout,
     verticalMenu,
   },
   strict: process.env.DEV,

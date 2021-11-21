@@ -1,27 +1,15 @@
+import HalamanTryout from "@/views/menu/try-out/index.vue";
+import HalamanDetailTryout from "@/views/menu/try-out/detail/DetailTryout.vue";
+import HalamanAwalTryout from "@/views/menu/try-out/pengerjaan/HalamanAwalPengerjaan.vue";
+import HalamanUjianTryout from "@/views/menu/try-out/pengerjaan/UjianPaketTryout.vue";
+
 export default [
   //try out gratis
   // CAMPURAN
   {
-    path: '/try-out/gratis/campuran',
+    path: '/try-out/:jenis/:kategori',
     name: 'try-out/gratis/campuran',
-    component: () => import('@/views/menu/try-out/try-out-gratis/index.vue'),
-  },
-  {
-    path: '/try-out/gratis/campuran/detail-try-out',
-    name: 'try-out/gratis/campuran/detail-try-out',
-    component: () =>
-      import('@/views/menu/try-out/try-out-gratis/detail-try-out.vue'),
-  },
-  {
-    path: '/try-out/gratis/campuran/detail',
-    name: 'try-out/gratis/campuran/detail',
-    component: () => import('@/views/menu/try-out/try-out-gratis/detail.vue'),
-  },
-  {
-    path: '/try-out/gratis/pengerjaan-beta',
-    name: 'try-out/gratis/pengerjaan-beta',
-    component: () =>
-      import('@/views/menu/try-out/try-out-gratis/pengerjaan/InvoiceEdit.vue'),
+    component: HalamanTryout,
   },
   {
     path: '/try-out/gratis/pengerjaan',
@@ -35,25 +23,10 @@ export default [
   {
     path: '/try-out/gratis/saintek',
     name: 'try-out/gratis/saintek',
-    component: () => import('@/views/menu/try-out/try-out-gratis/index.vue'),
+    component: HalamanTryout,
   },
-  {
-    path: '/try-out/gratis/saintek/detail-try-out',
-    name: 'try-out/gratis/saintek/detail-try-out',
-    component: () =>
-      import('@/views/menu/try-out/try-out-gratis/detail-try-out.vue'),
-  },
-  {
-    path: '/try-out/gratis/saintek/detail',
-    name: 'try-out/gratis/saintek/detail',
-    component: () => import('@/views/menu/try-out/try-out-gratis/detail.vue'),
-  },
-  {
-    path: '/try-out/gratis/pengerjaan-beta',
-    name: 'try-out/gratis/pengerjaan-beta',
-    component: () =>
-      import('@/views/menu/try-out/try-out-gratis/pengerjaan/InvoiceEdit.vue'),
-  },
+
+
   {
     path: '/try-out/gratis/pengerjaan',
     name: 'try-out/gratis/pengerjaan',
@@ -66,30 +39,30 @@ export default [
   {
     path: '/try-out/gratis/soshum',
     name: 'try-out/gratis/soshum',
-    component: () => import('@/views/menu/try-out/try-out-gratis/index.vue'),
+    component: HalamanTryout,
   },
-  {
-    path: '/try-out/gratis/soshum/detail-try-out',
-    name: 'try-out/gratis/soshum/detail-try-out',
-    component: () =>
-      import('@/views/menu/try-out/try-out-gratis/detail-try-out.vue'),
-  },
-  {
-    path: '/try-out/gratis/soshum/detail',
-    name: 'try-out/gratis/soshum/detail',
-    component: () => import('@/views/menu/try-out/try-out-gratis/detail.vue'),
-  },
-  {
-    path: '/try-out/gratis/pengerjaan-beta',
-    name: 'try-out/gratis/pengerjaan-beta',
-    component: () =>
-      import('@/views/menu/try-out/try-out-gratis/pengerjaan/InvoiceEdit.vue'),
-  },
+
   {
     path: '/try-out/gratis/pengerjaan',
     name: 'try-out/gratis/pengerjaan',
     component: () =>
       import('@/views/menu/try-out/try-out-gratis/pengerjaan/Pengerjaan.vue'),
+  },
+
+  {
+    path: '/try-out/:jenis/:kategori/detail/:id',
+    name: 'detail-paket-tryout',
+    component: HalamanDetailTryout,
+  },
+  {
+    path: '/try-out/:jenis/:kategori/start/:id/:id_pengerjaan',
+    name: 'start-paket-tryout',
+    component: HalamanAwalTryout,
+  },
+  {
+    path: '/try-out/:jenis/:kategori/start/:id/:id_pengerjaan/:index_paket_kategori/:index_paket_mapel',
+    name: 'ujian-paket-tryout',
+    component: HalamanUjianTryout,
   },
 
   //try out premium
