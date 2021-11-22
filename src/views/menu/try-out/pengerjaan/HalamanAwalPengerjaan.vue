@@ -63,7 +63,9 @@
         <app-collapse accordion :type="'margin'">
           <b-card-actions title="Sisa Waktu" action-collapse>
             <div class="mx-auto w-100 text-center">
-              <span class="text-center mx-auto text-primary display-2 fw-bold">00:00</span>
+              <span
+                class="text-center mx-auto text-primary display-2 fw-bold"
+              >{{ formatTime(sisaWaktu) }}</span>
             </div>
           </b-card-actions>
         </app-collapse>
@@ -123,6 +125,14 @@ export default {
 
     let tryout = ref(null);
     const isLoading = ref(true)
+    const sisaWaktu = ref(0)
+
+    const formatTime = (seconds) => {
+      let m = Math.floor(seconds % 3600 / 60).toString().padStart(2, '0'),
+        s = Math.floor(seconds % 60).toString().padStart(2, '0');
+
+      return `${m}:${s}`;
+    }
 
     const fetchData = async () => {
       isLoading.value = true
@@ -136,7 +146,9 @@ export default {
           store.state.tryout.isUjian = true
           store.state.tryout.data = response.data.data
 
+
           tryout.value = response.data.data
+          sisaWaktu.value = response.data.data.durasi * 60 * 1000
         })
           .catch(function (error) {
             if (error.response) {
@@ -190,15 +202,23 @@ export default {
     onMounted(() => {
 
       fetchData().then(() => {
+        let countDown = setInterval(() => {
+          sisaWaktu.value = (Date.parse(tryout.value.selesai) / 1000) - Math.floor(Date.now() / 1000)
+
+          if (sisaWaktu.value == 0) {
+            clearInterval(countDown)
+          }
+
+        }, 1000);
       })
 
     })
 
     return {
-      tryout, isLoading,
+      tryout, isLoading, sisaWaktu,
 
       // method
-      redirectHalamanPengerjaan, simpanSesi
+      redirectHalamanPengerjaan, simpanSesi, formatTime
     };
   },
 };

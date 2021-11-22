@@ -394,8 +394,6 @@ export default {
         const jumlah = ref(soal.value.length);
         let currentIndex = ref(0);
 
-        let buttons = ref(["a", "b", "c", "d", "e"]);
-
         const clickNext = () => {
             currentIndex.value++;
         };
@@ -459,7 +457,6 @@ export default {
             jumlah,
             soal,
             currentIndex,
-            buttons,
             clickNext,
             clickPrev,
             clickSoal,

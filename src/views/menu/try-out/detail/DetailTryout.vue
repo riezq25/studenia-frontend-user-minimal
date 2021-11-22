@@ -2,31 +2,56 @@
   <div class="mb-2">
     <app-collapse accordion :type="'margin'">
       <b-row>
-        <div class="d-flex align-items-center justify-content-end">
-          <div class="d-none d-sm-block">
-            <b-button variant="relief-success py-1" v-b-modal.modal-success>
-              <span style="font-size:1.2rem">Kerjakan</span>
-            </b-button>
-          </div>
-        </div>
-      </b-row>
-      <b-row>
-        <!-- <b-col cols="12" v-for="item in tryout.paket_kategoris">
-          <b-card-actions title="Detail Paket" action-collapse></b-card-actions>
-        </b-col>-->
+        <b-col sm="12" md="8" lg="8">
+          <b-row>
+            <b-col cols="12" v-for="item in tryout.paket_kategoris">
+              <b-card-actions :title="item.kategori_soal.nama.toUpperCase()" action-collapse>
+                <app-timeline>
+                  <app-timeline-item
+                    v-for="paketMapel in item.paket_mapels "
+                    :title="paketMapel.mapel_soal.nama.toUpperCase()"
+                    icon="CircleIcon"
+                    :time="paketMapel.pivot.durasi"
+                    :soal="paketMapel.jumlah_soal"
+                    variant="primary"
+                  />
+                </app-timeline>
+              </b-card-actions>
+            </b-col>
+          </b-row>
+        </b-col>
 
-        <b-col cols="12" v-for="item in tryout.paket_kategoris">
-          <b-card-actions :title="item.kategori_soal.nama.toUpperCase()" action-collapse>
-            <app-timeline>
-              <app-timeline-item
-                v-for="paketMapel in item.paket_mapels "
-                :title="paketMapel.mapel_soal.nama.toUpperCase()"
-                icon="CircleIcon"
-                :time="paketMapel.pivot.durasi"
-                :soal="paketMapel.jumlah_soal"
-                variant="primary"
-              />
-            </app-timeline>
+        <b-col>
+          <b-card-actions title="Informasi" action-collapse>
+            <div class="mb-2">
+              <div class="d-flex flex-column text-muted mb-1">
+                <small>Nama Paket</small>
+                <h4>{{ tryout.nama.toUpperCase() }}</h4>
+              </div>
+
+              <div class="d-flex flex-column text-muted mb-1">
+                <small>Tanggal Penilaian</small>
+                <h4>{{ tryout.tanggal_penilaian }}</h4>
+              </div>
+
+              <div class="d-flex align-items-center mb-1">
+                <p class="d-flex align-items-center text-gray">
+                  <feather-icon icon="ClockIcon" size="18" class="mr-1" />
+                  <span>{{ tryout.total_durasi }} Menit</span>
+                </p>
+                <p style="font-size:20px;" class="mx-1 text-gray">|</p>
+                <p class="d-flex align-items-center text-gray">
+                  <feather-icon icon="FileTextIcon" size="18" class="mr-1" />
+                  <span>{{ tryout.total_soal }} Soal</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="w-100 text-center mx-auto">
+              <b-button variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
+                <span>Kerjakan</span>
+              </b-button>
+            </div>
           </b-card-actions>
         </b-col>
       </b-row>
