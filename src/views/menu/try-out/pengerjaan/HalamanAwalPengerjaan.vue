@@ -76,13 +76,29 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="primary"
-                @click="simpanSesi"
+                v-b-modal.modal-danger
               >Akhiri Sesi</b-button>
             </div>
           </b-card-actions>
         </app-collapse>
       </b-col>
     </b-row>
+
+    <b-modal
+      id="modal-danger"
+      ok-variant="danger"
+      ok-title="Yakin"
+      cancel-title="Batal"
+      modal-class="modal-danger"
+      centered
+      title="Danger Modal"
+      @ok="akhiriSesi"
+    >
+      <b-card-text class="text-center text-danger">
+        <feather-icon icon="AlertTriangleIcon" size="50" />
+        <h4 class="mt-1">Apakah Anda yakin ingin menyimpan semua jawaban dan mengakhiri sesi tryout?</h4>
+      </b-card-text>
+    </b-modal>
   </div>
 </template>
 
@@ -176,12 +192,12 @@ export default {
       router.push({ path: '/try-out/:jenis/:kategori', params: { jenis: params.jenis, kategori: params.kategori } })
     }
 
-    const simpanSesi = async () => {
-      store.commit('tryout/simpanSesi', tryout.value.pengerjaan)
+    const akhiriSesi = async () => {
+      store.commit('tryout/akhiriSesi', tryout.value.pengerjaan)
       store.commit('tryout/clearState')
 
 
-      await repoPengerjaanTryout.simpanJawaban(route.value.params.id_pengerjaan, { pengerjaan: tryout.value.pengerjaan.paket }).then(function (response) {
+      await repoPengerjaanTryout.akhiriSesi(route.value.params.id_pengerjaan, { pengerjaan: tryout.value.pengerjaan.paket }).then(function (response) {
         // redirectHalamanPaket()
 
         router.push('/')
@@ -207,6 +223,7 @@ export default {
 
           if (sisaWaktu.value == 0) {
             clearInterval(countDown)
+            akhiriSesi()
           }
 
         }, 1000);
@@ -218,7 +235,7 @@ export default {
       tryout, isLoading, sisaWaktu,
 
       // method
-      redirectHalamanPengerjaan, simpanSesi, formatTime
+      redirectHalamanPengerjaan, akhiriSesi, formatTime
     };
   },
 };

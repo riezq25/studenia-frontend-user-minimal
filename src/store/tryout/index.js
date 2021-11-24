@@ -4,6 +4,7 @@ export default {
     state: {
         isUjian: false,
         data: null,
+        serverTime: null,
     },
     getters: {
 
@@ -18,6 +19,9 @@ export default {
         setRagu(state, payload) {
             state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals[payload.current_index].waktu = payload.waktu
         },
+        setSoalState(state, payload){
+            state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals[payload.current_index] = payload.soal
+        },
         setPaketMapel(state, payload) {
             state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals = payload.soals
 
@@ -26,9 +30,13 @@ export default {
         simpanSesi(state, pengerjaan) {
             state.data.pengerjaan = pengerjaan
         },
-        clearState(state){
+        setServerTime(state, timestamp) {
+            state.serverTime = timestamp
+        },
+        clearState(state) {
             state.isUjian = false
             state.data = null
+            state.serverTime = null
         }
     },
     actions: {

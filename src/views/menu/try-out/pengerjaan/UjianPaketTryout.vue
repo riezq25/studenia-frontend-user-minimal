@@ -7,7 +7,10 @@
                         <div class="card-header px-0 pb-0">
                             <h3 class="card-title">
                                 Sisa Waktu :
-                                <span class="text-primary" style="color:blue">00:00</span>
+                                <span
+                                    class="text-primary"
+                                    style="color:blue"
+                                >{{ formatTime(sisaWaktu) }}</span>
                             </h3>
                         </div>
                     </b-card>
@@ -32,7 +35,7 @@
                                     <b-button
                                         v-for="(pil, key, index) in soal[currentIndex].pilihan"
                                         :key="index"
-                                        :variant="key.toUpperCase() == soal[currentIndex].jawaban ? 'outline-primary' : 'flat-secondary'"
+                                        :variant="key.toUpperCase() == soal[currentIndex].jawaban && !soal[currentIndex].ragu ? 'outline-primary' : key.toUpperCase() == soal[currentIndex].jawaban && soal[currentIndex].ragu ? 'outline-warning' : 'flat-secondary'"
                                         class="mb-75 py-2 px-1 text-left"
                                         block
                                         @click="pilihJawaban(key)"
@@ -57,6 +60,8 @@
                                     class="py-1 d-flex justify-content-center align-items-center"
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="danger"
+                                    @click="clickLepas"
+                                    :disabled="!soal[currentIndex].jawaban"
                                 >
                                     <span>
                                         <svg
@@ -83,6 +88,8 @@
                                     class="py-1 d-flex justify-content-center align-items-center"
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="warning"
+                                    @click="clickRagu"
+                                    :disabled="!soal[currentIndex].jawaban"
                                 >
                                     <span>
                                         <svg
@@ -109,6 +116,8 @@
                                     class="py-1 d-flex justify-content-center align-items-center"
                                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                                     variant="secondary"
+                                    @click="clickKunci"
+                                    :disabled="!soal[currentIndex].jawaban"
                                 >
                                     <span>
                                         <svg
@@ -166,7 +175,7 @@
                             <!-- solid color -->
                             <b-col
                                 v-for="(data,index) in solidColor"
-                                :key="index"
+                                :key="data.key"
                                 cols="6"
                                 sm="3"
                                 lg="3"
@@ -177,7 +186,7 @@
                                     class="text-center"
                                 >
                                     <b-card-title class="text-white">{{ data.title }}</b-card-title>
-                                    <h3 class="text-white m-0">{{ data.data }}</h3>
+                                    <h3 class="text-white m-0">{{ computedSoal[data.key] }}</h3>
                                 </b-card>
                             </b-col>
                         </b-row>
@@ -190,7 +199,7 @@
                         </div>
                         <hr />
                         <div class="text-center">
-                            <h1 class="fw-bold" style="font-size:40px">23:47</h1>
+                            <h1 class="fw-bold" style="font-size:40px">{{ formatTime(sisaWaktu) }}</h1>
                         </div>
                     </b-card>
                     <b-card>
@@ -215,7 +224,7 @@
                                 class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
                                 block
                                 variant="primary"
-                                :disabled="currentIndex == (jumlah - 1) ? true : false"
+                                :disabled="currentIndex == (jumlahSoal - 1) ? true : false"
                                 @click="clickNext"
                             >
                                 <span>Next</span>
@@ -229,14 +238,14 @@
                                         v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                                         size="sm"
                                         style="width:40px; height:40px"
-                                        :variant="currentIndex == index ? 'primary' : 'outline-secondary'"
+                                        :variant="currentIndex == index ? 'primary' : jml.jawaban && !jml.ragu ? 'success' : jml.jawaban && jml.ragu ? 'warning' : 'outline-secondary'"
                                         v-for="(jml,index) in soal"
                                         :key="jml.id"
                                         @click="clickSoal(index)"
                                     >
                                         <div
                                             class="d-flex justify-content-center align-items-center"
-                                        >{{ jml.id }}</div>
+                                        >{{ index + 1 }}</div>
                                     </b-button>
                                 </div>
                             </div>
@@ -290,7 +299,7 @@
                         class="m-0 py-1 d-flex align-items-center justify-content-center"
                         block
                         variant="primary"
-                        :disabled="currentIndex == (jumlah - 1) ? true : false"
+                        :disabled="currentIndex == (jumlahSoal - 1) ? true : false"
                         @click="clickNext"
                     >
                         <span>Next</span>
@@ -314,7 +323,7 @@
                 <feather-icon icon="AlertTriangleIcon" size="50" />
                 <h4
                     class="mt-1"
-                >Terdapat soal yang belum dijawab. Apakah Anda yakin ingin mengakhiri sesi dan menyimpan semua jawaban?</h4>
+                >Apakah Anda yakin ingin menyimpan semua jawaban dan kembali ke halaman paket soal?</h4>
             </b-card-text>
         </b-modal>
     </div>
@@ -335,7 +344,6 @@ const repoPengerjaanTryout = repository.get('pengerjaanTryoutRepository')
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 
-import formatSoal from "./format-soal";
 import Ripple from "vue-ripple-directive";
 import {
     BRow,
@@ -344,6 +352,7 @@ import {
     BCardBody,
     BButton,
     BCardText,
+    BCardTitle,
     BForm,
     BFormGroup,
     BFormInput,
@@ -356,6 +365,7 @@ import {
     BLink,
     VBToggle,
 } from "bootstrap-vue";
+import SoalRepository from "../../../../repositories/SoalRepository";
 
 export default {
     components: {
@@ -377,7 +387,7 @@ export default {
         BFormCheckbox,
         BPopover,
         BAlert,
-        BLink,
+        BLink, BCardTitle,
         VBToggle,
         VueMathjax,
 
@@ -390,12 +400,28 @@ export default {
     setup() {
         const { route } = useRouter()
 
-        const soal = ref(formatSoal.listSoal);
-        const jumlah = ref(soal.value.length);
+        const soal = ref([]);
+        const paket = ref({});
+        const sisaWaktu = ref(0)
+
+        const formatTime = (seconds) => {
+            let m = Math.floor(seconds % 3600 / 60).toString().padStart(2, '0'),
+                s = Math.floor(seconds % 60).toString().padStart(2, '0');
+
+            return `${m}:${s}`;
+        }
+
+        const jumlahSoal = computed(() => {
+            return soal.value.length
+        })
+        const serverTime = ref(Math.floor(Date.now() / 1000));
+
         let currentIndex = ref(0);
 
         const clickNext = () => {
-            currentIndex.value++;
+            if (soal.value.length >= currentIndex.value + 2) {
+                currentIndex.value++;
+            }
         };
 
         const clickPrev = () => {
@@ -406,29 +432,79 @@ export default {
             currentIndex.value = index;
         };
 
+        const clickRagu = () => {
+            soal.value[currentIndex.value].ragu = true
+            simpanState()
+        }
+
+        const clickLepas = () => {
+            soal.value[currentIndex.value].ragu = false
+            soal.value[currentIndex.value].jawaban = ''
+            simpanState()
+        }
+
+        const clickKunci = () => {
+            soal.value[currentIndex.value].ragu = false
+            simpanState()
+        }
+
         const solidColor = ref([
-            { bg: "primary", title: "Soal", data: "30" },
-            { bg: "success", title: "Dijawab", data: "30" },
-            { bg: "danger", title: "Kosong", data: "30" },
-            { bg: "warning", title: "Ragu", data: "30" },
+            { bg: "primary", title: "Soal", data: "0", key: 'jumlah' },
+            { bg: "success", title: "Dijawab", data: "0", key: 'dijawab' },
+            { bg: "danger", title: "Kosong", data: "0", key: 'kosong' },
+            { bg: "warning", title: "Ragu", data: "0", key: 'ragu' },
         ]);
 
         const pilihJawaban = (jawaban) => {
+            soal.value[currentIndex.value].jawaban = jawaban.toUpperCase()
+            soal.value[currentIndex.value].ragu = false
+            simpanState()
+        }
+
+        const simpanState = () => {
             const params = route.value.params
-            store.commit('tryout/setJawaban', {
+            const index = currentIndex.value
+            store.commit('tryout/setSoalState', {
                 index_paket_kategori: params.index_paket_kategori,
                 index_paket_mapel: params.index_paket_mapel,
-                current_index: currentIndex.value,
-                jawaban
+                current_index: index,
+                soal: soal.value[index]
             })
             setCurrentSoal()
         }
 
+        const computedSoal = computed(() => {
+            let soalDijawab = 0,
+                soalRagu = 0, soalKosong = 0;
+
+            soal.value.forEach(el => {
+                if (el.jawaban) {
+                    soalDijawab++
+                } else {
+                    soalKosong++
+                }
+
+                if (el.ragu) {
+                    soalRagu++
+                }
+
+            });
+
+            return {
+                jumlah: soal.value.length,
+                dijawab: soalDijawab,
+                ragu: soalRagu,
+                kosong: soalKosong
+            }
+        })
+
         const setCurrentSoal = () => {
             const params = route.value.params
-            const curentSoals = store.state.tryout.data.pengerjaan.paket[params.index_paket_kategori].paket_mapels[params.index_paket_mapel].soals
+            const currentPaket = store.state.tryout.data.pengerjaan.paket[params.index_paket_kategori].paket_mapels[params.index_paket_mapel]
 
-            soal.value = curentSoals
+            soal.value = currentPaket.soals
+            paket.value = currentPaket
+
         }
 
         const simpanPaket = () => {
@@ -451,18 +527,31 @@ export default {
 
         onMounted(() => {
             setCurrentSoal()
+
+            const end = Math.floor(Date.now() / 1000) + (paket.value.durasi * 60)
+
+            let countDown = setInterval(() => {
+                sisaWaktu.value = (end) - Math.floor(Date.now() / 1000)
+
+                if (sisaWaktu.value == 0) {
+                    clearInterval(countDown)
+                    simpanPaket()
+                }
+
+            }, 1000);
         })
 
         return {
-            jumlah,
+            jumlahSoal,
             soal,
-            currentIndex,
+            currentIndex, sisaWaktu,
             clickNext,
             clickPrev,
-            clickSoal,
+            clickSoal, clickRagu, clickLepas, clickKunci,
             solidColor,
             pilihJawaban,
-            simpanPaket
+            simpanPaket, formatTime,
+            computedSoal
         };
     },
 };
