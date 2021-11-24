@@ -10,10 +10,17 @@
     </b-avatar>
     <h1 class="mb-1 mt-50 text-white">Selamat Datang {{nama}}</h1>
     <b-card-text class="m-auto w-75">
-      Selamat belajar di
-      <strong>Studenia</strong> 😊
-      <br />Chek selalu update informasi dari kami.
+      <h4 style="color:white">
+        Selamat belajar di
+        <strong>Studenia</strong> 😊
+        <br />
+        <span class="mt-1">Chek selalu update informasi dari kami.</span>
+      </h4>
     </b-card-text>
+    <blockquote class="blockquote mt-3">
+      <p class="mb-0">"Ikhlaslah belajar. Bahkan yang paling berilmu dan bijak di antara kita masih rajin belajar."</p>
+      <p class="blockquote-footer" style="font-size:1rem; font-style:italic; margin-top:5px">Mario Teguh</p>
+    </blockquote>
   </b-card>
 </template>
 
@@ -35,3 +42,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+p.blockquote-footer {
+  color: white !important;
+}
+</style>
