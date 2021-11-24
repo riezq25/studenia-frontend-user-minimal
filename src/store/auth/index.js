@@ -1,4 +1,4 @@
-import router from '@/router'
+import router from "@/router";
 import Repository from "@repdir/RepositoryFactory";
 const Auth = Repository.get("auth");
 
@@ -7,10 +7,10 @@ export default {
     state: {
         isLogin: false,
         user: {},
-        permissions: []
+        token:null,
+        permissions: [],
     },
-    getters: {
-    },
+    getters: {},
     mutations: {
         resetState(state) {
             state.isLogin = false;
@@ -33,26 +33,26 @@ export default {
             let result = await Auth.login(payload);
 
             if (result.status == 200) {
-                commit('loginSuccess', result.data.user);
-                localStorage.setItem('token', result.data.access_token)
-                router.push('/');
+                commit("loginSuccess", result.data.user);
+                localStorage.setItem("token", result.data.access_token);
+                router.push("/");
             } else {
-                return result
+                return result;
             }
         },
         logout({ commit }) {
-            commit('resetState');
-            localStorage.removeItem('token')
-            router.push('/login');
+            commit("resetState");
+            localStorage.removeItem("token");
+            router.push("/login");
         },
         clearState({ commit }) {
-            commit('resetState');
+            commit("resetState");
         },
         async user({ commit }) {
-            console.log('asdfasdfsaf')
+            console.log("asdfasdfsaf");
             let result = await Auth.user();
-            console.log(result)
-            commit('loginSuccess', result.data);
-        }
+            console.log(result);
+            commit("loginSuccess", result.data);
+        },
     },
-}
+};

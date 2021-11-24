@@ -34,7 +34,7 @@
                       <b-input-group-prepend is-text>
                         <feather-icon icon="UserIcon" />
                       </b-input-group-prepend>
-                      <b-form-input id="nama" placeholder="Nama" v-model="name" />
+                      <b-form-input id="nama" placeholder="Nama" v-model.trim="name" />
                     </b-input-group>
                   </b-form-group>
                 </b-col>
@@ -46,7 +46,7 @@
                       <b-input-group-prepend is-text>
                         <feather-icon icon="MailIcon" />
                       </b-input-group-prepend>
-                      <b-form-input id="email" v-model="email" placeholder="john@example.com" />
+                      <b-form-input id="email" v-model.trim="email" placeholder="john@example.com" />
                     </b-input-group>
                   </b-form-group>
                 </b-col>
@@ -58,7 +58,12 @@
                   <b-form-group label="Whatsapp" label-for="whatsapp">
                     <b-input-group class="input-group-merge">
                       <b-input-group-prepend is-text>+62</b-input-group-prepend>
-                      <b-form-input id="whatsapp" placeholder="Whatsapp" v-model="no_wa" />
+                      <b-form-input
+                        type="number"
+                        id="whatsapp"
+                        placeholder="Whatsapp"
+                        v-model.number="no_wa"
+                      />
                     </b-input-group>
                     <small class="text-danger">* tanpa 0 di depannya</small>
                   </b-form-group>
@@ -71,7 +76,11 @@
                       <b-input-group-prepend is-text>
                         <feather-icon icon="HomeIcon" />
                       </b-input-group-prepend>
-                      <b-form-input id="asal_sekolah" v-model="asal_sekolah" placeholder="SMA/MA" />
+                      <b-form-input
+                        id="asal_sekolah"
+                        v-model.trim="asal_sekolah"
+                        placeholder="SMA/MA"
+                      />
                     </b-input-group>
                   </b-form-group>
                 </b-col>
@@ -81,7 +90,12 @@
                 <!-- tanggal lahir -->
                 <b-col md="6">
                   <b-form-group label="Tanggal Lahir" label-for="tanggal_lahir">
-                    <b-form-datepicker id="tanggal_lahir" v-model="tanggal_lahir" class="mb-1" placeholder="Tanggal Lahir" />
+                    <b-form-datepicker
+                      id="tanggal_lahir"
+                      v-model="tanggal_lahir"
+                      class="mb-1"
+                      placeholder="Tanggal Lahir"
+                    />
                   </b-form-group>
                 </b-col>
 
@@ -89,8 +103,17 @@
                 <b-col md="6">
                   <b-form-group label="Jenis Kelamin">
                     <div class="d-flex justify-content-start">
-                      <b-form-radio v-model="jenis_kelamin" name="some-radios" value="LAKI-LAKI">Laki Laki</b-form-radio>
-                      <b-form-radio v-model="jenis_kelamin" name="some-radios" value="PEREMPUAN" class="ml-2">Perempuan</b-form-radio>
+                      <b-form-radio
+                        v-model="jenis_kelamin"
+                        name="some-radios"
+                        value="LAKI-LAKI"
+                      >Laki Laki</b-form-radio>
+                      <b-form-radio
+                        v-model="jenis_kelamin"
+                        name="some-radios"
+                        value="PEREMPUAN"
+                        class="ml-2"
+                      >Perempuan</b-form-radio>
                     </div>
                   </b-form-group>
                 </b-col>
@@ -101,7 +124,13 @@
                 <b-col md="6">
                   <b-form-group label="Provinsi">
                     <b-form-group>
-                      <v-select v-model="provinsi" placeholder="--Provinsi--" :options="optionProvinsi" :reduce="name => name.id" label="name" />
+                      <v-select
+                        v-model="provinsi"
+                        placeholder="--Provinsi--"
+                        :options="optionProvinsi"
+                        :reduce="name => name.id"
+                        label="name"
+                      />
                     </b-form-group>
                   </b-form-group>
                 </b-col>
@@ -109,7 +138,14 @@
                 <!-- kab/kota -->
                 <b-col md="6">
                   <b-form-group label="Kab/Kota">
-                    <v-select v-if="provinsi" v-model="kab_kota" placeholder="--Kab/Kota--" :options="optionKabKota" :reduce="name => name.id" label="name" />
+                    <v-select
+                      v-if="provinsi"
+                      v-model="kab_kota"
+                      placeholder="--Kab/Kota--"
+                      :options="optionKabKota"
+                      :reduce="name => name.id"
+                      label="name"
+                    />
                     <v-select v-else disabled placeholder="Pilih provinsi dulu" />
                   </b-form-group>
                 </b-col>
@@ -119,7 +155,14 @@
                 <!-- kecamatan -->
                 <b-col md="6">
                   <b-form-group label="Kecamatan">
-                    <v-select v-if="kab_kota" v-model="kecamatan" placeholder="--Kecamatan--" :options="optionKecamatan" :reduce="name => name.id" label="name" />
+                    <v-select
+                      v-if="kab_kota"
+                      v-model="kecamatan"
+                      placeholder="--Kecamatan--"
+                      :options="optionKecamatan"
+                      :reduce="name => name.id"
+                      label="name"
+                    />
                     <v-select v-else disabled placeholder="Pilih Kab/Kota dulu" />
                   </b-form-group>
                 </b-col>
@@ -127,7 +170,12 @@
                 <!-- alamat -->
                 <b-col md="6">
                   <b-form-group label="Alamat" label-for="alamat" class="w-100">
-                    <b-form-textarea v-model="alamat" id="alamat" placeholder="Tuliskan Alamat anda" rows="3" />
+                    <b-form-textarea
+                      v-model.trim="alamat"
+                      id="alamat"
+                      placeholder="Tuliskan Alamat anda"
+                      rows="3"
+                    />
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -140,37 +188,72 @@
                       <b-input-group-prepend is-text>
                         <feather-icon icon="LockIcon" />
                       </b-input-group-prepend>
-                      <b-form-input id="register-password" v-model="password" class="form-control-merge" :type="passwordFieldType" name="register-password" placeholder="············" />
+                      <b-form-input
+                        id="register-password"
+                        v-model="password"
+                        class="form-control-merge"
+                        :type="passwordFieldType"
+                        name="register-password"
+                        placeholder="············"
+                      />
                       <b-input-group-append is-text>
-                        <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                        <feather-icon
+                          :icon="passwordToggleIcon"
+                          class="cursor-pointer"
+                          @click="togglePasswordVisibility"
+                        />
                       </b-input-group-append>
                     </b-input-group>
+
+                    <small class="text-danger">* panjang password minimal 7 karakter</small>
                   </b-form-group>
                 </b-col>
 
                 <!-- password confirmation -->
                 <b-col md="6">
-                  <b-form-group label-for="register-password-confirmation" label="Password Confirmation" class="w-100">
+                  <b-form-group
+                    label-for="register-password-confirmation"
+                    label="Password Confirmation"
+                    class="w-100"
+                  >
                     <b-input-group class="input-group-merge">
                       <b-input-group-prepend is-text>
                         <feather-icon icon="LockIcon" />
                       </b-input-group-prepend>
-                      <b-form-input id="register-password-confirmation" v-model="password_confirmation" class="form-control-merge" :type="passwordFieldType" name="register-password" placeholder="············" />
+                      <b-form-input
+                        id="register-password-confirmation"
+                        v-model="password_confirmation"
+                        class="form-control-merge"
+                        :type="passwordFieldType"
+                        name="register-password"
+                        placeholder="············"
+                      />
                       <b-input-group-append is-text>
-                        <feather-icon :icon="passwordToggleIcon" class="cursor-pointer" @click="togglePasswordVisibility" />
+                        <feather-icon
+                          :icon="passwordToggleIcon"
+                          class="cursor-pointer"
+                          @click="togglePasswordVisibility"
+                        />
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
                 </b-col>
               </b-row>
 
-              <b-button variant="primary" block @click="register" type="submit" class="mt-2">{{isSubmitting ? 'Silahkan lengkapi data':'Daftar'}}</b-button>
+              <b-button
+                variant="primary"
+                block
+                :disabled="!cekForm"
+                @click="register"
+                type="submit"
+                class="mt-2"
+              >{{ isSubmitting ? 'Silahkan lengkapi data' : 'Daftar' }}</b-button>
             </b-form>
           </validation-observer>
 
           <p class="text-center mt-2">
             <span>Sudah mempunyai akun?</span>
-            <b-link :to="{name:'login'}">
+            <b-link :to="{ name: 'login' }">
               <span>&nbsp;Silahkan Login</span>
             </b-link>
           </p>
@@ -290,6 +373,9 @@ export default {
       }
       return this.sideImg;
     },
+    cekForm() {
+      return (this.name != '' && this.email != '' && this.no_wa != null && this.password != '' && this.password_confirmation != '' && this.provinsi != '' && this.kab_kota != '' && this.kecamatan != '' && this.tanggal_lahir != '' && this.jenis_kelamin != '')
+    }
   },
   mounted() {
     this.getProvinsi();

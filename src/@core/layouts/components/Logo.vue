@@ -42,7 +42,7 @@ export default {
     };
   },
   props: {
-    width: "String",
+    width: String,
   },
 };
 </script>
