@@ -4,7 +4,10 @@
       <b-col cols="12">
         <b-alert variant="success" show>
           <div class="alert-body">
-            <span>Halaman ini demo dari Dashboard User</span>
+            <span>
+              Ini adalah tampilan demo yang akan segera launcing dari Studenia 😊 . Jangan lupa pantau dan follow ig kita di
+              <a href="https://www.instagram.com/studenia.id/" target="_blank">@studenia.id</a> ❤️
+            </span>
           </div>
         </b-alert>
       </b-col>
@@ -30,7 +33,7 @@
       </b-col>
     </b-row>-->
 
-    <b-row class="match-height">
+    <!-- <b-row class="match-height">
       <b-col sm="12" md="6">
         <ecommerce-meetup :data="data.meetup" />
       </b-col>
@@ -46,9 +49,61 @@
       <b-col sm="12" md="6">
         <ecommerce-goal-overview :data="data.goalOverview" />
       </b-col>
-    </b-row>
+    </b-row>-->
 
     <b-row class="match-height">
+      <b-col cols="12" class="mb-2">
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+          <h3>
+            Try Out Saintek Terbaru
+            <span>
+              <b-badge variant="light-danger">Gratis</b-badge>
+            </span>
+          </h3>
+          <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="success">
+            <feather-icon icon="FileTextIcon" class="mr-50" />
+            <span class="align-middle">Try Out Lainnya</span>
+          </b-button>
+        </div>
+      </b-col>
+      <b-col cols="12" sm="6" md="4">
+        <ecommerce-meetup />
+      </b-col>
+      <b-col cols="12" sm="6" md="4">
+        <ecommerce-meetup />
+      </b-col>
+      <b-col cols="12" sm="6" md="4">
+        <ecommerce-meetup />
+      </b-col>
+    </b-row>
+
+    <b-row class="match-height my-4">
+      <b-col cols="12" class="mb-2">
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+          <h3>
+            Try Out Soshum Terbaru
+            <span>
+              <b-badge variant="light-danger">Gratis</b-badge>
+            </span>
+          </h3>
+          <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info">
+            <feather-icon icon="FileTextIcon" class="mr-50" />
+            <span class="align-middle">Try Out Lainnya</span>
+          </b-button>
+        </div>
+      </b-col>
+      <b-col cols="12" sm="6" md="4">
+        <ecommerce-meetup />
+      </b-col>
+      <b-col cols="12" sm="6" md="4">
+        <ecommerce-meetup />
+      </b-col>
+      <b-col cols="12" sm="6" md="4">
+        <ecommerce-meetup />
+      </b-col>
+    </b-row>
+
+    <b-row class="match-height my-4">
       <!-- <b-col lg="4">
         <b-row class="match-height">
           <b-col lg="6" md="3" cols="6">
@@ -70,9 +125,9 @@
 
     <b-row class="match-height">
       <!-- Company Table Card -->
-      <b-col lg="12">
+      <!-- <b-col lg="12">
         <ecommerce-company-table :table-data="data.companyTable" />
-      </b-col>
+      </b-col>-->
       <!--/ Company Table Card -->
 
       <!-- Developer Meetup Card -->
@@ -110,6 +165,8 @@ import {
   BCarouselSlide,
   BCard,
   BAlert,
+  BButton,
+  BBadge,
 } from "bootstrap-vue";
 
 import { getUserData } from "@/auth/utils";
@@ -125,6 +182,7 @@ import EcommerceBrowserStates from "./EcommerceBrowserStates.vue";
 import EcommerceGoalOverview from "./EcommerceGoalOverview.vue";
 import EcommerceTransactions from "./EcommerceTransactions.vue";
 import CardAdvanceCongratulation from "./CardAdvanceCongratulation.vue";
+import Ripple from "vue-ripple-directive";
 
 export default {
   components: {
@@ -134,6 +192,8 @@ export default {
     BCarouselSlide,
     BCard,
     BAlert,
+    BButton,
+    BBadge,
 
     EcommerceMedal,
     EcommerceStatistics,
@@ -152,6 +212,9 @@ export default {
     return {
       data: {},
     };
+  },
+  directives: {
+    Ripple,
   },
 };
 </script>

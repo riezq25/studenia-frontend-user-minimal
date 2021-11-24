@@ -10,8 +10,6 @@
         Follow ig kami di
         <a href="https://www.instagram.com/studenia.id/" target="_blank">@studenia.id</a> untuk update selanjutnya 😊
       </h4>
-
-      <!-- <b-img fluid :src="imgUrl" alt="Coming soon page" /> -->
     </div>
   </div>
 

@@ -25,22 +25,6 @@
           <b-card-title class="mb-1 font-weight-bold" title-tag="h3">Selamat Datang di Studenia! 👋</b-card-title>
           <b-card-text class="mb-2">Silahkan Login ke Akun kamu</b-card-text>
 
-          <!-- <b-alert variant="primary" show>
-            <div class="alert-body font-small-2">
-              <p>
-                <small class="mr-50">
-                  <span class="font-weight-bold">Admin:</span> admin@demo.com | admin
-                </small>
-              </p>
-              <p>
-                <small class="mr-50">
-                  <span class="font-weight-bold">Client:</span> client@demo.com | client
-                </small>
-              </p>
-            </div>
-            <feather-icon v-b-tooltip.hover.left="'This is just for ACL demo purpose'" icon="HelpCircleIcon" size="18" class="position-absolute" style="top: 10; right: 10;" />
-          </b-alert>-->
-
           <!-- form -->
           <validation-observer ref="loginValidation">
             <b-form class="auth-login-form mt-2" @submit.prevent>

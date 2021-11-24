@@ -16,9 +16,9 @@
         <dark-Toggler class="d-block" />
       </div>
 
-      <cart-dropdown />
+      <!-- <cart-dropdown /> -->
       <!-- <notification-dropdown /> -->
-      <notification-dropdown />
+      <!-- <notification-dropdown /> -->
 
       <b-nav-item-dropdown right toggle-class="d-flex align-items-center dropdown-user-link" class="dropdown-user">
         <template #button-content>

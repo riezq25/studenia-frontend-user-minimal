@@ -1,24 +1,50 @@
 <template>
   <div>
-    <b-row class="mb-2 d-flex justify-content-end"></b-row>
-    <b-row>
-      <b-col v-for="item in items" :key="item.id" sm="6" md="6" lg="4">
-        <b-link>
-          <card-paket-tryout
-            :tampil="item.is_new"
-            :judul="item.nama"
-            :totalSoal="item.total_soal"
-            :durasi="item.total_durasi"
-            :link="getLink(item)"
-            :isNew="item.is_new"
+    <b-overlay :show="isLoading">
+      <template #overlay>
+        <div style="margin-top:-300px">
+          <div class="text-center text-danger">
+            <b-spinner class="align-middle mr-1"></b-spinner>
+            <strong>Sedang memuat data...</strong>
+          </div>
+        </div>
+      </template>
+      <b-row>
+        <b-col cols="12">
+          <div class="d-flex align-items-center justify-content-end">
+            <b-button class="mr-2" variant="primary">
+              <feather-icon icon="RefreshCcwIcon" class="mr-50" />
+              <span class="text-nowrap">Refresh</span>
+            </b-button>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <div v-if="items.length>0">
+          <b-col v-for="item in items" :key="item.id" sm="6" md="6" lg="4">
+            <b-link>
+              <card-paket-tryout :tampil="item.is_new" :judul="item.nama" :totalSoal="item.total_soal" :durasi="item.total_durasi" :link="getLink(item)" :isNew="item.is_new" />
+            </b-link>
+          </b-col>
+        </div>
 
-          />
-        </b-link>
-      </b-col>
-    </b-row>
-    <!-- <div class="d-flex justify-content-center align-items-center">
-      <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router class="mb-0" />
-    </div>-->
+        <div v-else class="mx-auto">
+          <b-col cols="12">
+            <div class="mt-5">
+              <div class="w-100 text-center">
+                <div class="mb-2">
+                  <vuexy-logo width="150" />
+                </div>
+                <h2 class="my-1 fw-bolder">Belum ada paket di try out ini. 😥</h2>
+              </div>
+            </div>
+          </b-col>
+        </div>
+      </b-row>
+      <!-- <div class="d-flex justify-content-center align-items-center">
+        <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router class="mb-0" />
+      </div>-->
+    </b-overlay>
   </div>
 </template>
 
@@ -38,14 +64,16 @@ import {
   BImg,
   BLink,
   BPaginationNav,
+  BOverlay,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import { ref, onMounted } from "@vue/composition-api";
 import CardPaketTryout from "./components/CardPaketTryoutItem.vue";
 import { useRouter } from "@core/utils/utils";
+import VuexyLogo from "@core/layouts/components/Logo.vue";
 
-import repository from "@repofactory"
-const repoTryout = repository.get('tryoutRepository')
+import repository from "@repofactory";
+const repoTryout = repository.get("tryoutRepository");
 
 export default {
   components: {
@@ -64,6 +92,8 @@ export default {
     BLink,
     BPaginationNav,
     CardPaketTryout,
+    BOverlay,
+    VuexyLogo,
   },
   directives: {
     Ripple,
@@ -74,20 +104,21 @@ export default {
     },
   },
   setup() {
-    const { route } = useRouter()
+    const { route } = useRouter();
 
     let items = ref([]);
 
-
-    const isLoading = ref(false)
+    const isLoading = ref(false);
 
     const fetchData = async () => {
-      isLoading.value = true
-      await repoTryout.get(route.value.params.jenis, route.value.params.kategori).then(function (response) {
-        isLoading.value = false
+      isLoading.value = true;
+      await repoTryout
+        .get(route.value.params.jenis, route.value.params.kategori)
+        .then(function (response) {
+          isLoading.value = false;
 
-        items.value = response.data.data
-      })
+          items.value = response.data.data;
+        })
         .catch(function (error) {
           if (error.response) {
             // showToast('Error', error.response.data.message, 'danger', 'AlertTriangleIcon')
@@ -96,26 +127,28 @@ export default {
           } else {
             // showToast('Error', error.message, 'danger', 'AlertTriangleIcon')
           }
-          isLoading.value = false
+          isLoading.value = false;
           // isError.value = true
         });
-    }
+    };
 
     const getLink = (item) => {
-      const params = route.value.params
-      return { name: 'detail-paket-tryout', params: { jenis: params.jenis, kategori: params.kategori, id: item.id } }
-    }
-
+      const params = route.value.params;
+      return {
+        name: "detail-paket-tryout",
+        params: { jenis: params.jenis, kategori: params.kategori, id: item.id },
+      };
+    };
 
     onMounted(async () => {
-      fetchData()
-    })
+      fetchData();
+    });
 
     return {
       items,
 
       // method
-      getLink
+      getLink,
     };
   },
 };
