@@ -235,6 +235,10 @@ export default {
       currentIndex.value = index;
     };
 
+    const handleOk = () => {
+      console.log("aman bos");
+    };
+
     const solidColor = ref([
       { bg: "primary", title: "Soal", data: "30" },
       { bg: "success", title: "Dijawab", data: "30" },
