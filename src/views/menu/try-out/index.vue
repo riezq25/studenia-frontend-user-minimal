@@ -2,7 +2,7 @@
   <div>
     <b-overlay :show="isLoading">
       <template #overlay>
-        <div style="margin-top:-300px">
+        <div class="mt-5">
           <div class="text-center text-danger">
             <b-spinner class="align-middle mr-1"></b-spinner>
             <strong>Sedang memuat data...</strong>
@@ -60,6 +60,8 @@ import {
   BImg,
   BLink,
   BPaginationNav,
+  BOverlay,
+  BSpinner,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import { ref, onMounted } from "@vue/composition-api";
@@ -88,6 +90,8 @@ export default {
     BPaginationNav,
     CardPaketTryout,
     VuexyLogo,
+    BOverlay,
+    BSpinner,
   },
   directives: {
     Ripple,
@@ -140,6 +144,7 @@ export default {
 
     return {
       items,
+      isLoading,
 
       // method
       getLink,

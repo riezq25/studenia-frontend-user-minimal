@@ -4,47 +4,74 @@
       <b-row>
         <b-col sm="12" md="8" lg="8">
           <b-row>
-            <b-col cols="12" v-for="item in tryout.paket_kategoris" :key="item">
-              <b-card-actions :title="item.kategori_soal.nama.toUpperCase()" action-collapse>
+            <b-col cols="12">
+              <!-- <b-card-actions :title="TESKEMAMPUAN" action-collapse>
                 <app-timeline>
                   <app-timeline-item v-for="paketMapel in item.paket_mapels" :key="paketMapel" :title="paketMapel.mapel_soal.nama.toUpperCase()" icon="CircleIcon" :time="paketMapel.pivot.durasi" :soal="paketMapel.jumlah_soal" variant="primary" />
+                </app-timeline>
+              </b-card-actions>-->
+              <b-card-actions title="TKA Saintek" action-collapse>
+                <app-timeline>
+                  <app-timeline-item title="Penalaran Umum" icon="CheckCircleIcon" time="12" soal="15" variant="success" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+
+                  <app-timeline-item title="Pengetahuan dan Pemahaman Umum" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+
+                  <app-timeline-item title="Kemampuan Memahami Bacaan & Menulis" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+
+                  <app-timeline-item title="Kemampuan Kuantitatif" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+
+                  <app-timeline-item title="Bahasa Inggris" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
                 </app-timeline>
               </b-card-actions>
             </b-col>
           </b-row>
         </b-col>
 
-        <b-col>
-          <b-card-actions title="Informasi" action-collapse>
+        <b-col sm="12" md="4" lg="4">
+          <b-card-actions title="Hasil Pengerjaan" action-collapse>
             <div class="mb-2">
               <div class="d-flex flex-column text-muted mb-1">
                 <small>Nama Paket</small>
-                <h4>{{ tryout.nama.toUpperCase() }}</h4>
+                <h4>PAKET GRATIS SOSHUM</h4>
               </div>
 
               <div class="d-flex flex-column text-muted mb-1">
                 <small>Tanggal Penilaian</small>
-                <h4>{{ tryout.tanggal_penilaian }}</h4>
+                <h4>2021-11-27 12:00:00</h4>
               </div>
 
               <div class="d-flex align-items-center mb-1">
                 <p class="d-flex align-items-center text-gray">
                   <feather-icon icon="ClockIcon" size="18" class="mr-1" />
-                  <span>{{ tryout.total_durasi }} Menit</span>
+                  <span>86 Menit</span>
                 </p>
                 <p style="font-size:20px;" class="mx-1 text-gray">|</p>
                 <p class="d-flex align-items-center text-gray">
                   <feather-icon icon="FileTextIcon" size="18" class="mr-1" />
-                  <span>{{ tryout.total_soal }} Soal</span>
+                  <span>57 Soal</span>
                 </p>
               </div>
             </div>
 
-            <div class="w-100 text-center mx-auto">
+            <b-row class="match-height">
+              <b-col cols="12">
+                <div class="text-center">
+                  <h5>Total Hasil Pengerjaan</h5>
+                </div>
+              </b-col>
+              <b-col cols="6">
+                <card-selesai icon="CheckIcon" statistic="50" statistic-title="Soal Benar" color="info" />
+              </b-col>
+              <b-col cols="6">
+                <card-selesai color="warning" icon="XIcon" statistic="7" statistic-title="Soal Salah" />
+              </b-col>
+            </b-row>
+
+            <!-- <div class="w-100 text-center mx-auto">
               <b-button variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
                 <span>Kerjakan</span>
               </b-button>
-            </div>
+            </div>-->
           </b-card-actions>
         </b-col>
       </b-row>
@@ -73,12 +100,14 @@ import { useRouter } from "@core/utils/utils";
 
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
-import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
-import AppTimeline from "@core/components/app-timeline/AppTimeline.vue";
-import AppTimelineItem from "@core/components/app-timeline/TimeLineItem.vue";
+import BCardActions from "./BCardActions.vue";
+import AppTimeline from "./app-timeline/AppTimeline.vue";
+import AppTimelineItem from "./app-timeline/TimeLineItem.vue";
+
 import { BButton, BModal, VBModal, BCardText, BRow, BCol } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import router from "@/router";
+import CardSelesai from "../components/CardSelesai.vue";
 
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
@@ -100,6 +129,7 @@ export default {
     BCol,
     useToast,
     ToastificationContent,
+    CardSelesai,
   },
   directives: {
     "b-modal": VBModal,

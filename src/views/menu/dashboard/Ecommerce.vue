@@ -62,7 +62,9 @@
           </h3>
           <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="success">
             <feather-icon icon="FileTextIcon" class="mr-50" />
-            <span class="align-middle">Try Out Lainnya</span>
+            <span class="align-middle">
+              <router-link :to="{name: 'try-out/selesai'}">Try Out Lainnya</router-link>
+            </span>
           </b-button>
         </div>
       </b-col>

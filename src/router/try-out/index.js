@@ -1,7 +1,7 @@
-import HalamanTryout from "@/views/menu/try-out/index.vue";
-import HalamanDetailTryout from "@/views/menu/try-out/detail/DetailTryout.vue";
-import HalamanAwalTryout from "@/views/menu/try-out/pengerjaan/HalamanAwalPengerjaan.vue";
-import HalamanUjianTryout from "@/views/menu/try-out/pengerjaan/UjianPaketTryout.vue";
+import HalamanTryout from '@/views/menu/try-out/index.vue'
+import HalamanDetailTryout from '@/views/menu/try-out/detail/DetailTryout.vue'
+import HalamanAwalTryout from '@/views/menu/try-out/pengerjaan/HalamanAwalPengerjaan.vue'
+import HalamanUjianTryout from '@/views/menu/try-out/pengerjaan/UjianPaketTryout.vue'
 
 export default [
   //try out gratis
@@ -25,7 +25,6 @@ export default [
     name: 'try-out/gratis/saintek',
     component: HalamanTryout,
   },
-
 
   {
     path: '/try-out/gratis/pengerjaan',
@@ -89,5 +88,12 @@ export default [
       import(
         '@/views/menu/try-out/try-out-premium/cooming-soon/cooming-soon.vue'
       ),
+  },
+
+  //Selesai
+  {
+    path: '/try-out/selesai',
+    name: 'try-out/selesai',
+    component: () => import('@/views/menu/try-out/finish/Finish.vue'),
   },
 ]
