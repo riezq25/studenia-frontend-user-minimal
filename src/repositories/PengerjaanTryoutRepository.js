@@ -13,6 +13,9 @@ export default {
     },
     simpanJawaban(id, payload) {
         return Client.post(`${resource}/simpan/${id}`, payload);
+    },
+    akhiriSesi(id, payload) {
+        return Client.post(`${resource}/end/${id}`, payload);
     }
     // create(payload) {
     //     return Client.post(`${resource}`, payload);

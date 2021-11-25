@@ -60,7 +60,6 @@ import {
   BImg,
   BLink,
   BPaginationNav,
-  BOverlay,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import { ref, onMounted } from "@vue/composition-api";
@@ -88,7 +87,6 @@ export default {
     BLink,
     BPaginationNav,
     CardPaketTryout,
-    BOverlay,
     VuexyLogo,
   },
   directives: {

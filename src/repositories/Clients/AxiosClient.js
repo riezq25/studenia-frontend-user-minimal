@@ -4,15 +4,26 @@ import axios from 'axios'
 const baseDomain = 'http://127.0.0.1:8000'
 const baseURL = `${baseDomain}` // Incase of /api/v1;
 
-const token = localStorage.getItem('token')
-  ? localStorage.getItem('token')
-  : null
-
 // ALL DEFUALT CONFIGURATION HERE
 
-export default axios.create({
+const ajax = axios.create({
   baseURL,
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
 })
+
+ajax.interceptors.request.use(
+  (config) => {
+    let token = localStorage.getItem('token')
+
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+
+    return config
+  },
+
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
+export default ajax

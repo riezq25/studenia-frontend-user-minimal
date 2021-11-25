@@ -30,12 +30,23 @@
             <b-form class="auth-login-form mt-2" @submit.prevent>
               <!-- email -->
               <b-form-group label="Email" label-for="login-email">
-                <validation-provider #default="{ errors }" name="Email" vid="email" rules="required|email">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Email"
+                  vid="email"
+                  rules="required|email"
+                >
                   <b-input-group class="input-group-merge">
                     <b-input-group-prepend is-text>
                       <feather-icon icon="MailIcon" />
                     </b-input-group-prepend>
-                    <b-form-input id="login-email" v-model="userEmail" :state="errors.length > 0 ? false:null" name="login-email" placeholder="john@example.com" />
+                    <b-form-input
+                      id="login-email"
+                      v-model="userEmail"
+                      :state="errors.length > 0 ? false : null"
+                      name="login-email"
+                      placeholder="john@example.com"
+                    />
                   </b-input-group>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -45,18 +56,38 @@
               <b-form-group>
                 <div class="d-flex justify-content-between">
                   <label for="login-password">Password</label>
-                  <b-link :to="{name:'auth-forgot-password'}">
+                  <b-link :to="{ name: 'auth-forgot-password' }">
                     <small>Lupa Password?</small>
                   </b-link>
                 </div>
-                <validation-provider #default="{ errors }" name="Password" vid="password" rules="required">
-                  <b-input-group class="input-group-merge" :class="errors.length > 0 ? 'is-invalid':null">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Password"
+                  vid="password"
+                  rules="required"
+                >
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
+                  >
                     <b-input-group-prepend is-text>
                       <feather-icon icon="LockIcon" />
                     </b-input-group-prepend>
-                    <b-form-input id="login-password" v-model="password" :state="errors.length > 0 ? false:null" class="form-control-merge" :type="passwordFieldType" name="login-password" placeholder="Password" />
+                    <b-form-input
+                      id="login-password"
+                      v-model="password"
+                      :state="errors.length > 0 ? false : null"
+                      class="form-control-merge"
+                      :type="passwordFieldType"
+                      name="login-password"
+                      placeholder="Password"
+                    />
                     <b-input-group-append is-text>
-                      <feather-icon class="cursor-pointer" :icon="passwordToggleIcon" @click="togglePasswordVisibility" />
+                      <feather-icon
+                        class="cursor-pointer"
+                        :icon="passwordToggleIcon"
+                        @click="togglePasswordVisibility"
+                      />
                     </b-input-group-append>
                   </b-input-group>
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -69,7 +100,13 @@
               </b-form-group>
 
               <!-- submit buttons -->
-              <b-button type="submit" variant="primary" block @click="validationForm" :disabled="isSubmiting">
+              <b-button
+                type="submit"
+                variant="primary"
+                block
+                @click="validationForm"
+                :disabled="isSubmiting"
+              >
                 <div v-if="isSubmiting">
                   <b-spinner small />
                   <span class="sr-only">Loading...</span>
@@ -84,7 +121,7 @@
 
           <b-card-text class="text-center mt-2">
             <span>Belum punya Akun?</span>
-            <b-link :to="{name:'register'}">
+            <b-link :to="{ name: 'register' }">
               <span>&nbsp;Buat Akun</span>
             </b-link>
           </b-card-text>
@@ -215,6 +252,7 @@ export default {
             })
             .then((response) => {
               store.state.auth.isLogin = true;
+              store.state.auth.token = response.data.access_token;
               store.state.auth.user = response.data.user;
               store.state.auth.permissions = response.data.user.permissions;
               localStorage.setItem("token", response.data.access_token);
