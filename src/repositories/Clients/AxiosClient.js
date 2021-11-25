@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // const baseDomain = "http://api.studenia.test";
-const baseDomain = 'http://127.0.0.1:8000'
+const baseDomain = 'https://api.studenia.dosendeso.com'
 const baseURL = `${baseDomain}` // Incase of /api/v1;
 
 // ALL DEFUALT CONFIGURATION HERE
