@@ -20,26 +20,22 @@
         </b-col>
       </b-row>
       <b-row>
-        <div v-if="items.length>0">
-          <b-col v-for="item in items" :key="item.id" sm="6" md="6" lg="4">
-            <b-link>
-              <card-paket-tryout :tampil="item.is_new" :judul="item.nama" :totalSoal="item.total_soal" :durasi="item.total_durasi" :link="getLink(item)" :isNew="item.is_new" />
-            </b-link>
-          </b-col>
-        </div>
+        <b-col v-for="item in items" :key="item.id" sm="6" md="6" lg="4">
+          <b-link>
+            <card-paket-tryout :tampil="item.is_new" :judul="item.nama" :totalSoal="item.total_soal" :durasi="item.total_durasi" :link="getLink(item)" :isNew="item.is_new" />
+          </b-link>
+        </b-col>
 
-        <div v-else class="mx-auto">
-          <b-col cols="12">
-            <div class="mt-5">
-              <div class="w-100 text-center">
-                <div class="mb-2">
-                  <vuexy-logo width="150" />
-                </div>
-                <h2 class="my-1 fw-bolder">Belum ada paket di try out ini. 😥</h2>
+        <b-col cols="12">
+          <div class="mt-5" v-if="items.length<=0">
+            <div class="w-100 text-center">
+              <div class="mb-2">
+                <vuexy-logo width="150" />
               </div>
+              <h2 class="my-1 fw-bolder">Belum ada paket di try out ini. 😥</h2>
             </div>
-          </b-col>
-        </div>
+          </div>
+        </b-col>
       </b-row>
       <!-- <div class="d-flex justify-content-center align-items-center">
         <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router class="mb-0" />
