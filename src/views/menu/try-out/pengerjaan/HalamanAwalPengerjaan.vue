@@ -229,7 +229,7 @@ export default {
             Date.parse(tryout.value.selesai) / 1000 -
             Math.floor(Date.now() / 1000);
 
-          if (sisaWaktu.value == 0) {
+          if (sisaWaktu.value < 1) {
             clearInterval(countDown);
             akhiriSesi();
           }

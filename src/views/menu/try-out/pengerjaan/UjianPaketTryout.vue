@@ -344,6 +344,9 @@ const repoPengerjaanTryout = repository.get('pengerjaanTryoutRepository')
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 
+import { useToast } from "vue-toastification/composition";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+
 import Ripple from "vue-ripple-directive";
 import {
     BRow,
@@ -389,7 +392,7 @@ export default {
         BAlert,
         BLink, BCardTitle,
         VBToggle,
-        VueMathjax,
+        VueMathjax, ToastificationContent
 
     },
     directives: {
@@ -399,10 +402,12 @@ export default {
 
     setup() {
         const { route } = useRouter()
+        const toast = useToast();
 
         const soal = ref([]);
         const paket = ref({});
         const sisaWaktu = ref(0)
+        const timerSoal = ref(0)
 
         const formatTime = (seconds) => {
             let m = Math.floor(seconds % 3600 / 60).toString().padStart(2, '0'),
@@ -410,6 +415,18 @@ export default {
 
             return `${m}:${s}`;
         }
+
+        const showToast = (title, text, variant, icon = "BellIcon") => {
+            toast({
+                component: ToastificationContent,
+                props: {
+                    title,
+                    icon,
+                    text,
+                    variant,
+                },
+            });
+        };
 
         const jumlahSoal = computed(() => {
             return soal.value.length
@@ -510,7 +527,6 @@ export default {
         const simpanPaket = () => {
             const params = route.value.params
 
-            console.log(params)
             store.commit('tryout/setPaketMapel', {
                 index_paket_kategori: params.index_paket_kategori,
                 index_paket_mapel: params.index_paket_mapel,
@@ -533,7 +549,14 @@ export default {
             let countDown = setInterval(() => {
                 sisaWaktu.value = (end) - Math.floor(Date.now() / 1000)
 
-                if (sisaWaktu.value == 0) {
+                if (sisaWaktu.value < 1) {
+                    showToast(
+                        "Warning",
+                        'Waktu pengerjaan paket soal ini sudah habis, Anda akan diarahkan ke paket halaman paket tryout.',
+                        "warning",
+                        "AlertTriangleIcon"
+                    );
+
                     clearInterval(countDown)
                     simpanPaket()
                 }
