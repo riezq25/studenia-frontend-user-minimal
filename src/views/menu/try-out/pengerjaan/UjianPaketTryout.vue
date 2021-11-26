@@ -23,7 +23,13 @@
                     >
                         <b-row class="invoice-spacing my-0">
                             <b-col cols="12" class="mb-lg-1 lh-lg">
-                                <p class="font-weight-bolder mb-0">Soal {{ currentIndex + 1 }}</p>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <p class="font-weight-bolder mb-0">Soal {{ currentIndex + 1 }}</p>
+                                    <b-badge variant="primary">
+                                        <feather-icon icon="ClockIcon" class="mr-25" />
+                                        <span>{{ formatTime(timerSoal) }}</span>
+                                    </b-badge>
+                                </div>
 
                                 <vue-mathjax
                                     :safe="false"
@@ -330,7 +336,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from "@vue/composition-api";
+import { ref, onMounted, computed, watch } from "@vue/composition-api";
 import { useRouter } from "@core/utils/utils";
 import store from "@/store/index";
 import router from "@/router";
@@ -366,7 +372,7 @@ import {
     BPopover,
     BAlert,
     BLink,
-    VBToggle,
+    VBToggle, BBadge
 } from "bootstrap-vue";
 import SoalRepository from "../../../../repositories/SoalRepository";
 
@@ -391,7 +397,7 @@ export default {
         BPopover,
         BAlert,
         BLink, BCardTitle,
-        VBToggle,
+        VBToggle, BBadge,
         VueMathjax, ToastificationContent
 
     },
@@ -407,7 +413,8 @@ export default {
         const soal = ref([]);
         const paket = ref({});
         const sisaWaktu = ref(0)
-        const timerSoal = ref(0)
+        const countDownSoal = ref(null)
+        const countDown = ref(null)
 
         const formatTime = (seconds) => {
             let m = Math.floor(seconds % 3600 / 60).toString().padStart(2, '0'),
@@ -415,6 +422,7 @@ export default {
 
             return `${m}:${s}`;
         }
+
 
         const showToast = (title, text, variant, icon = "BellIcon") => {
             toast({
@@ -436,16 +444,19 @@ export default {
         let currentIndex = ref(0);
 
         const clickNext = () => {
+            simpanState()
             if (soal.value.length >= currentIndex.value + 2) {
                 currentIndex.value++;
             }
         };
 
         const clickPrev = () => {
+            simpanState()
             currentIndex.value--;
         };
 
         const clickSoal = (index) => {
+            simpanState()
             currentIndex.value = index;
         };
 
@@ -479,6 +490,7 @@ export default {
         }
 
         const simpanState = () => {
+            clearInterval(countDownSoal)
             const params = route.value.params
             const index = currentIndex.value
             store.commit('tryout/setSoalState', {
@@ -525,6 +537,8 @@ export default {
         }
 
         const simpanPaket = () => {
+            clearInterval(countDownSoal)
+            clearInterval(countDown)
             const params = route.value.params
 
             store.commit('tryout/setPaketMapel', {
@@ -541,12 +555,29 @@ export default {
             router.push({ name: 'start-paket-tryout', params: { jenis: params.jenis, kategori: params.kategori, id: params.id, id_pengerjaan: params.id_pengerjaan } })
         }
 
+        // watch(currentIndex, (val, oldVal) => {
+        //     setInterval(() => {
+        //         soal.value[currentIndex.value].waktu += 1000
+        //     }, 1000);
+
+        // })
+
+        const timerSoal = computed(() => {
+            return soal.value[currentIndex.value].waktu / 1000
+        })
+
         onMounted(() => {
             setCurrentSoal()
+            clearInterval(countDownSoal)
+            clearInterval(countDown)
+
+            countDownSoal.value = setInterval(() => {
+                soal.value[currentIndex.value].waktu += 1000
+            }, 1000);
 
             const end = Math.floor(Date.now() / 1000) + (paket.value.durasi * 60)
 
-            let countDown = setInterval(() => {
+            countDown.value = setInterval(() => {
                 sisaWaktu.value = (end) - Math.floor(Date.now() / 1000)
 
                 if (sisaWaktu.value < 1) {
@@ -574,7 +605,7 @@ export default {
             solidColor,
             pilihJawaban,
             simpanPaket, formatTime,
-            computedSoal
+            computedSoal, timerSoal
         };
     },
 };

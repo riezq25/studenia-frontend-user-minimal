@@ -1,13 +1,21 @@
 <template>
-  <div class="mb-2">
+  <div class="mb-2" v-if="!isLoading">
     <app-collapse accordion :type="'margin'">
       <b-row>
         <b-col sm="12" md="8" lg="8">
           <b-row>
-            <b-col cols="12" v-for="item in tryout.paket_kategoris" :key="item">
+            <b-col cols="12" v-for="item in tryout.paket_kategoris" :key="item.id">
               <b-card-actions :title="item.kategori_soal.nama.toUpperCase()" action-collapse>
                 <app-timeline>
-                  <app-timeline-item v-for="paketMapel in item.paket_mapels" :key="paketMapel" :title="paketMapel.mapel_soal.nama.toUpperCase()" icon="CircleIcon" :time="paketMapel.pivot.durasi" :soal="paketMapel.jumlah_soal" variant="primary" />
+                  <app-timeline-item
+                    v-for="paketMapel in item.paket_mapels"
+                    :key="paketMapel.id"
+                    :title="paketMapel.mapel_soal.nama.toUpperCase()"
+                    icon="CircleIcon"
+                    :time="paketMapel.pivot.durasi"
+                    :soal="paketMapel.jumlah_soal"
+                    variant="primary"
+                  />
                 </app-timeline>
               </b-card-actions>
             </b-col>
@@ -58,10 +66,22 @@
       </div>
     </div>
 
-    <b-modal id="modal-success" ok-variant="success" ok-title="Kerjakan" cancel-title="Batal" cancel-variant="outline-secondary" modal-class="modal-success" centered title="Kerjakan Soal" @ok="requestPengerjaan">
+    <b-modal
+      id="modal-success"
+      ok-variant="success"
+      ok-title="Kerjakan"
+      cancel-title="Batal"
+      cancel-variant="outline-secondary"
+      modal-class="modal-success"
+      centered
+      title="Kerjakan Soal"
+      @ok="requestPengerjaan"
+    >
       <b-card-text>
         Sebelum mengerjakan jangan lupa untuk berdoa dan pastikan jaringan internet Anda lancar. Setelah klik kerjakan Anda harus menyelesaikan semua pengerjaan Anda dan
-        <span class="text-danger fw-bolder">dilarang meninggalkan aplikasi</span>.
+        <span
+          class="text-danger fw-bolder"
+        >dilarang meninggalkan aplikasi</span>.
       </b-card-text>
     </b-modal>
   </div>
@@ -199,12 +219,10 @@ export default {
       });
     };
 
-    onMounted(async () => {
-      fetchData();
-    });
+    fetchData();
 
     return {
-      tryout,
+      tryout, isLoading,
 
       // method
       redirectHalamanPengerjaan,

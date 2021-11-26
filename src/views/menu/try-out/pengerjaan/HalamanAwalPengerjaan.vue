@@ -12,10 +12,20 @@
     <b-row>
       <b-col cols="8">
         <div v-if="!isLoading">
-          <app-collapse accordion :type="'margin'" v-for="(item, index_paket_kategori) in tryout.pengerjaan.paket" :key="item.id">
+          <app-collapse
+            accordion
+            :type="'margin'"
+            v-for="(item, index_paket_kategori) in tryout.pengerjaan.paket"
+            :key="item.id"
+          >
             <b-card-actions :title="item.kategori.nama.toUpperCase()" action-collapse>
               <app-timeline>
-                <app-timeline-item :icon="paketMapel.is_done ? 'CheckCircleIcon' : 'XCircleIcon'" :variant="paketMapel.is_done ? 'success' : 'danger'" v-for="(paketMapel, index_paket_mapel) in item.paket_mapels " :key="paketMapel.id">
+                <app-timeline-item
+                  :icon="paketMapel.is_done ? 'CheckCircleIcon' : 'XCircleIcon'"
+                  :variant="paketMapel.is_done ? 'success' : 'danger'"
+                  v-for="(paketMapel, index_paket_mapel) in item.paket_mapels "
+                  :key="paketMapel.id"
+                >
                   <div>
                     <h4>{{ paketMapel.mapel.nama.toUpperCase() }}</h4>
                     <div class="d-flex align-items-center" style="margin-top:8px">
@@ -30,7 +40,13 @@
                       </p>
                     </div>
 
-                    <b-button v-if="!paketMapel.is_done" v-ripple.400="'rgba(113, 102, 240, 0.15)'" :variant="paketMapel.is_done ? 'outline-success' : 'outline-primary'" :disabled="paketMapel.is_done" @click="redirectHalamanPengerjaan(index_paket_kategori, index_paket_mapel)">Kerjakan</b-button>
+                    <b-button
+                      v-if="!paketMapel.is_done"
+                      v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                      :variant="paketMapel.is_done ? 'outline-success' : 'outline-primary'"
+                      :disabled="paketMapel.is_done"
+                      @click="redirectHalamanPengerjaan(index_paket_kategori, index_paket_mapel)"
+                    >Kerjakan</b-button>
 
                     <b-badge v-else variant="success">
                       <feather-icon icon="CheckCircleIcon" class="mr-25" />
@@ -48,7 +64,9 @@
         <app-collapse accordion :type="'margin'">
           <b-card-actions title="Sisa Waktu" action-collapse>
             <div class="mx-auto w-100 text-center">
-              <span class="text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
+              <span
+                class="text-center mx-auto text-primary display-2 fw-bold"
+              >{{ formatTime(sisaWaktu) }}</span>
             </div>
           </b-card-actions>
         </app-collapse>
@@ -56,14 +74,27 @@
         <app-collapse accordion :type="'margin'">
           <b-card-actions title="Akhiri Sesi" action-collapse>
             <div class="mx-auto w-100 text-center">
-              <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" v-b-modal.modal-danger>Akhiri Sesi</b-button>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="primary"
+                v-b-modal.modal-danger
+              >Akhiri Sesi</b-button>
             </div>
           </b-card-actions>
         </app-collapse>
       </b-col>
     </b-row>
 
-    <b-modal id="modal-danger" ok-variant="danger" ok-title="Yakin" cancel-title="Batal" modal-class="modal-danger" centered title="Danger Modal" @ok="akhiriSesi">
+    <b-modal
+      id="modal-danger"
+      ok-variant="danger"
+      ok-title="Yakin"
+      cancel-title="Batal"
+      modal-class="modal-danger"
+      centered
+      title="Danger Modal"
+      @ok="akhiriSesi"
+    >
       <b-card-text class="text-center text-danger">
         <feather-icon icon="AlertTriangleIcon" size="50" />
         <h4 class="mt-1">Apakah Anda yakin ingin menyimpan semua jawaban dan mengakhiri sesi tryout?</h4>
@@ -124,11 +155,12 @@ export default {
     let tryout = ref(null);
     const isLoading = ref(true);
     const sisaWaktu = ref(0);
+    const countDown = ref(null);
 
     const formatTime = (seconds) => {
       let m = Math.floor((seconds % 3600) / 60)
-          .toString()
-          .padStart(2, "0"),
+        .toString()
+        .padStart(2, "0"),
         s = Math.floor(seconds % 60)
           .toString()
           .padStart(2, "0");
@@ -175,6 +207,7 @@ export default {
       index_paket_mapel
     ) => {
       const params = route.value.params;
+      redirectHalamanPaket
       router.push({
         name: "ujian-paket-tryout",
         params: {
@@ -197,8 +230,7 @@ export default {
     };
 
     const akhiriSesi = async () => {
-      store.commit("tryout/akhiriSesi", tryout.value.pengerjaan);
-      store.commit("tryout/clearState");
+      // store.commit("tryout/akhiriSesi", tryout.value.pengerjaan);
 
       await repoPengerjaanTryout
         .akhiriSesi(route.value.params.id_pengerjaan, {
@@ -206,6 +238,8 @@ export default {
         })
         .then(function (response) {
           // redirectHalamanPaket()
+          clearInterval(countDown);
+          store.commit("tryout/clearState");
 
           router.push("/");
         })
@@ -224,7 +258,7 @@ export default {
 
     onMounted(() => {
       fetchData().then(() => {
-        let countDown = setInterval(() => {
+        countDown.value = setInterval(() => {
           sisaWaktu.value =
             Date.parse(tryout.value.selesai) / 1000 -
             Math.floor(Date.now() / 1000);
