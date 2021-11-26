@@ -32,6 +32,7 @@
 
               <div class="d-flex flex-column text-muted mb-1">
                 <small>Tanggal Penilaian</small>
+                <small>(Pembahasan, rangking dan review pengerjaan)</small>
                 <h4>{{ tryout.tanggal_penilaian }}</h4>
               </div>
 
@@ -58,13 +59,13 @@
       </b-row>
     </app-collapse>
 
-    <div class="w-100 p-0 d-sm-none fixed-bottom">
+    <!-- <div class="w-100 p-0 d-sm-none fixed-bottom">
       <div>
         <b-button block variant="relief-success py-2" v-b-modal.modal-success>
           <span style="font-size:1.2rem">Kerjakan</span>
         </b-button>
       </div>
-    </div>
+    </div> -->
 
     <b-modal
       id="modal-success"

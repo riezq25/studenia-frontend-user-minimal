@@ -1,123 +1,146 @@
 <template>
   <div class="mb-2" v-if="!isLoading">
-    <b-alert variant="primary" show>
-      <div class="alert-body">
-        <span>
-          Silahkan kerjakan paket soal berikut. Paket soal bisa dikerjakan secara acak.
-          <strong>Jangan meninggalkan aplikasi</strong> sebelum klik akhiri sesi ujian.
-        </span>
-      </div>
-    </b-alert>
+    <div v-if="isDone">
+      <b-card class="text-center">
+        <b-card-text>
+          <feather-icon width="100" icon="CheckCircleIcon" />
+          <h3 class="text-primary">Selamat Anda sudah menyelesaikan tryout ini.</h3>
+          <span>Hasil, Nilai, Rangking dan Pembahasan dapat diakses pada tanggal {{ tanggalPenilaian }}</span>
+        </b-card-text>
+        <b-button to="/" variant="primary">Kembali</b-button>
+      </b-card>
+    </div>
 
-    <b-row>
-      <b-col class="d-block d-md-none" cols="12" md="4">
-        <app-collapse accordion :type="'margin'">
-          <b-card-actions title="Sisa Waktu" action-collapse>
-            <div class="mx-auto w-100 text-center">
-              <span class="display-2 text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
-            </div>
-          </b-card-actions>
-        </app-collapse>
-      </b-col>
+    <div v-else>
+      <b-alert variant="primary" show>
+        <div class="alert-body">
+          <span>
+            Silahkan kerjakan paket soal berikut. Paket soal bisa dikerjakan secara acak.
+            <strong>Jangan meninggalkan aplikasi</strong> sebelum klik akhiri sesi ujian.
+          </span>
+        </div>
+      </b-alert>
 
-      <b-col cols="12" md="8">
-        <div v-if="!isLoading">
-          <app-collapse
-            accordion
-            :type="'margin'"
-            v-for="(item, index_paket_kategori) in tryout.pengerjaan.paket"
-            :key="item.id"
-          >
-            <b-card-actions :title="item.kategori.nama.toUpperCase()" action-collapse>
-              <app-timeline>
-                <app-timeline-item
-                  :icon="paketMapel.is_done ? 'CheckCircleIcon' : 'XCircleIcon'"
-                  :variant="paketMapel.is_done ? 'success' : 'danger'"
-                  v-for="(paketMapel, index_paket_mapel) in item.paket_mapels "
-                  :key="paketMapel.id"
-                >
-                  <div>
-                    <h4>{{ paketMapel.mapel.nama.toUpperCase() }}</h4>
-                    <div class="d-flex align-items-center" style="margin-top:8px">
-                      <p class="d-flex align-items-center text-gray">
-                        <feather-icon icon="ClockIcon" size="18" style="margin-right:5px" />
-                        <span>{{ paketMapel.durasi }} Menit</span>
-                      </p>
-                      <p style="font-size:20px;" class="mx-1 text-gray">|</p>
-                      <p class="d-flex align-items-center text-gray">
-                        <feather-icon icon="FileTextIcon" size="18" style="margin-right:5px" />
-                        <span>{{ paketMapel.soals.length }} Soal</span>
-                      </p>
-                    </div>
-
-                    <b-button
-                      v-if="!paketMapel.is_done"
-                      v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                      :variant="paketMapel.is_done ? 'outline-success' : 'outline-primary'"
-                      :disabled="paketMapel.is_done"
-                      @click="redirectHalamanPengerjaan(index_paket_kategori, index_paket_mapel)"
-                    >Kerjakan</b-button>
-
-                    <b-badge v-else variant="success">
-                      <feather-icon icon="CheckCircleIcon" class="mr-25" />
-                      <span>Sudah dikerjakan</span>
-                    </b-badge>
-                  </div>
-                </app-timeline-item>
-              </app-timeline>
+      <b-row>
+        <b-col class="d-block d-md-none" cols="12" md="4">
+          <app-collapse accordion :type="'margin'">
+            <b-card-actions title="Sisa Waktu" action-collapse>
+              <div class="mx-auto w-100 text-center">
+                <span
+                  class="display-2 text-center mx-auto text-primary display-2 fw-bold"
+                >{{ formatTime(sisaWaktu) }}</span>
+              </div>
             </b-card-actions>
           </app-collapse>
-        </div>
-      </b-col>
+        </b-col>
 
-      <b-col class="d-block d-md-none" cols="12" md="4">
-        <app-collapse accordion :type="'margin'">
-          <b-card-actions title="Akhiri Sesi" action-collapse>
-            <div class="mx-auto w-100 text-center">
-              <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" v-b-modal.modal-danger>Akhiri Sesi</b-button>
-            </div>
-          </b-card-actions>
-        </app-collapse>
-      </b-col>
+        <b-col cols="12" md="8">
+          <div v-if="!isLoading">
+            <app-collapse
+              accordion
+              :type="'margin'"
+              v-for="(item, index_paket_kategori) in tryout.pengerjaan.paket"
+              :key="item.id"
+            >
+              <b-card-actions :title="item.kategori.nama.toUpperCase()" action-collapse>
+                <app-timeline>
+                  <app-timeline-item
+                    :icon="paketMapel.is_done ? 'CheckCircleIcon' : 'XCircleIcon'"
+                    :variant="paketMapel.is_done ? 'success' : 'danger'"
+                    v-for="(paketMapel, index_paket_mapel) in item.paket_mapels "
+                    :key="paketMapel.id"
+                  >
+                    <div>
+                      <h4>{{ paketMapel.mapel.nama.toUpperCase() }}</h4>
+                      <div class="d-flex align-items-center" style="margin-top:8px">
+                        <p class="d-flex align-items-center text-gray">
+                          <feather-icon icon="ClockIcon" size="18" style="margin-right:5px" />
+                          <span>{{ paketMapel.durasi }} Menit</span>
+                        </p>
+                        <p style="font-size:20px;" class="mx-1 text-gray">|</p>
+                        <p class="d-flex align-items-center text-gray">
+                          <feather-icon icon="FileTextIcon" size="18" style="margin-right:5px" />
+                          <span>{{ paketMapel.soals.length }} Soal</span>
+                        </p>
+                      </div>
 
-      <b-col class="d-none d-md-block" cols="12" md="4">
-        <app-collapse accordion :type="'margin'">
-          <b-card-actions title="Sisa Waktu" action-collapse>
-            <div class="mx-auto w-100 text-center">
-              <span class="display-2 text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
-            </div>
-          </b-card-actions>
-        </app-collapse>
+                      <b-button
+                        v-if="!paketMapel.is_done"
+                        v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                        :variant="paketMapel.is_done ? 'outline-success' : 'outline-primary'"
+                        :disabled="paketMapel.is_done"
+                        @click="redirectHalamanPengerjaan(index_paket_kategori, index_paket_mapel)"
+                      >Kerjakan</b-button>
 
-        <app-collapse accordion :type="'margin'">
-          <b-card-actions title="Akhiri Sesi" action-collapse>
-            <div class="mx-auto w-100 text-center">
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="primary"
-                v-b-modal.modal-danger
-              >Akhiri Sesi</b-button>
-            </div>
-          </b-card-actions>
-        </app-collapse>
-      </b-col>
-    </b-row>
+                      <b-badge v-else variant="success">
+                        <feather-icon icon="CheckCircleIcon" class="mr-25" />
+                        <span>Sudah dikerjakan</span>
+                      </b-badge>
+                    </div>
+                  </app-timeline-item>
+                </app-timeline>
+              </b-card-actions>
+            </app-collapse>
+          </div>
+        </b-col>
 
-    <b-modal
-      id="modal-danger"
-      ok-variant="danger"
-      ok-title="Yakin"
-      cancel-title="Batal"
-      modal-class="modal-danger"
-      centered
-      title="Danger Modal"
-      @ok="akhiriSesi"
-    >
-      <b-card-text class="text-center text-danger">
-        <feather-icon icon="AlertTriangleIcon" size="50" />
-        <h4 class="mt-1">Apakah Anda yakin ingin menyimpan semua jawaban dan mengakhiri sesi tryout?</h4>
-      </b-card-text>
-    </b-modal>
+        <b-col class="d-block d-md-none" cols="12" md="4">
+          <app-collapse accordion :type="'margin'">
+            <b-card-actions title="Akhiri Sesi" action-collapse>
+              <div class="mx-auto w-100 text-center">
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  v-b-modal.modal-danger
+                >Akhiri Sesi</b-button>
+              </div>
+            </b-card-actions>
+          </app-collapse>
+        </b-col>
+
+        <b-col class="d-none d-md-block" cols="12" md="4">
+          <app-collapse accordion :type="'margin'">
+            <b-card-actions title="Sisa Waktu" action-collapse>
+              <div class="mx-auto w-100 text-center">
+                <span
+                  class="display-2 text-center mx-auto text-primary display-2 fw-bold"
+                >{{ formatTime(sisaWaktu) }}</span>
+              </div>
+            </b-card-actions>
+          </app-collapse>
+
+          <app-collapse accordion :type="'margin'">
+            <b-card-actions title="Akhiri Sesi" action-collapse>
+              <div class="mx-auto w-100 text-center">
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  v-b-modal.modal-danger
+                >Akhiri Sesi</b-button>
+              </div>
+            </b-card-actions>
+          </app-collapse>
+        </b-col>
+      </b-row>
+
+      <b-modal
+        id="modal-danger"
+        ok-variant="danger"
+        ok-title="Yakin"
+        cancel-title="Batal"
+        modal-class="modal-danger"
+        centered
+        title="Danger Modal"
+        @ok="akhiriSesi"
+      >
+        <b-card-text class="text-center text-danger">
+          <feather-icon icon="AlertTriangleIcon" size="50" />
+          <h4
+            class="mt-1"
+          >Apakah Anda yakin ingin menyimpan semua jawaban dan mengakhiri sesi tryout?</h4>
+        </b-card-text>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -143,7 +166,7 @@ import {
   BCardText,
   BRow,
   BCol,
-  BAlert,
+  BAlert, BCard, BLink
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import router from "@/router";
@@ -161,7 +184,7 @@ export default {
     BRow,
     BCol,
     BAlert,
-    BBadge,
+    BBadge, BCard,BLink
   },
   directives: {
     "b-modal": VBModal,
@@ -172,8 +195,10 @@ export default {
 
     let tryout = ref(null);
     const isLoading = ref(true);
+    const isDone = ref(false);
     const sisaWaktu = ref(0);
     const countDown = ref(null);
+    const tanggalPenilaian = ref(null);
 
     const formatTime = (seconds) => {
       let m = Math.floor((seconds % 3600) / 60)
@@ -193,6 +218,7 @@ export default {
         route.value.params.id_pengerjaan == store.state.tryout.data.id
       ) {
         tryout.value = store.state.tryout.data;
+        tanggalPenilaian.value = tryout.value.tanggal_penilaian;
         isLoading.value = false;
       } else {
         await repoPengerjaanTryout
@@ -204,6 +230,7 @@ export default {
             store.state.tryout.data = response.data.data;
 
             tryout.value = response.data.data;
+            tanggalPenilaian.value = tryout.value.tanggal_penilaian;
             sisaWaktu.value = response.data.data.durasi * 60 * 1000;
           })
           .catch(function (error) {
@@ -259,7 +286,9 @@ export default {
           clearInterval(countDown);
           store.commit("tryout/clearState");
 
-          router.push("/");
+          isDone.value = true
+
+          // router.push("/");
         })
         .catch(function (error) {
           if (error.response) {
@@ -292,7 +321,7 @@ export default {
     return {
       tryout,
       isLoading,
-      sisaWaktu,
+      sisaWaktu, isDone, tanggalPenilaian,
 
       // method
       redirectHalamanPengerjaan,
