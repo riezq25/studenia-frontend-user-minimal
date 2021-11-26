@@ -10,7 +10,17 @@
     </b-alert>
 
     <b-row>
-      <b-col cols="8">
+      <b-col class="d-block d-md-none" cols="12" md="4">
+        <app-collapse accordion :type="'margin'">
+          <b-card-actions title="Sisa Waktu" action-collapse>
+            <div class="mx-auto w-100 text-center">
+              <span class="display-2 text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
+            </div>
+          </b-card-actions>
+        </app-collapse>
+      </b-col>
+
+      <b-col cols="12" md="8">
         <div v-if="!isLoading">
           <app-collapse
             accordion
@@ -60,13 +70,21 @@
         </div>
       </b-col>
 
-      <b-col cols="4">
+      <b-col class="d-block d-md-none" cols="12" md="4">
+        <app-collapse accordion :type="'margin'">
+          <b-card-actions title="Akhiri Sesi" action-collapse>
+            <div class="mx-auto w-100 text-center">
+              <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" v-b-modal.modal-danger>Akhiri Sesi</b-button>
+            </div>
+          </b-card-actions>
+        </app-collapse>
+      </b-col>
+
+      <b-col class="d-none d-md-block" cols="12" md="4">
         <app-collapse accordion :type="'margin'">
           <b-card-actions title="Sisa Waktu" action-collapse>
             <div class="mx-auto w-100 text-center">
-              <span
-                class="text-center mx-auto text-primary display-2 fw-bold"
-              >{{ formatTime(sisaWaktu) }}</span>
+              <span class="display-2 text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
             </div>
           </b-card-actions>
         </app-collapse>
@@ -289,4 +307,10 @@ export default {
 .timeline-item[data-v-ffb3c5da]:not(:last-of-type) {
   padding-bottom: 15px !important;
 }
+
+/* @include media-breakpoint-down(md) {
+  .display-2 {
+    font-size: 5rem !important;
+  }
+} */
 </style>
