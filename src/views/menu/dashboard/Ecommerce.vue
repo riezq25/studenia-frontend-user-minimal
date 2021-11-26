@@ -62,9 +62,7 @@
           </h3>
           <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="success">
             <feather-icon icon="FileTextIcon" class="mr-50" />
-            <span class="align-middle">
-              <router-link :to="{name: 'try-out/selesai'}">Try Out Lainnya</router-link>
-            </span>
+            <router-link style="color:white" :to="{name: 'try-out/gratis/saintek', params: { jenis: 'gratis', kategori: 'saintek' }}">Try Out Lainnya</router-link>
           </b-button>
         </div>
       </b-col>
@@ -90,7 +88,7 @@
           </h3>
           <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="info">
             <feather-icon icon="FileTextIcon" class="mr-50" />
-            <span class="align-middle">Try Out Lainnya</span>
+            <router-link style="color:white" :to="{name: 'try-out/gratis/soshum', params: { jenis: 'gratis', kategori: 'soshum' }}">Try Out Lainnya</router-link>
           </b-button>
         </div>
       </b-col>
