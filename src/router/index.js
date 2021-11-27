@@ -54,8 +54,8 @@ router.beforeEach((to, from, next) => {
   const user = store.state.auth.user
   const permissions = user ? user.permissions : null
 
-  console.log('from', from.path)
-  console.log('to', to.path)
+  // console.log('from', from.path)
+  // console.log('to', to.path)
 
   if (to.path !== '/login' && !isLogin) next({ name: 'login' })
   else next()
