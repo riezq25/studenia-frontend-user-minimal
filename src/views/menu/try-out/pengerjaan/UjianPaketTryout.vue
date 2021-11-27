@@ -435,16 +435,16 @@ export default {
         const countDownSoal = ref(null);
         const countDown = ref(null);
 
-        const formatTime = (seconds) => {
-            let m = Math.floor((seconds % 3600) / 60)
-                .toString()
-                .padStart(2, "0"),
-                s = Math.floor(seconds % 60)
-                    .toString()
-                    .padStart(2, "0");
+       const formatTime = (seconds) => {
+      let m = Math.floor((seconds) / 60)
+        .toString()
+        .padStart(2, "0"),
+        s = Math.floor(seconds % 60)
+          .toString()
+          .padStart(2, "0");
 
-            return `${m}:${s}`;
-        };
+      return `${m}:${s}`;
+    };
 
         const showToast = (title, text, variant, icon = "BellIcon") => {
             toast({
