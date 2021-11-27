@@ -4,39 +4,46 @@ export default {
     state: {
         isUjian: false,
         data: null,
-        serverTime: null,
+        selisihWaktu: null,
+        waktuSelesaiTryout: null,
     },
     getters: {
 
     },
     mutations: {
-        setJawaban(state, payload) {
-            state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals[payload.current_index].jawaban = payload.jawaban.toUpperCase()
-        },
-        setRagu(state, payload) {
-            state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals[payload.current_index].ragu = payload.ragu
-        },
-        setRagu(state, payload) {
-            state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals[payload.current_index].waktu = payload.waktu
-        },
-        setSoalState(state, payload){
+        setSoalState(state, payload) {
             state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals[payload.current_index] = payload.soal
         },
         setPaketMapel(state, payload) {
-            state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].soals = payload.soals
+            let current = state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel]
 
-            state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel].is_done = true
+            current.soals = payload.soals
+            current.finished_at = Math.floor((Date.now() / 1000) + state.selisihWaktu)
+            current.is_done = true
+            current.waktu = current.finished_at - current.start_at
+        },
+
+        setWaktuMulaiMapel(state, payload) {
+            let current = state.data.pengerjaan.paket[payload.index_paket_kategori].paket_mapels[payload.index_paket_mapel]
+
+            if (current.start_at == null) {
+                current.start_at = Math.floor((Date.now() / 1000) + state.selisihWaktu)
+            }
         },
         simpanSesi(state, pengerjaan) {
             state.data.pengerjaan = pengerjaan
         },
-        setServerTime(state, timestamp) {
-            state.serverTime = timestamp
+        setSelisihWaktu(state, waktu) {
+            state.selisihWaktu = waktu
+        },
+        setWaktuSelesaiTryout(state, waktu) {
+            state.waktuSelesaiTryout = waktu
         },
         clearState(state) {
             state.isUjian = false
             state.data = null
-            state.serverTime = null
+            state.selisihWaktu = null
+            state.waktuSelesaiTryout = null
         }
     },
     actions: {

@@ -148,6 +148,7 @@
 import { ref, onMounted, computed } from "@vue/composition-api";
 import { useRouter } from "@core/utils/utils";
 import store from "@/store/index";
+const { DateTime } = require("luxon");
 
 import repository from "@repofactory";
 const repoTryout = repository.get("tryoutRepository");
@@ -184,7 +185,7 @@ export default {
     BRow,
     BCol,
     BAlert,
-    BBadge, BCard,BLink
+    BBadge, BCard, BLink
   },
   directives: {
     "b-modal": VBModal,
@@ -229,6 +230,10 @@ export default {
             store.state.tryout.isUjian = true;
             store.state.tryout.data = response.data.data;
 
+            let selisih = (Date.parse(response.data.data.server_time) / 1000) - (Math.floor(Date.now() / 1000))
+            store.commit("tryout/setSelisihWaktu", selisih);
+            store.commit("tryout/setWaktuSelesaiTryout", Date.parse(response.data.data.selesai) / 1000);
+
             tryout.value = response.data.data;
             tanggalPenilaian.value = tryout.value.tanggal_penilaian;
             sisaWaktu.value = response.data.data.durasi * 60 * 1000;
@@ -267,6 +272,8 @@ export default {
     };
 
     const redirectHalamanPaket = (index_paket_kategori, index_paket_mapel) => {
+      clearInterval(countDown.value);
+
       const params = route.value.params;
       router.push({
         path: "/try-out/:jenis/:kategori",
@@ -275,15 +282,44 @@ export default {
     };
 
     const akhiriSesi = async () => {
-      // store.commit("tryout/akhiriSesi", tryout.value.pengerjaan);
+      const params = route.value.params;
+      const current = store.state.tryout.data.pengerjaan.paket
+
+      let data = current.map(val => {
+        let paketMapels = val.paket_mapels.map(mapel => {
+
+          let soals = mapel.soals.map(soal => {
+            return {
+              id: soal.id,
+              jawaban: soal.jawaban,
+              ragu: soal.ragu,
+              waktu: soal.waktu,
+            }
+          })
+
+          return {
+            id: mapel.id,
+            finished_at: mapel.finished_at,
+            is_done: mapel.is_done,
+            start_at: mapel.start_at,
+            waktu: mapel.waktu,
+            soals
+          }
+        })
+
+        return {
+          id: val.id,
+          paket_mapels: paketMapels
+        }
+      })
 
       await repoPengerjaanTryout
-        .akhiriSesi(route.value.params.id_pengerjaan, {
-          pengerjaan: tryout.value.pengerjaan.paket,
+        .akhiriSesi(params.id_pengerjaan, {
+          pengerjaan: data,
         })
         .then(function (response) {
           // redirectHalamanPaket()
-          clearInterval(countDown);
+          clearInterval(countDown.value);
           store.commit("tryout/clearState");
 
           isDone.value = true
@@ -305,15 +341,16 @@ export default {
 
     onMounted(() => {
       fetchData().then(() => {
+        let selisih = store.state.tryout.selisihWaktu
         countDown.value = setInterval(() => {
           sisaWaktu.value =
-            Date.parse(tryout.value.selesai) / 1000 -
-            Math.floor(Date.now() / 1000);
+            store.state.tryout.waktuSelesaiTryout -
+            Math.floor((Date.now() / 1000) + selisih);
 
           if (sisaWaktu.value < 1) {
-            clearInterval(countDown);
             akhiriSesi();
           }
+
         }, 1000);
       });
     });

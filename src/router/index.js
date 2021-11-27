@@ -10,6 +10,9 @@ import materiRoute from '@/router/materi'
 import kontribusiPengguna from '@/router/kontribusi-pengguna'
 import othersRoute from '@/router/others'
 
+import repository from "@repofactory";
+const authRepo = repository.get("auth");
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -49,13 +52,28 @@ const router = new VueRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const isLogin = store.state.auth.isLogin
   const user = store.state.auth.user
   const permissions = user ? user.permissions : null
 
-  // console.log('from', from.path)
-  // console.log('to', to.path)
+  if (!isLogin && localStorage.getItem('token')) {
+    authRepo.user()
+      .then((response) => {
+        store.state.auth.isLogin = true;
+        store.state.auth.token = localStorage.getItem('token')
+        store.state.auth.user = response.data.user;
+        store.state.auth.permissions = response.data.user.permissions;
+
+        if (to.name != 'login') {
+          next(to.path)
+        }
+      })
+
+  }
+
+  console.log('from', from)
+  console.log('to', to)
 
   if (to.path !== '/login' && !isLogin) next({ name: 'login' })
   else next()
