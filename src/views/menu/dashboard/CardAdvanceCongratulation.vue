@@ -1,26 +1,30 @@
 <template>
   <b-card text-variant="center" class="card card-congratulations">
-    <!-- images -->
-    <b-img :src="require('@/assets/images/elements/decore-left.png')" class="congratulations-img-left" />
-    <b-img :src="require('@/assets/images/elements/decore-right.png')" class="congratulations-img-right" />
-    <!--/ images -->
+    <div>
+      <b-img :src="require('@/assets/images/elements/decore-left.png')" class="congratulations-img-left" />
+      <b-img :src="require('@/assets/images/elements/decore-right.png')" class="congratulations-img-right" />
 
-    <b-avatar variant="primary" size="70" class="shadow mb-2">
-      <feather-icon size="28" icon="AwardIcon" />
-    </b-avatar>
-    <h1 class="mb-1 mt-50 text-white">Selamat Datang {{nama}}</h1>
-    <b-card-text class="m-auto w-75">
-      <h4 style="color:white">
-        Selamat belajar di
-        <strong>Studenia</strong> 😊
-        <br />
-        <span class="mt-1">Chek selalu update informasi dari kami.</span>
-      </h4>
-    </b-card-text>
-    <blockquote class="blockquote mt-3">
-      <p class="mb-0">"Ikhlaslah belajar. Bahkan yang paling berilmu dan bijak di antara kita masih rajin belajar."</p>
-      <p class="blockquote-footer" style="font-size:1rem; font-style:italic; margin-top:5px">Mario Teguh</p>
-    </blockquote>
+      <b-avatar variant="primary" size="70" class="shadow mb-2">
+        <feather-icon size="28" icon="AwardIcon" />
+      </b-avatar>
+    </div>
+    <div class="mt-2 py-2 d-flex flex-column justify-content-around h-75">
+      <h1 class="mb-1 text-white">Selamat Datang {{nama}}</h1>
+      <div class="py-2">
+        <b-card-text class="m-auto w-75">
+          <h4 style="color:white">
+            Selamat belajar di
+            <strong>Studenia</strong> 😊
+            <br />
+            <span class="mt-1">Chek selalu update informasi dari kami.</span>
+          </h4>
+        </b-card-text>
+      </div>
+      <blockquote class="blockquote">
+        <p class="mb-0">"Ikhlaslah belajar. Bahkan yang paling berilmu dan bijak di antara kita masih rajin belajar."</p>
+        <p class="blockquote-footer" style="font-size:1rem; font-style:italic; margin-top:5px">Mario Teguh</p>
+      </blockquote>
+    </div>
   </b-card>
 </template>
 
