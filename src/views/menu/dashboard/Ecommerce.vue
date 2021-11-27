@@ -14,8 +14,9 @@
       <b-col md="6" cols="12">
         <b-card>
           <b-carousel id="carousel-interval" controls indicators img-width="100%" img-height="100%" :interval="5000">
-            <b-carousel-slide rounded :img-src="require('@/assets/images/slider/02.jpg')" />
-            <b-carousel-slide rounded :img-src="require('@/assets/images/slider/03.jpg')" />
+            <b-carousel-slide rounded :img-src="require('@/assets/images/slider/kampus-1.jpeg')" />
+            <b-carousel-slide rounded :img-src="require('@/assets/images/slider/kampus-2.jpeg')" />
+            <b-carousel-slide rounded :img-src="require('@/assets/images/slider/kampus-3.jpeg')" />
           </b-carousel>
         </b-card>
       </b-col>
