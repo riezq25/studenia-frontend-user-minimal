@@ -96,4 +96,67 @@ export default [
     name: 'try-out/selesai',
     component: () => import('@/views/menu/try-out/finish/Finish.vue'),
   },
+
+  // history
+  {
+    path: '/history/tryout/:id_paket_tryout',
+    name: 'halaman-history-tryout',
+    meta: {
+      pageTitle: "Riwayat",
+      breadcrumb: [
+        {
+          text: "Tryout",
+          active: true
+        },
+        {
+          text: "Riwayat",
+          active: true
+        },
+      ],
+    },
+    component: () => import('@/views/menu/try-out/history/HalamanHistoryTryout.vue'),
+  },
+
+  // Review
+  {
+    path: '/review/tryout/:id_pengerjaan',
+    name: 'halaman-awal-review-tryout',
+    meta: {
+      pageTitle: "Review",
+      breadcrumb: [
+        {
+          text: "Tryout",
+          active: true
+        },
+        {
+          text: "Review",
+          active: true
+        },
+      ],
+    },
+    component: () => import('@/views/menu/try-out/review/HalamanAwalReviewTryout.vue'),
+  },
+
+  {
+    path: '/review/tryout/:id_pengerjaan/:index_paket_kategori/:index_paket_mapel',
+    name: 'halaman-review-tryout',
+    meta: {
+      pageTitle: "Pembahasan",
+      breadcrumb: [
+        {
+          text: "Tryout",
+          active: true
+        },
+        {
+          text: "Review",
+          active: true
+        },
+        {
+          text: "Pembahasan",
+          active: true
+        },
+      ],
+    },
+    component: () => import('@/views/menu/try-out/review/HalamanReviewTryout.vue'),
+  },
 ]

@@ -49,9 +49,7 @@ export default {
             commit("resetState");
         },
         async user({ commit }) {
-            console.log("asdfasdfsaf");
             let result = await Auth.user();
-            console.log(result);
             commit("loginSuccess", result.data);
         },
     },
