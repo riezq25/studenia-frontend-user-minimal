@@ -50,9 +50,25 @@
             </div>
 
             <div class="w-100 text-center mx-auto">
-              <b-button variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
-                <span>Kerjakan</span>
-              </b-button>
+              <div>
+                <div class="mb-2 d-flex justify-content-arround">
+                  <b-button
+                    variant="outline-secondary py-1 mx-auto"
+                    size="sm"
+                    @click="redirectHistoryPengerjaan"
+                  >
+                    <span>Histori dan Review</span>
+                  </b-button>
+
+                  <b-button variant="outline-secondary py-1 mx-auto" size="sm">
+                    <span>Perangkingan</span>
+                  </b-button>
+                </div>
+
+                <b-button variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
+                  <span>Kerjakan</span>
+                </b-button>
+              </div>
             </div>
           </b-card-actions>
         </b-col>
@@ -65,7 +81,7 @@
           <span style="font-size:1.2rem">Kerjakan</span>
         </b-button>
       </div>
-    </div> -->
+    </div>-->
 
     <b-modal
       id="modal-success"
@@ -220,6 +236,18 @@ export default {
       });
     };
 
+    const redirectHistoryPengerjaan = () => {
+      const params = route.value.params;
+
+      router.push({
+        name: "halaman-history-tryout",
+        params: {
+          id_paket_tryout: params.id,
+        },
+      });
+    };
+
+
     fetchData();
 
     return {
@@ -228,6 +256,7 @@ export default {
       // method
       redirectHalamanPengerjaan,
       requestPengerjaan,
+      redirectHistoryPengerjaan
     };
   },
 };

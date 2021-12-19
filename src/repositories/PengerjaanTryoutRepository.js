@@ -16,15 +16,11 @@ export default {
     },
     akhiriSesi(id, payload) {
         return Client.post(`${resource}/end/${id}`, payload);
-    }
-    // create(payload) {
-    //     return Client.post(`${resource}`, payload);
-    // },
-    // update(payload, id) {
-    //     return Client.post(`${resource}/${id}?_method=PUT`, payload);
-    // },
-    // delete(id) {
-    //     return Client.delete(`${resource}/${id}`)
-    // },
-
+    },
+    review(id) {
+        return Client.get(`${resource}/review/${id}`);
+    },
+    histories(id) {
+        return Client.get(`${resource}/histories/${id}`);
+    },
 };

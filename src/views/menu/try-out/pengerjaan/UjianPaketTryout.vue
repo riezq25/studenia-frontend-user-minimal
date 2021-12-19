@@ -436,7 +436,7 @@ export default {
         const countDown = ref(null);
 
         const formatTime = (seconds) => {
-            let m = Math.floor((seconds % 3600) / 60)
+            let m = Math.floor((seconds) / 60)
                 .toString()
                 .padStart(2, "0"),
                 s = Math.floor(seconds % 60)
@@ -603,7 +603,7 @@ export default {
         });
 
         const setCurrentSoal = () => {
-            if(!store.state.tryout.data){
+            if (!store.state.tryout.data) {
                 redirectHalamanAwalPengerjaan()
             }
 
