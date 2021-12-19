@@ -9,9 +9,10 @@ import kelasOnlineRoute from '@/router/kelas-online'
 import materiRoute from '@/router/materi'
 import kontribusiPengguna from '@/router/kontribusi-pengguna'
 import othersRoute from '@/router/others'
+import pembahasan from '@/router/pembahasan'
 
-import repository from "@repofactory";
-const authRepo = repository.get("auth");
+import repository from '@repofactory'
+const authRepo = repository.get('auth')
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,7 @@ const router = new VueRouter({
       component: () => import('@/views/menu/dashboard/Ecommerce.vue'),
       meta: {
         pageTitle: 'Dashboard',
+        requireAuth: true,
       },
     },
     ...authRoute,
@@ -36,6 +38,7 @@ const router = new VueRouter({
     ...kelasOnlineRoute,
     ...materiRoute,
     ...kontribusiPengguna,
+    ...pembahasan,
     ...othersRoute,
     {
       path: '/error-404',
@@ -58,18 +61,16 @@ router.beforeEach(async (to, from, next) => {
   const permissions = user ? user.permissions : null
 
   if (!isLogin && localStorage.getItem('token')) {
-    authRepo.user()
-      .then((response) => {
-        store.state.auth.isLogin = true;
-        store.state.auth.token = localStorage.getItem('token')
-        store.state.auth.user = response.data.user;
-        store.state.auth.permissions = response.data.user.permissions;
+    authRepo.user().then((response) => {
+      store.state.auth.isLogin = true
+      store.state.auth.token = localStorage.getItem('token')
+      store.state.auth.user = response.data.user
+      store.state.auth.permissions = response.data.user.permissions
 
-        if (to.name != 'login') {
-          next(to.path)
-        }
-      })
-
+      if (to.name != 'login') {
+        next(to.path)
+      }
+    })
   }
 
   console.log('from', from)

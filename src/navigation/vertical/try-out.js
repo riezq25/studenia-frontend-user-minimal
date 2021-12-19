@@ -9,19 +9,22 @@ export default [
       {
         title: 'TO Campuran',
         route: {
-          name: 'try-out/gratis/campuran', params: { jenis: 'gratis', kategori: 'campuran' }
+          name: 'try-out/gratis/campuran',
+          params: { jenis: 'gratis', kategori: 'campuran' },
         },
       },
       {
         title: 'TO Saintek',
         route: {
-          name: 'try-out/gratis/saintek', params: { jenis: 'gratis', kategori: 'saintek' }
+          name: 'try-out/gratis/saintek',
+          params: { jenis: 'gratis', kategori: 'saintek' },
         },
       },
       {
         title: 'TO Soshum',
         route: {
-          name: 'try-out/gratis/soshum', params: { jenis: 'gratis', kategori: 'soshum' }
+          name: 'try-out/gratis/soshum',
+          params: { jenis: 'gratis', kategori: 'soshum' },
         },
       },
     ],

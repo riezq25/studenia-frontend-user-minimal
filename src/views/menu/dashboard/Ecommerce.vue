@@ -2,6 +2,7 @@
   <section id="dashboard-ecommerce">
     <b-row class="match-height mb-4">
       <b-col cols="12">
+        <router-link :to="{name: 'try-out/selesai'}">Selesai</router-link>
         <b-alert variant="success" show>
           <div class="alert-body">
             <span>

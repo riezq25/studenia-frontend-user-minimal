@@ -41,7 +41,7 @@
         <b-row class="my-1">
           <b-col>
             <div class="d-flex align-items-center text-gray">
-              <h5 class="mb-0 mr-2">Durasi Pengerjaan:</h5>
+              <h5 class="mb-0 mr-2">Rata rata waktu pengerjaan:</h5>
               <div class="d-flex align-items-center">
                 <feather-icon icon="ClockIcon" size="18" style="margin-right:5px" />
                 <span>10 Menit</span>

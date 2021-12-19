@@ -5,23 +5,63 @@
         <b-col sm="12" md="8" lg="8">
           <b-row>
             <b-col cols="12">
-              <!-- <b-card-actions :title="TESKEMAMPUAN" action-collapse>
-                <app-timeline>
-                  <app-timeline-item v-for="paketMapel in item.paket_mapels" :key="paketMapel" :title="paketMapel.mapel_soal.nama.toUpperCase()" icon="CircleIcon" :time="paketMapel.pivot.durasi" :soal="paketMapel.jumlah_soal" variant="primary" />
-                </app-timeline>
-              </b-card-actions>-->
-              <b-card-actions title="TKA Saintek" action-collapse>
-                <app-timeline>
-                  <app-timeline-item title="Penalaran Umum" icon="CheckCircleIcon" time="12" soal="15" variant="success" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+              <b-card-actions title="Analisis TRY OUT Kamu " action-collapse>
+                <b-row class="mt-2">
+                  <b-col class="my-0 my-md-0" cols="12" md="6">
+                    <h5>
+                      Nama Try OUT:
+                      <span style="font-weight:900">TRY OUT UTBK Bla...</span>
+                    </h5>
+                  </b-col>
+                  <b-col class="my-0 my-md-0" cols="12" md="6">
+                    <div class="text-md-right">
+                      <h5>
+                        Kelompok Ujian :
+                        <b-badge variant="light-warning">SAINTEK</b-badge>
+                      </h5>
+                    </div>
+                  </b-col>
+                </b-row>
 
-                  <app-timeline-item title="Pengetahuan dan Pemahaman Umum" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+                <hr />
 
-                  <app-timeline-item title="Kemampuan Memahami Bacaan & Menulis" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+                <b-row class="mt-2">
+                  <b-col class="my-2 my-md-0" cols="12" md="6">
+                    <div class="text-center">
+                      <h5>Nilai Akhir kamu:</h5>
+                      <chart-gradient />
+                      <h4>Dari nilai Maksimum</h4>
+                    </div>
+                  </b-col>
+                  <b-col class="my-2 my-md-0" cols="12" md="6">
+                    <div class="text-center">
+                      <h5>Peringkat:</h5>
+                      <chart />
+                      <h4>
+                        159 dari
+                        <span style="font-weight: bold">596</span> peserta
+                      </h4>
+                    </div>
+                  </b-col>
+                </b-row>
 
-                  <app-timeline-item title="Kemampuan Kuantitatif" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
+                <b-row class="my-2">
+                  <b-col>
+                    <hr />
+                  </b-col>
+                </b-row>
 
-                  <app-timeline-item title="Bahasa Inggris" icon="CircleIcon" time="12" soal="15" variant="info" jenis="TKA Saintek" mapel="Mata Pelajaran" />
-                </app-timeline>
+                <b-row>
+                  <b-col>
+                    <h5>Daftar Mapel:</h5>
+                  </b-col>
+                </b-row>
+
+                <b-row>
+                  <b-col cols="12">
+                    <card-mapel />
+                  </b-col>
+                </b-row>
               </b-card-actions>
             </b-col>
           </b-row>
@@ -67,6 +107,12 @@
               </b-col>
             </b-row>
 
+            <b-row class="mt-2">
+              <b-col cols="12">
+                <h5>Rata-rata waktu pengerjaan: 89:00</h5>
+              </b-col>
+            </b-row>
+
             <!-- <div class="w-100 text-center mx-auto">
               <b-button variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
                 <span>Kerjakan</span>
@@ -77,13 +123,13 @@
       </b-row>
     </app-collapse>
 
-    <div class="w-100 p-0 d-sm-none fixed-bottom">
+    <!-- <div class="w-100 p-0 d-sm-none fixed-bottom">
       <div>
         <b-button block variant="relief-success py-2" v-b-modal.modal-success>
           <span style="font-size:1.2rem">Kerjakan</span>
         </b-button>
       </div>
-    </div>
+    </div>-->
 
     <b-modal id="modal-success" ok-variant="success" ok-title="Kerjakan" cancel-title="Batal" cancel-variant="outline-secondary" modal-class="modal-success" centered title="Kerjakan Soal" @ok="requestPengerjaan">
       <b-card-text>
@@ -104,10 +150,23 @@ import BCardActions from "./BCardActions.vue";
 import AppTimeline from "./app-timeline/AppTimeline.vue";
 import AppTimelineItem from "./app-timeline/TimeLineItem.vue";
 
-import { BButton, BModal, VBModal, BCardText, BRow, BCol } from "bootstrap-vue";
+import ChartGradient from "./component/ChartGradient.vue";
+import Chart from "./component/Chart.vue";
+
+import {
+  BButton,
+  BModal,
+  VBModal,
+  BCardText,
+  BRow,
+  BCol,
+  BTable,
+  BBadge,
+} from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import router from "@/router";
 import CardSelesai from "../components/CardSelesai.vue";
+import CardMapel from "./CardMapel.vue";
 
 import { useToast } from "vue-toastification/composition";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
@@ -130,6 +189,11 @@ export default {
     useToast,
     ToastificationContent,
     CardSelesai,
+    BTable,
+    BBadge,
+    ChartGradient,
+    Chart,
+    CardMapel,
   },
   directives: {
     "b-modal": VBModal,
@@ -233,12 +297,81 @@ export default {
       fetchData();
     });
 
+    const fields = [
+      "id",
+      "first_name",
+      "email",
+      "gender",
+      "ip_address",
+      {
+        key: "Phone",
+        label: "Phone",
+      },
+      "Country",
+    ];
+
+    const items = [
+      {
+        id: "1",
+        first_name: "Marybelle",
+        last_name: "Della Scala",
+        email: "mdellascala0@opensource.org",
+        gender: "Female",
+        ip_address: "85.254.7.181",
+        Phone: "+86 350 673 7985",
+        Country: "China",
+      },
+      {
+        id: "2",
+        first_name: "Octavia",
+        last_name: "Tohill",
+        email: "otohill1@google.co.jp",
+        gender: "Female",
+        ip_address: "93.70.144.212",
+        Phone: "+63 938 283 0018",
+        Country: "Philippines",
+      },
+      {
+        id: "3",
+        first_name: "Jennie",
+        last_name: "Geroldi",
+        email: "jgeroldi2@slideshare.net",
+        gender: "Female",
+        ip_address: "76.145.147.212",
+        Phone: "+81 235 674 0110",
+        Country: "Japan",
+      },
+      {
+        id: "4",
+        first_name: "Vanya",
+        last_name: "Wharby",
+        email: "vwharby3@mozilla.org",
+        gender: "Male",
+        ip_address: "139.234.247.155",
+        Phone: "+30 349 556 7375",
+        Country: "Greece",
+      },
+      {
+        id: "5",
+        first_name: "Olenka",
+        last_name: "Brawley",
+        email: "obrawleyc@adobe.com",
+        gender: "Female",
+        ip_address: "166.183.163.155",
+        Phone: "+62 841 824 0990",
+        Country: "Indonesia",
+      },
+    ];
+
     return {
       tryout,
 
       // method
       redirectHalamanPengerjaan,
       requestPengerjaan,
+
+      fields,
+      items,
     };
   },
 };
