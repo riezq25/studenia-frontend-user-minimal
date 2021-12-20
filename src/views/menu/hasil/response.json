@@ -1,0 +1,151 @@
+{
+  "status": "success",
+  "code": 200,
+  "message": "Pengerjaan ditemukan",
+  "data": {
+    "user": { "id": 3, "nama": "RIzqi Ari" },
+    "paket_tryout": {
+      "id": 12,
+      "nama": "TRY OUT 01 TKA SOSHUM",
+      "total_durasi": 90,
+      "total_soal": 60,
+      "kategori": { "id": 1, "kode": "SOSHUM", "nama": "SOSHUM", "created_at": null, "updated_at": null }
+    },
+    "penilaian": [
+      {
+        "id": 3,
+        "benar": 11,
+        "salah": 49,
+        "kosong": 0,
+        "ragu": 0,
+        "waktu": 127000,
+        "total_soal": 60,
+        "paket_mapels": [
+          {
+            "id": 6,
+            "benar": 2,
+            "salah": 13,
+            "kosong": 0,
+            "ragu": 0,
+            "waktu": 25000,
+            "total_soal": 15,
+            "nilai": 102,
+            "info": {
+              "id": 6,
+              "nama": "UJI COBA TO 07 EKONOMI",
+              "mapel_soal_id": 6,
+              "created_at": "2021-11-26T07:27:45.000000Z",
+              "updated_at": "2021-11-26T07:27:45.000000Z",
+              "mapel_soal": {
+                "id": 6,
+                "kategori_soal_id": 3,
+                "kode": "ekonomi",
+                "nama": "IPS Ekonomi",
+                "keterangan": null,
+                "created_at": "2021-11-24T12:34:37.000000Z",
+                "updated_at": "2021-11-24T12:34:37.000000Z"
+              }
+            }
+          },
+          {
+            "id": 7,
+            "benar": 3,
+            "salah": 12,
+            "kosong": 0,
+            "ragu": 0,
+            "waktu": 32000,
+            "total_soal": 15,
+            "nilai": 121.8,
+            "info": {
+              "id": 7,
+              "nama": "UJI COBA TO 07 GEOGRAFI",
+              "mapel_soal_id": 7,
+              "created_at": "2021-11-26T07:28:14.000000Z",
+              "updated_at": "2021-11-26T07:28:14.000000Z",
+              "mapel_soal": {
+                "id": 7,
+                "kategori_soal_id": 3,
+                "kode": "geografi",
+                "nama": "IPS Geografi",
+                "keterangan": null,
+                "created_at": "2021-11-24T12:34:37.000000Z",
+                "updated_at": "2021-11-24T12:34:37.000000Z"
+              }
+            }
+          },
+          {
+            "id": 8,
+            "benar": 1,
+            "salah": 14,
+            "kosong": 0,
+            "ragu": 0,
+            "waktu": 42000,
+            "total_soal": 15,
+            "nilai": 63.5,
+            "info": {
+              "id": 8,
+              "nama": "UJI COBA TO 07 SOSIOLOGI",
+              "mapel_soal_id": 8,
+              "created_at": "2021-11-26T07:28:52.000000Z",
+              "updated_at": "2021-11-26T07:28:52.000000Z",
+              "mapel_soal": {
+                "id": 8,
+                "kategori_soal_id": 3,
+                "kode": "sosiologi",
+                "nama": "IPS Sosiologi",
+                "keterangan": null,
+                "created_at": "2021-11-24T12:34:37.000000Z",
+                "updated_at": "2021-11-24T12:34:37.000000Z"
+              }
+            }
+          },
+          {
+            "id": 9,
+            "benar": 5,
+            "salah": 10,
+            "kosong": 0,
+            "ragu": 0,
+            "waktu": 28000,
+            "total_soal": 15,
+            "nilai": 267.7,
+            "info": {
+              "id": 9,
+              "nama": "UJI COBA TO 07 SEJARAH",
+              "mapel_soal_id": 9,
+              "created_at": "2021-11-26T07:29:16.000000Z",
+              "updated_at": "2021-11-26T07:29:16.000000Z",
+              "mapel_soal": {
+                "id": 9,
+                "kategori_soal_id": 3,
+                "kode": "sejarah",
+                "nama": "IPS Sejarah",
+                "keterangan": null,
+                "created_at": "2021-11-24T12:34:37.000000Z",
+                "updated_at": "2021-11-24T12:34:37.000000Z"
+              }
+            }
+          }
+        ],
+        "paket_kategori": {
+          "id": 3,
+          "nama": "UJI COBA TRY OUT 07 TKA SOSHUM",
+          "kategori_soal_id": 3,
+          "total_durasi": 90,
+          "total_soal": 60,
+          "created_at": "2021-11-26T07:41:08.000000Z",
+          "updated_at": "2021-11-26T07:41:08.000000Z",
+          "kategori_soal": {
+            "id": 3,
+            "kode": "tka-soshum",
+            "nama": "Tes Kemampuan Akademik Soshum",
+            "keterangan": null,
+            "created_at": "2021-11-24T12:34:37.000000Z",
+            "updated_at": "2021-11-24T12:34:37.000000Z"
+          }
+        }
+      }
+    ],
+    "informasi": { "total_nilai": 555, "nilai_maximal": 3448.9, "rangking": 14, "total_siswa": 16, "peluang": "RENDAH" },
+    "quartil": { "0%": 0, "Q1": 752.85, "Q2": 1401.55, "Q3": 1734.2, "100%": 1965.9, "IQR": 981.35 }
+  }
+}

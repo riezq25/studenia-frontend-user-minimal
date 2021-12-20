@@ -1,9 +1,8 @@
 <template>
   <div>
-    {{response}}
     <b-row class="match-height">
       <b-col>
-        <ecommerce-statistics></ecommerce-statistics>
+        <ecommerce-statistics :tryOut="tryOut"></ecommerce-statistics>
       </b-col>
     </b-row>
     <b-row class="match-height">
@@ -13,7 +12,7 @@
             <b-card-title>Perbandingan Jawaban Keseluruhan</b-card-title>
           </b-card-header>
           <div class="d-flex justify-content-center md:flex-none">
-            <nilai-total></nilai-total>
+            <nilai-total :jawaban="jawaban"></nilai-total>
           </div>
         </b-card>
       </b-col>
@@ -22,8 +21,8 @@
           <b-card-header style="padding-left:0">
             <b-card-title>Total Waktu Keseluruhan Setiap Mapel</b-card-title>
           </b-card-header>
-          <div class="d-flex justify-content-center md:flex-none">
-            <waktu-keseluruhan></waktu-keseluruhan>
+          <div class="d-flex justify-content-center md:flex-none mt-2">
+            <waktu-keseluruhan :total_waktu="total_waktu"></waktu-keseluruhan>
           </div>
         </b-card>
       </b-col>
@@ -32,48 +31,29 @@
       <b-col md="4" class="mx-auto">
         <b-card>
           <b-card-header>
-            <b-card-title>Nilai TPS</b-card-title>
+            <b-card-title>Perbandingan Jawaban {{tryOut.nama_tryout}}</b-card-title>
           </b-card-header>
           <div class="d-flex justify-content-center md:flex-none">
-            <donut-to></donut-to>
+            <donut-to :total_jawaban="total_jawaban"></donut-to>
           </div>
         </b-card>
       </b-col>
       <b-col md="8">
         <b-card>
           <b-card-header>
-            <b-card-title>Grafik Per Mapel TPS</b-card-title>
+            <b-card-title>Grafik Per Mapel {{tryOut.nama_tryout}}</b-card-title>
           </b-card-header>
-          <batang-to></batang-to>
+          <batang-to :jawaban_mapel="jawaban_mapel"></batang-to>
         </b-card>
       </b-col>
     </b-row>
-    <b-row class="match-height">
-      <b-col md="4" class="mx-auto">
-        <b-card>
-          <b-card-header>
-            <b-card-title>Nilai TKA Soshum</b-card-title>
-          </b-card-header>
-          <div class="d-flex justify-content-center md:flex-none">
-            <donut-to></donut-to>
-          </div>
-        </b-card>
-      </b-col>
-      <b-col md="8">
-        <b-card>
-          <b-card-header>
-            <b-card-title>Grafik Per Mapel TPA SOSHUM</b-card-title>
-          </b-card-header>
-          <batang-to></batang-to>
-        </b-card>
-      </b-col>
-    </b-row>
-    <b-row>
+
+    <!-- <b-row>
       <b-col cols="12">
         <tabel-peringkat></tabel-peringkat>
       </b-col>
-    </b-row>
-    <b-row>
+    </b-row>-->
+    <!-- <b-row>
       <b-col cols="12">
         <b-card>
           <b-card-header>
@@ -114,15 +94,11 @@
                 <label>Jurusan</label>
                 <v-select :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" :value="roleFilter" :options="roleOptions" class="w-100" :reduce="val => val.value" @input="(val) => $emit('update:roleFilter', val)" />
               </b-col>
-              <!-- <b-col cols="12" md="6" class="mb-md-0 mb-2">
-                <label>Plan</label>
-                <v-select :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'" :value="planFilter" :options="planOptions" class="w-100" :reduce="val => val.value" @input="(val) => $emit('update:planFilter', val)" />
-              </b-col>-->
             </b-row>
           </b-card-body>
         </b-card>
       </b-col>
-    </b-row>
+    </b-row>-->
   </div>
 </template>
 
@@ -154,11 +130,13 @@ import Hasil from "./Hasil.vue";
 import WaktuKeseluruhan from "./WaktuKeseluruhan.vue";
 import TabelPeringkat from "./TabelPeringkat.vue";
 
+import { ref, onMounted } from "@vue/composition-api";
+
 //tps
 import DonutTo from "./tryout/DonutTo.vue";
 import BatangTo from "./tryout/BatangTo.vue";
 
-//json
+//response
 import response from "./response.json";
 
 export default {
@@ -192,22 +170,141 @@ export default {
     DonutTo,
     BatangTo,
   },
-  data() {
+
+  setup() {
+    let data = response.data;
+
+    const { nama, total_durasi, total_soal, kategori } = data.paket_tryout;
+    const { total_nilai, nilai_maximal, rangking, total_siswa, peluang } =
+      data.informasi;
+
+    //fungsi cari quartil berapa dan rangking
+    const { IQR, ...filteredQuartil } = data.quartil;
+
+    let entries = Object.entries(filteredQuartil);
+    let indexQuartil = null;
+    for (let [index, [key, value]] of entries.entries()) {
+      if (total_nilai > value) {
+        indexQuartil = index;
+      }
+    }
+    indexQuartil += 1;
+
+    const cariQuartil = (index) => {
+      let hasil = null;
+      switch (index) {
+        case 0:
+          hasil = 0;
+          break;
+
+        case 1:
+          hasil = 25;
+          break;
+
+        case 2:
+          hasil = 50;
+          break;
+
+        case 3:
+          hasil = 75;
+          break;
+
+        case 4:
+          hasil = 100;
+          break;
+
+        default:
+          hasil = 0;
+          break;
+      }
+      return hasil;
+    };
+
+    //===CARD TRY OUT===
+    let tryOut = {
+      nama_tryout: nama,
+      waktu_pengerjaan: total_durasi,
+      nama_kategori: kategori.nama,
+      total_nilai,
+      rangking,
+      total_siswa,
+      peluang,
+      quartil: cariQuartil(indexQuartil),
+    };
+
+    //===CARD PENILAIAN===
+    //nilai total
+    let { benar, salah } = data.penilaian[0];
+
+    let jawaban = {
+      benar,
+      salah,
+      total_soal,
+    };
+
+    //waktu keseluruhan
+    let { waktu, paket_mapels } = data.penilaian[0];
+    let waktu_keseluruhan = [];
+    for (let i = 0; i < paket_mapels.length; i++) {
+      const mapel = paket_mapels[i];
+      waktu_keseluruhan.push({
+        mapel_waktu: mapel.waktu,
+        nama_mapel: mapel.info.mapel_soal.nama,
+      });
+    }
+
+    let total_waktu = {
+      waktu_total: waktu,
+      waktu_keseluruhan,
+    };
+
+    //===CARD PER TRY OUT===
+    let total_benar = data.penilaian[0].benar;
+    let total_salah = data.penilaian[0].salah;
+    let total_kosong = data.penilaian[0].kosong;
+
+    let total_jawaban = {
+      total_benar,
+      total_salah,
+      total_kosong,
+    };
+
+    let jawaban_mapel = [];
+
+    for (let i = 0; i < paket_mapels.length; i++) {
+      const mapel = paket_mapels[i];
+      jawaban_mapel.push({
+        benar: mapel.benar,
+        salah: mapel.salah,
+        kosong: mapel.kosong,
+        nama_mapel: mapel.info.mapel_soal.nama,
+      });
+    }
+
+    onMounted(() => {});
+
     return {
-      downImg: require("@/assets/images/pages/coming-soon.svg"),
       response,
+      data,
+
+      //card 1 -> try out
+      tryOut,
+
+      // card 2 -> jawaban, total waktu seluruh mapel
+      jawaban,
+      total_waktu,
+
+      // card 3 -> perbandingan jawaban mapel, dan batang setiap mapel
+      total_jawaban,
+      jawaban_mapel,
     };
   },
-  computed: {
-    imgUrl() {
-      if (store.state.appConfig.layout.skin === "dark") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.downImg = require("@/assets/images/pages/coming-soon-dark.svg");
-        return this.downImg;
-      }
-      return this.downImg;
-    },
-  },
+
+  // data() {
+  //   return {
+  //     response,
+  //   };
+  // },
 };
 </script>
 

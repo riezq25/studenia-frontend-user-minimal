@@ -37,7 +37,6 @@ import kelasOnline from './kelas-online'
 import materi from './materi'
 import kontribusi from './kontribusi'
 import others from './others'
-import pembahasan from './pembahasan'
 
 // Array of sections
-export default [...dashboard, ...tryOut, ...drillingSoal, ...kelasOnline, ...materi, ...kontribusi, ...pembahasan, ...others]
+export default [...dashboard, ...tryOut, ...drillingSoal, ...kelasOnline, ...materi, ...kontribusi, ...others]

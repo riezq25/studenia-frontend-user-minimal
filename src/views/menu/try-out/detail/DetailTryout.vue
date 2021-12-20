@@ -7,15 +7,7 @@
             <b-col cols="12" v-for="item in tryout.paket_kategoris" :key="item.id">
               <b-card-actions :title="item.kategori_soal.nama.toUpperCase()" action-collapse>
                 <app-timeline>
-                  <app-timeline-item
-                    v-for="paketMapel in item.paket_mapels"
-                    :key="paketMapel.id"
-                    :title="paketMapel.mapel_soal.nama.toUpperCase()"
-                    icon="CircleIcon"
-                    :time="paketMapel.pivot.durasi"
-                    :soal="paketMapel.jumlah_soal"
-                    variant="primary"
-                  />
+                  <app-timeline-item v-for="paketMapel in item.paket_mapels" :key="paketMapel.id" :title="paketMapel.mapel_soal.nama.toUpperCase()" icon="CircleIcon" :time="paketMapel.pivot.durasi" :soal="paketMapel.jumlah_soal" variant="primary" />
                 </app-timeline>
               </b-card-actions>
             </b-col>
@@ -32,7 +24,7 @@
 
               <div class="d-flex flex-column text-muted mb-1">
                 <small>Tanggal Penilaian</small>
-                <small>(Pembahasan, rangking dan review pengerjaan)</small>
+                <small style="margin-bottom:3.5px">(Pembahasan, rangking dan review pengerjaan)</small>
                 <h4>{{ tryout.tanggal_penilaian }}</h4>
               </div>
 
@@ -51,23 +43,15 @@
 
             <div class="w-100 text-center mx-auto">
               <div>
-                <div class="mb-2 d-flex justify-content-arround">
-                  <b-button
-                    variant="outline-secondary py-1 mx-auto"
-                    size="sm"
-                    @click="redirectHistoryPengerjaan"
-                  >
+                <div class="mb-2 d-flex justify-content-arround flex-wrap">
+                  <b-button class="mt-1" variant="outline-secondary py-1 mx-auto" size="sm" @click="redirectHistoryPengerjaan">
                     <span>Histori dan Review</span>
                   </b-button>
 
-                  <b-button variant="outline-secondary py-1 mx-auto" size="sm">
-                    <span>Perangkingan</span>
+                  <b-button class="mt-1" variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
+                    <span>Kerjakan</span>
                   </b-button>
                 </div>
-
-                <b-button variant="relief-success py-1 mx-auto" v-b-modal.modal-success>
-                  <span>Kerjakan</span>
-                </b-button>
               </div>
             </div>
           </b-card-actions>
@@ -83,22 +67,10 @@
       </div>
     </div>-->
 
-    <b-modal
-      id="modal-success"
-      ok-variant="success"
-      ok-title="Kerjakan"
-      cancel-title="Batal"
-      cancel-variant="outline-secondary"
-      modal-class="modal-success"
-      centered
-      title="Kerjakan Soal"
-      @ok="requestPengerjaan"
-    >
+    <b-modal id="modal-success" ok-variant="success" ok-title="Kerjakan" cancel-title="Batal" cancel-variant="outline-secondary" modal-class="modal-success" centered title="Kerjakan Soal" @ok="requestPengerjaan">
       <b-card-text>
         Sebelum mengerjakan jangan lupa untuk berdoa dan pastikan jaringan internet Anda lancar. Setelah klik kerjakan Anda harus menyelesaikan semua pengerjaan Anda dan
-        <span
-          class="text-danger fw-bolder"
-        >dilarang meninggalkan aplikasi</span>.
+        <span class="text-danger fw-bolder">dilarang meninggalkan aplikasi</span>.
       </b-card-text>
     </b-modal>
   </div>
@@ -247,16 +219,16 @@ export default {
       });
     };
 
-
     fetchData();
 
     return {
-      tryout, isLoading,
+      tryout,
+      isLoading,
 
       // method
       redirectHalamanPengerjaan,
       requestPengerjaan,
-      redirectHistoryPengerjaan
+      redirectHistoryPengerjaan,
     };
   },
 };
