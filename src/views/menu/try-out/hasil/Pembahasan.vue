@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-if="isLoaded">
     <b-row class="match-height">
       <b-col>
-        <ecommerce-statistics :tryOut="tryOut"></ecommerce-statistics>
+        <statistik-try-out :statistik="hasil"></statistik-try-out>
       </b-col>
     </b-row>
     <b-row class="match-height">
@@ -12,38 +12,38 @@
             <b-card-title>Perbandingan Jawaban Keseluruhan</b-card-title>
           </b-card-header>
           <div class="d-flex justify-content-center md:flex-none">
-            <nilai-total :jawaban="jawaban"></nilai-total>
+            <nilai-total :jawaban="hasil"></nilai-total>
           </div>
         </b-card>
       </b-col>
       <b-col md="7">
         <b-card>
           <b-card-header style="padding-left:0">
-            <b-card-title>Total Waktu Keseluruhan Setiap Mapel</b-card-title>
+            <b-card-title>Total Waktu Pengerjaan Kamu Setiap Mapel</b-card-title>
           </b-card-header>
           <div class="d-flex justify-content-center md:flex-none mt-2">
-            <waktu-keseluruhan :total_waktu="total_waktu"></waktu-keseluruhan>
+            <waktu-keseluruhan :total_waktu="hasil"></waktu-keseluruhan>
           </div>
         </b-card>
       </b-col>
     </b-row>
-    <b-row class="match-height">
+    <b-row v-for="penilaian in hasil.penilaian" :key="penilaian.id" class="match-height">
       <b-col md="4" class="mx-auto">
         <b-card>
           <b-card-header>
-            <b-card-title>Perbandingan Jawaban {{tryOut.nama_tryout}}</b-card-title>
+            <b-card-title>Perbandingan Jawaban {{penilaian.paket_kategori.kategori_soal.nama}}</b-card-title>
           </b-card-header>
           <div class="d-flex justify-content-center md:flex-none">
-            <donut-to :total_jawaban="total_jawaban"></donut-to>
+            <donut-to :total_jawaban="penilaian"></donut-to>
           </div>
         </b-card>
       </b-col>
       <b-col md="8">
         <b-card>
           <b-card-header>
-            <b-card-title>Grafik Per Mapel {{tryOut.nama_tryout}}</b-card-title>
+            <b-card-title>Grafik Per Mapel {{penilaian.paket_kategori.kategori_soal.nama}}</b-card-title>
           </b-card-header>
-          <batang-to :jawaban_mapel="jawaban_mapel"></batang-to>
+          <batang-to :jawaban_mapel="penilaian"></batang-to>
         </b-card>
       </b-col>
     </b-row>
@@ -52,8 +52,8 @@
       <b-col cols="12">
         <tabel-peringkat></tabel-peringkat>
       </b-col>
-    </b-row>-->
-    <!-- <b-row>
+    </b-row>
+    <b-row>
       <b-col cols="12">
         <b-card>
           <b-card-header>
@@ -123,21 +123,24 @@ import {
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import VuexyLogo from "@core/layouts/components/Logo.vue";
-import store from "@/store/index";
 import NilaiTotal from "./NilaiTotal.vue";
-import EcommerceStatistics from "./EcommerceStatistics.vue";
+//card
+import StatistikTryOut from "./StatistikTryOut.vue";
 import Hasil from "./Hasil.vue";
 import WaktuKeseluruhan from "./WaktuKeseluruhan.vue";
 import TabelPeringkat from "./TabelPeringkat.vue";
-
-import { ref, onMounted } from "@vue/composition-api";
 
 //tps
 import DonutTo from "./tryout/DonutTo.vue";
 import BatangTo from "./tryout/BatangTo.vue";
 
-//response
-import response from "./response.json";
+import { useToast } from "vue-toastification/composition";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+
+import { ref, onMounted, reactive, toRefs } from "@vue/composition-api";
+import { useRouter } from "@core/utils/utils";
+import repository from "@repofactory";
+const repoHasilTryOut = repository.get("HasilTryOutRepository");
 
 export default {
   components: {
@@ -160,8 +163,8 @@ export default {
     vSelect,
 
     //
+    StatistikTryOut,
     NilaiTotal,
-    EcommerceStatistics,
     Hasil,
     WaktuKeseluruhan,
     TabelPeringkat,
@@ -172,139 +175,185 @@ export default {
   },
 
   setup() {
-    let data = response.data;
+    const { route } = useRouter();
+    const toast = useToast();
+    const isLoading = ref(false);
+    const isLoaded = ref(false);
 
-    const { nama, total_durasi, total_soal, kategori } = data.paket_tryout;
-    const { total_nilai, nilai_maximal, rangking, total_siswa, peluang } =
-      data.informasi;
+    // hasil fetch
+    let hasil = ref({});
 
-    //fungsi cari quartil berapa dan rangking
-    const { IQR, ...filteredQuartil } = data.quartil;
-
-    let entries = Object.entries(filteredQuartil);
-    let indexQuartil = null;
-    for (let [index, [key, value]] of entries.entries()) {
-      if (total_nilai > value) {
-        indexQuartil = index;
-      }
-    }
-    indexQuartil += 1;
-
-    const cariQuartil = (index) => {
-      let hasil = null;
-      switch (index) {
-        case 0:
-          hasil = 0;
-          break;
-
-        case 1:
-          hasil = 25;
-          break;
-
-        case 2:
-          hasil = 50;
-          break;
-
-        case 3:
-          hasil = 75;
-          break;
-
-        case 4:
-          hasil = 100;
-          break;
-
-        default:
-          hasil = 0;
-          break;
-      }
-      return hasil;
-    };
-
-    //===CARD TRY OUT===
-    let tryOut = {
-      nama_tryout: nama,
-      waktu_pengerjaan: total_durasi,
-      nama_kategori: kategori.nama,
-      total_nilai,
-      rangking,
-      total_siswa,
-      peluang,
-      quartil: cariQuartil(indexQuartil),
-    };
-
-    //===CARD PENILAIAN===
-    //nilai total
-    let { benar, salah } = data.penilaian[0];
-
-    let jawaban = {
-      benar,
-      salah,
-      total_soal,
-    };
-
-    //waktu keseluruhan
-    let { waktu, paket_mapels } = data.penilaian[0];
-    let waktu_keseluruhan = [];
-    for (let i = 0; i < paket_mapels.length; i++) {
-      const mapel = paket_mapels[i];
-      waktu_keseluruhan.push({
-        mapel_waktu: mapel.waktu,
-        nama_mapel: mapel.info.mapel_soal.nama,
+    const showToast = (title, text, variant, icon = "BellIcon") => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title,
+          icon,
+          text,
+          variant,
+        },
       });
-    }
-
-    let total_waktu = {
-      waktu_total: waktu,
-      waktu_keseluruhan,
     };
 
-    //===CARD PER TRY OUT===
-    let total_benar = data.penilaian[0].benar;
-    let total_salah = data.penilaian[0].salah;
-    let total_kosong = data.penilaian[0].kosong;
-
-    let total_jawaban = {
-      total_benar,
-      total_salah,
-      total_kosong,
+    const fetchData = async () => {
+      await repoHasilTryOut
+        .get(route.value.params.id_pengerjaan)
+        .then((response) => {
+          hasil.value = response.data.data;
+          console.log(hasil.value);
+          isLoaded.value = true;
+        })
+        .catch((error) => {
+          if (error.response) {
+            showToast(
+              "Error",
+              error.response.data.message,
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else if (error.request) {
+            showToast(
+              "Error",
+              "Tidak bisa request data ke server",
+              "danger",
+              "AlertTriangleIcon"
+            );
+          } else {
+            showToast("Error", error.message, "danger", "AlertTriangleIcon");
+          }
+          isLoading.value = false;
+        });
     };
 
-    let jawaban_mapel = [];
+    onMounted(() => {
+      fetchData();
+    });
 
-    for (let i = 0; i < paket_mapels.length; i++) {
-      const mapel = paket_mapels[i];
-      jawaban_mapel.push({
-        benar: mapel.benar,
-        salah: mapel.salah,
-        kosong: mapel.kosong,
-        nama_mapel: mapel.info.mapel_soal.nama,
-      });
-    }
+    // const { nama, total_durasi, total_soal, kategori } = hasil.paket_tryout;
 
-    onMounted(() => {});
+    // const { total_nilai, nilai_maximal, rangking, total_siswa, peluang } =
+    //   informasiEkstrak;
+
+    // console.log("total nilai", total_nilai);
+
+    // const { IQR, ...filteredQuartil } = hasil.quartil;
+
+    // let entries = Object.entries(filteredQuartil);
+    // let indexQuartil = null;
+    // for (let [index, [key, value]] of entries.entries()) {
+    //   if (total_nilai > value) {
+    //     indexQuartil = index;
+    //   }
+    // }
+    // indexQuartil += 1;
+
+    // const cariQuartil = (index) => {
+    //   let hasil = null;
+    //   switch (index) {
+    //     case 0:
+    //       hasil = 0;
+    //       break;
+
+    //     case 1:
+    //       hasil = 25;
+    //       break;
+
+    //     case 2:
+    //       hasil = 50;
+    //       break;
+
+    //     case 3:
+    //       hasil = 75;
+    //       break;
+
+    //     case 4:
+    //       hasil = 100;
+    //       break;
+
+    //     default:
+    //       hasil = 0;
+    //       break;
+    //   }
+    //   return hasil;
+    // };
+
+    // //===CARD TRY OUT===
+    // let tryOut = {
+    //   nama_tryout: nama,
+    //   waktu_pengerjaan: total_durasi,
+    //   nama_kategori: kategori.nama,
+    //   total_nilai,
+    //   rangking,
+    //   total_siswa,
+    //   peluang,
+    //   quartil: cariQuartil(indexQuartil),
+    // };
+
+    // //===CARD PENILAIAN===
+    // //nilai total
+    // let { benar, salah } = hasil.penilaian[0];
+
+    // let jawaban = {
+    //   benar,
+    //   salah,
+    //   total_soal,
+    // };
+
+    // //waktu keseluruhan
+    // let { waktu, paket_mapels } = hasil.penilaian[0];
+    // let waktu_keseluruhan = [];
+    // for (let i = 0; i < paket_mapels.length; i++) {
+    //   const mapel = paket_mapels[i];
+    //   waktu_keseluruhan.push({
+    //     mapel_waktu: mapel.waktu,
+    //     nama_mapel: mapel.info.mapel_soal.nama,
+    //   });
+    // }
+
+    // let total_waktu = {
+    //   waktu_total: waktu,
+    //   waktu_keseluruhan,
+    // };
+
+    // //===CARD PER TRY OUT===
+    // let total_benar = hasil.penilaian[0].benar;
+    // let total_salah = hasil.penilaian[0].salah;
+    // let total_kosong = hasil.penilaian[0].kosong;
+
+    // let total_jawaban = {
+    //   total_benar,
+    //   total_salah,
+    //   total_kosong,
+    // };
+
+    // let jawaban_mapel = [];
+
+    // for (let i = 0; i < paket_mapels.length; i++) {
+    //   const mapel = paket_mapels[i];
+    //   jawaban_mapel.push({
+    //     benar: mapel.benar,
+    //     salah: mapel.salah,
+    //     kosong: mapel.kosong,
+    //     nama_mapel: mapel.info.mapel_soal.nama,
+    //   });
+    // }
 
     return {
-      response,
-      data,
+      // response,
+      // data,
+      // //card 1 -> try out
+      // tryOut,
+      // // card 2 -> jawaban, total waktu seluruh mapel
+      // jawaban,
+      // total_waktu,
+      // // card 3 -> perbandingan jawaban mapel, dan batang setiap mapel
+      // total_jawaban,
+      // jawaban_mapel,
 
-      //card 1 -> try out
-      tryOut,
-
-      // card 2 -> jawaban, total waktu seluruh mapel
-      jawaban,
-      total_waktu,
-
-      // card 3 -> perbandingan jawaban mapel, dan batang setiap mapel
-      total_jawaban,
-      jawaban_mapel,
+      hasil,
+      isLoaded,
     };
   },
-
-  // data() {
-  //   return {
-  //     response,
-  //   };
-  // },
 };
 </script>
 

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <vue-apex-charts width="450" height="400" type="donut" class="mt-2 mb-0" :options="donut.chartOptions" :series="donut.series" />
+    <vue-apex-charts width="500" height="400" type="donut" class="mt-2 mb-0" :options="donut.chartOptions" :series="donut.series" />
   </div>
 </template>
 
 <script>
 import { BCard, BCardHeader, BRow, BCol, BCardText } from "bootstrap-vue";
 import VueApexCharts from "vue-apexcharts";
+import others from "@/navigation/vertical/others";
 
 export default {
   components: {
@@ -20,29 +21,34 @@ export default {
   props: ["total_waktu"],
 
   data() {
-    let { waktu_keseluruhan, waktu_total } = this.total_waktu;
+    let { penilaian, ...others } = this.total_waktu;
 
-    // console.log(waktu_total);
-    let serie = [];
-    let label = [];
+    let { waktu, paket_mapels } = penilaian;
 
-    for (let i = 0; i < waktu_keseluruhan.length; i++) {
-      const element = waktu_keseluruhan[i];
-      serie.push(Math.floor(element.mapel_waktu / 60));
-      label.push(element.nama_mapel);
+    let seriesExtract = [];
+    let labelExtract = [];
+    let waktuTotal = null;
+
+    for (let i = 0; i < penilaian.length; i++) {
+      const element = penilaian[i];
+      const paketMapel = element.paket_mapels;
+
+      waktuTotal += element.waktu;
+
+      for (let j = 0; j < paketMapel.length; j++) {
+        seriesExtract.push(Math.floor(paketMapel[j].waktu / 3600));
+        labelExtract.push(paketMapel[j].info.mapel_soal.nama);
+      }
     }
 
-    // console.log(serie);
-    // console.log(label);
-
     let donut = {
-      series: [...serie],
+      series: [...seriesExtract],
 
       chartOptions: {
         chart: {
           type: "donut",
         },
-        labels: [...label],
+        labels: [...labelExtract],
         dataLabels: {
           enabled: true,
           formatter: function (val, opts) {
@@ -67,10 +73,10 @@ export default {
                 },
                 total: {
                   show: true,
-                  fontSize: "1.2rem",
-                  label: "Waktu Keseluruhan",
+                  fontSize: "1.05rem",
+                  label: "Total Waktu Pengerjaan",
                   formatter() {
-                    return `${Math.floor(waktu_total / 60)} Menit`;
+                    return `${Math.floor(waktuTotal / 3600)} Menit`;
                   },
                 },
               },
@@ -106,12 +112,12 @@ export default {
             breakpoint: 450,
             options: {
               chart: {
-                width: 350,
-                height: 350,
+                width: 400,
+                height: 400,
               },
               legend: {
                 width: "auto",
-                fontSize: "14px",
+                fontSize: "13px",
               },
             },
           },

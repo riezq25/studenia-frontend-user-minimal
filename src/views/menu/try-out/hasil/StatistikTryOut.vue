@@ -1,10 +1,10 @@
 <template>
   <b-card v-if="data">
     <b-card-header style="margin-bottom:10px" class="d-flex justify-content-between flex-wrap">
-      <b-card-title class="mt-1">{{tryOut.nama_tryout}}</b-card-title>
+      <b-card-title class="mt-1">{{paket_tryout.nama}}</b-card-title>
       <b-card-text class="mr-25 mb-0 mt-1">
         Kategori :
-        <b-badge variant="info" class="badge" style="font-size:15px">{{tryOut.nama_kategori}}</b-badge>
+        <b-badge variant="info" class="badge" style="font-size:15px">{{paket_tryout.kategori.nama}}</b-badge>
       </b-card-text>
     </b-card-header>
     <b-card-body class="statistics-body">
@@ -48,7 +48,9 @@ import {
   BMediaBody,
   BBadge,
 } from "bootstrap-vue";
-import { ref, onMounted } from "@vue/composition-api";
+
+import { toRefs } from "@vue/composition-api";
+import others from "@/navigation/vertical/others";
 
 export default {
   components: {
@@ -65,13 +67,44 @@ export default {
     BMediaBody,
     BBadge,
   },
-  props: ["tryOut"],
-
+  props: {
+    statistik: Object,
+  },
   setup(props) {
-    let tryOut = props.tryOut;
+    let { informasi, paket_tryout, quartil } = props.statistik;
+
+    let { IQR, ...otherQuartil } = quartil;
+
+    let total_nilai = informasi.total_nilai;
+
+    let tingkat_lulus = null;
+
+    if (total_nilai <= otherQuartil["0%"]) {
+      tingkat_lulus = 0;
+    } else if (
+      total_nilai > otherQuartil["0%"] &&
+      total_nilai <= otherQuartil["Q1"]
+    ) {
+      tingkat_lulus = 25;
+    } else if (
+      total_nilai > otherQuartil["Q1"] &&
+      total_nilai <= otherQuartil["Q2"]
+    ) {
+      tingkat_lulus = 50;
+    } else if (
+      total_nilai > otherQuartil["Q2"] &&
+      total_nilai <= otherQuartil["Q3"]
+    ) {
+      tingkat_lulus = 75;
+    } else if (
+      total_nilai > otherQuartil["Q3"] &&
+      total_nilai > otherQuartil["100%"]
+    ) {
+      tingkat_lulus = 100;
+    }
 
     const variant = () => {
-      let peluang = tryOut.peluang.toLowerCase();
+      let peluang = informasi.peluang.toLowerCase();
       if (peluang.includes("rendah")) {
         return "light-danger";
       } else if (peluang.includes("sedang")) {
@@ -86,29 +119,30 @@ export default {
         icon: "EditIcon",
         color: "light-primary",
         title: "Total Nilai",
-        subtitle: tryOut.total_nilai,
+        subtitle: informasi.total_nilai,
         customClass: "my-1",
       },
       {
         icon: "ClockIcon",
         color: "light-danger",
         title: "Waktu Pengerjaan",
-        subtitle: `${tryOut.waktu_pengerjaan} Menit`,
+        subtitle: `${paket_tryout.total_durasi} Menit`,
         customClass: "my-1",
       },
       {
         icon: "UserIcon",
         color: "light-info",
         title: "Peringkat",
-        subtitle: `${tryOut.rangking} dari ${tryOut.total_siswa} Peserta`,
+        subtitle: `${informasi.rangking} dari ${informasi.total_siswa} Peserta`,
         customClass: "my-1",
       },
       {
         icon: "TargetIcon",
         color: "light-warning",
         title: "Peluang Kamu",
-        subtitle: ` ${tryOut.quartil} % peluang Lolos`,
-        status: `${tryOut.peluang}`,
+        subtitle: "Peluang Kamu",
+        subtitle: ` ${tingkat_lulus} % peluang Lolos`,
+        status: `${informasi.peluang}`,
         variant: variant(),
         customClass: "my-1",
       },
@@ -116,6 +150,7 @@ export default {
 
     return {
       data,
+      paket_tryout,
     };
   },
 };

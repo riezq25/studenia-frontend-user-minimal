@@ -15,17 +15,21 @@ export default {
   props: ["jawaban_mapel"],
 
   data() {
+    let { paket_mapels } = this.jawaban_mapel;
+
     let benar = [];
     let salah = [];
     let kosong = [];
+    let ragu = [];
     let mapel = [];
 
-    for (let i = 0; i < this.jawaban_mapel.length; i++) {
-      const element = this.jawaban_mapel[i];
+    for (let i = 0; i < paket_mapels.length; i++) {
+      const element = paket_mapels[i];
       benar.push(element.benar);
       salah.push(element.salah);
       kosong.push(element.kosong);
-      mapel.push(element.nama_mapel);
+      ragu.push(element.ragu);
+      mapel.push(element.info.mapel_soal.nama);
     }
 
     const bar = {
@@ -42,9 +46,18 @@ export default {
           name: "Jawaban Kosong",
           data: [...kosong],
         },
+        {
+          name: "Jawaban Ragu",
+          data: [...ragu],
+        },
       ],
       chartOptions: {
-        colors: ["rgb(0, 227, 150)", "rgb(255, 69, 96)", "rgb(254, 176, 25)"],
+        colors: [
+          "rgb(0, 227, 150)",
+          "rgb(255, 69, 96)",
+          "rgb(254, 176, 25)",
+          "#4b4b4b",
+        ],
         chart: {
           type: "bar",
           height: 350,
@@ -72,7 +85,12 @@ export default {
         },
         fill: {
           opacity: 1,
-          colors: ["rgb(0, 227, 150)", "rgb(255, 69, 96)", "rgb(254, 176, 25)"],
+          colors: [
+            "rgb(0, 227, 150)",
+            "rgb(255, 69, 96)",
+            "rgb(254, 176, 25)",
+            "#4b4b4b",
+          ],
         },
         responsive: [
           {
@@ -89,7 +107,8 @@ export default {
               legend: {
                 position: "bottom",
                 offsetX: -10,
-                offsetY: 0,
+                offsetY: 10,
+                height: 50,
               },
               xaxis: {
                 offsetX: 10,

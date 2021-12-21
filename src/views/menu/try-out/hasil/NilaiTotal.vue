@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-apex-charts width="350" height="350" type="donut" class="mt-2 mb-0" :options="donut.chartOptions" :series="donut.series" />
+    <vue-apex-charts width="380" height="380" type="donut" class="mt-2 mb-0" :options="donut.chartOptions" :series="donut.series" />
   </div>
 </template>
 
@@ -19,17 +19,36 @@ export default {
   },
   props: ["jawaban"],
   data() {
-    let { benar, salah, total_soal } = this.jawaban;
+    let benarTotal = null;
+    let salahTotal = null;
+    let kosongTotal = null;
+    let raguTotal = null;
+    let totalSoal = null;
+
+    for (let i = 0; i < this.jawaban.penilaian.length; i++) {
+      const element = this.jawaban.penilaian[i];
+      console.log(element);
+      benarTotal += element.benar;
+      salahTotal += element.salah;
+      kosongTotal += element.kosong;
+      raguTotal += element.ragu;
+      totalSoal += element.total_soal;
+    }
 
     let donut = {
-      series: [benar, salah],
+      series: [benarTotal, salahTotal, kosongTotal, raguTotal],
 
       chartOptions: {
-        colors: ["rgb(0, 227, 150)", "rgb(255, 69, 96)"],
+        colors: [
+          "rgb(0, 227, 150)",
+          "rgb(255, 69, 96)",
+          "rgb(254, 176, 25)",
+          "#4b4b4b",
+        ],
         chart: {
           type: "donut",
         },
-        labels: ["Soal Benar", "Soal Salah"],
+        labels: ["Soal Benar", "Soal Salah", "Soal Kosong", "Soal Ragu"],
         dataLabels: {
           enabled: true,
           formatter: function (val, opts) {
@@ -54,11 +73,11 @@ export default {
                 },
                 total: {
                   show: true,
-                  fontSize: "1.2rem",
+                  fontSize: "1.1rem",
                   label: "Jumlah Soal",
                   colors: "rgb(0, 227, 150)",
                   formatter() {
-                    return `${total_soal}`;
+                    return `${totalSoal}`;
                   },
                 },
               },
@@ -82,8 +101,8 @@ export default {
             breakpoint: 950,
             options: {
               chart: {
-                width: 300,
-                height: 300,
+                width: 330,
+                height: 330,
               },
               legend: {
                 height: 50,
@@ -99,11 +118,6 @@ export default {
         },
       },
     };
-
-    // console.log(this.jawaban);
-    // let { benar, salah } = this.jawaban;
-    // this.donut.series[0] = benar;
-    // this.donut.series[1] = salah;
 
     return {
       donut,

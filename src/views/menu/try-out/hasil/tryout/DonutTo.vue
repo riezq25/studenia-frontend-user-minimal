@@ -21,19 +21,29 @@ export default {
   props: ["total_jawaban"],
 
   data() {
-    let { total_benar, total_salah, total_kosong } = this.total_jawaban;
+    let { benar, kosong, ragu, salah, total_soal } = this.total_jawaban;
 
     let donut = {
-      series: [total_benar, total_salah, total_kosong],
+      series: [benar, salah, kosong, ragu],
       chartOptions: {
-        colors: ["rgb(0, 227, 150)", "rgb(255, 69, 96)", "rgb(254, 176, 25)"],
+        colors: [
+          "rgb(0, 227, 150)",
+          "rgb(255, 69, 96)",
+          "rgb(254, 176, 25)",
+          "#4b4b4b",
+        ],
         chart: {
           type: "donut",
           labels: {
             show: true,
           },
         },
-        labels: ["Jawaban Benar", "Jawaban Salah", "Jawaban Kosong"],
+        labels: [
+          "Jawaban Benar",
+          "Jawaban Salah",
+          "Jawaban Kosong",
+          "Jawaban Ragu",
+        ],
         dataLabels: {
           enabled: true,
           formatter: function (val, opts) {
@@ -59,10 +69,10 @@ export default {
                 total: {
                   show: true,
                   fontSize: "1.05rem",
-                  label: "Grafik Jawaban",
-                  // formatter() {
-                  //   return `30`;
-                  // },
+                  label: "Jumlah Soal",
+                  formatter() {
+                    return `${total_soal}`;
+                  },
                 },
               },
             },
