@@ -239,4 +239,28 @@ export default [
     },
     component: () => import('@/views/menu/try-out/hasil/Pembahasan.vue'),
   },
+
+  // Hasil Rasionalisasi
+  {
+    path: '/review/tryout/hasil/:id_pengerjaan/rasionalisasi/:id_rasionalisasi',
+    name: 'halaman-rasionalisasi',
+    meta: {
+      pageTitle: 'Pembahasan',
+      breadcrumb: [
+        {
+          text: 'Tryout',
+          active: true,
+        },
+        {
+          text: 'Review',
+          active: true,
+        },
+        {
+          text: 'Hasil',
+          active: true,
+        },
+      ],
+    },
+    component: () => import('@/views/menu/try-out/hasil/Rasionalisasi.vue'),
+  },
 ]

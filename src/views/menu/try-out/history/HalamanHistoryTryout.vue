@@ -5,7 +5,7 @@
         <template #cell(actions)="data">
           <div class="flex flex-wrap justify-content-around">
             <!-- {{data.item.id}} -->
-            <button block class="btn btn-outline-success mr-1 mb-1" @click="redirectHalamanHasil(data.item.id)">Hasil</button>
+            <button block class="btn btn-outline-success mr-1 mb-1 mb-md-0" @click="redirectHalamanHasil(data.item.id)">Hasil</button>
             <button block class="btn btn-outline-primary" @click="redirectHalamanReview(data.item.id)">Review</button>
           </div>
         </template>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "@vue/composition-api";
+import { ref } from "@vue/composition-api";
 import { useRouter } from "@core/utils/utils";
 
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";

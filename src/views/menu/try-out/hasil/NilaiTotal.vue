@@ -27,7 +27,6 @@ export default {
 
     for (let i = 0; i < this.jawaban.penilaian.length; i++) {
       const element = this.jawaban.penilaian[i];
-      console.log(element);
       benarTotal += element.benar;
       salahTotal += element.salah;
       kosongTotal += element.kosong;

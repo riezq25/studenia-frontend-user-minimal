@@ -9,6 +9,7 @@ import paketMapelRepository from './PaketMapelRepository'
 import tryoutRepository from './TryoutRepository'
 import pengerjaanTryoutRepository from './PengerjaanTryoutRepository'
 import HasilTryOutRepository from './HasilTryOutRepository'
+import KampusJurusanRepository from './KampusJurusanRepository'
 
 //Daerah
 import ProvinsiRepository from './ProvinsiRepository'
@@ -30,6 +31,7 @@ const repositories = {
   tryoutRepository,
   pengerjaanTryoutRepository,
   HasilTryOutRepository,
+  KampusJurusanRepository,
 }
 export default {
   get: (name) => repositories[name],
