@@ -17,8 +17,8 @@
       <!-- /Left Text-->
 
       <!-- Login-->
-      <b-col lg="5" class="auth-bg px-2 p-lg-2">
-        <div class="text-center my-2 my-lg-1">
+      <b-col lg="5" class="auth-bg px-2 p-5">
+        <div class="text-center my-2 my-lg-5">
           <vuexy-logo width="80" />
         </div>
         <b-col sm="10" md="6" lg="12" class="px-xl-2 mx-auto pt-1 pt-lg-2">
