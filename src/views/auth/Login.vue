@@ -19,7 +19,7 @@
       <!-- Login-->
       <b-col lg="5" class="auth-bg px-2 p-5">
         <div class="text-center my-2 my-lg-5">
-          <vuexy-logo width="80" />
+          <vuexy-logo width="100" />
         </div>
         <b-col sm="10" md="6" lg="12" class="px-xl-2 mx-auto pt-1 pt-lg-2">
           <b-card-title class="mb-1 font-weight-bold" title-tag="h3">Selamat Datang di Studenia! 👋</b-card-title>

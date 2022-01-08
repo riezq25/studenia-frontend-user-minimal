@@ -66,22 +66,22 @@
                 <div class="mt-1">
                   <b-row>
                     <b-col md="6" class="my-1 my-md-0">
-                      <div class="d-flex align-items = ref([])-center">
+                      <div class="d-flex align-items-center">
                         <b-avatar size="40" variant="light-warning" class="mr-1">
                           <feather-icon size="18" icon="EditIcon" />
                         </b-avatar>
-                        <h6>
+                        <h6 style="margin-top:7px">
                           Kampus :
                           <span style="font-weight:700">{{namaKampus?namaKampus:'-'}}</span>
                         </h6>
                       </div>
                     </b-col>
                     <b-col md="6" class="my-1 my-md-0">
-                      <div class="d-flex align-items = ref([])-center">
+                      <div class="d-flex align-items-center">
                         <b-avatar size="40" variant="light-success" class="mr-1">
                           <feather-icon size="18" icon="BookOpenIcon" />
                         </b-avatar>
-                        <h6>
+                        <h6 style="margin-top:7px">
                           Jurusan :
                           <span style="font-weight:700">{{namaJurusan?namaJurusan:'-'}}</span>
                         </h6>
