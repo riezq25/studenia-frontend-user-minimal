@@ -6,28 +6,29 @@
       <navbar :toggle-vertical-menu-active="toggleVerticalMenuActive" />
     </template>
 
-    <!-- <app-customizer
-      v-if="showCustomizer"
-      slot="customizer"
-    />-->
+    <!-- <div class="absolute bottom-0 right-0">
+      <h2>halo bos</h2>
+    </div>-->
+
+    <app-customizer v-if="showCustomizer" slot="customizer" />
   </layout-vertical>
 </template>
 
 <script>
 import LayoutVertical from "@core/layouts/layout-vertical/LayoutVertical.vue";
-// import AppCustomizer from '@core/layouts/components/app-customizer/AppCustomizer.vue'
-// import { $themeConfig } from '@themeConfig'
+import AppCustomizer from '@core/layouts/components/app-customizer/AppCustomizer.vue'
+import { $themeConfig } from '@themeConfig'
 import Navbar from "../components/Navbar.vue";
 
 export default {
   components: {
-    // AppCustomizer,
+    AppCustomizer,
     LayoutVertical,
     Navbar,
   },
   data() {
     return {
-      // showCustomizer: $themeConfig.layout.customizer,
+      showCustomizer: $themeConfig.layout.customizer,
     };
   },
 };

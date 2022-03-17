@@ -11,8 +11,8 @@
       </template>
       <b-row>
         <b-col cols="12">
-          <div class="d-flex align-items-center justify-content-end">
-            <b-button class="mr-2" variant="primary">
+          <div class="d-flex align-items-center justify-content-end mb-2">
+            <b-button variant="primary" @click="refresh">
               <feather-icon icon="RefreshCcwIcon" class="mr-50" />
               <span class="text-nowrap">Refresh</span>
             </b-button>
@@ -22,12 +22,23 @@
       <b-row>
         <b-col v-for="item in items" :key="item.id" sm="6" md="6" lg="4">
           <b-link>
-            <card-paket-tryout :tampil="item.is_new" :judul="item.nama" :totalSoal="item.total_soal" :durasi="item.total_durasi" :link="getLink(item)" :isNew="item.is_new" />
+            <card-paket-tryout
+              :tampil="item.is_new"
+              :judul="item.nama"
+              :totalSoal="item.total_soal"
+              :durasi="item.total_durasi"
+              :link="getLink(item)"
+              :isNew="item.is_new"
+              :isOwned="item.is_owned"
+              :price="item.harga"
+              :id="item.id"
+              :jenis="item.jenis"
+            />
           </b-link>
         </b-col>
 
         <b-col cols="12">
-          <div class="mt-5" v-if="items.length<=0">
+          <div class="mt-5" v-if="items.length <= 0">
             <div class="w-100 text-center">
               <div class="mb-2">
                 <vuexy-logo width="150" />
@@ -130,6 +141,10 @@ export default {
         });
     };
 
+    const refresh = () => {
+      fetchData()
+    }
+
     const getLink = (item) => {
       const params = route.value.params;
       return {
@@ -148,6 +163,7 @@ export default {
 
       // method
       getLink,
+      refresh
     };
   },
 };

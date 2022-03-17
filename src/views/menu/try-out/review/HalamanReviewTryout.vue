@@ -16,7 +16,14 @@
                 <vue-mathjax :safe="false" class="resize-font lh-base" :formula="listSoal[currentIndex].pertanyaan"></vue-mathjax>
 
                 <div class="mt-1">
-                  <b-button v-for="(pil, key, index) in listSoal[currentIndex].pilihan" :key="index" :variant="key.toUpperCase() == listSoal[currentIndex].kunci_jawaban || (key.toUpperCase() == listSoal[currentIndex].jawaban && listSoal[currentIndex].is_benar) ? 'outline-primary' : (key.toUpperCase() == listSoal[currentIndex].jawaban) ? 'outline-danger' : 'flat-secondary'" class="mb-75 py-1 text-left" block>
+                  <b-button
+                    v-for="(pil, key, index) in listSoal[currentIndex].pilihan"
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    :key="index"
+                    :variant="key.toUpperCase() == listSoal[currentIndex].kunci_jawaban || (key.toUpperCase() == listSoal[currentIndex].jawaban && listSoal[currentIndex].is_benar) ? 'primary' : (key.toUpperCase() == listSoal[currentIndex].jawaban) ? 'danger' : 'flat-secondary'"
+                    class="mb-75 py-1 text-left"
+                    block
+                  >
                     <div class="d-flex lh-lg" style="line-height:1.5">
                       <span class="mr-1 resize-font">{{ key.toUpperCase() }}.</span>
                       <vue-mathjax :safe="false" class="resize-font lh-base" :formula="pil"></vue-mathjax>
@@ -43,7 +50,13 @@
               <b-card-actions title="Pembahasan Video" action-collapse>
                 <div v-if="listSoal[currentIndex].pembahasan_video">
                   <div class="embed-responsive embed-responsive-16by9">
-                    <iframe :src="'https://www.youtube.com/embed/' + listSoal[currentIndex].pembahasan_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe
+                      :src="'https://www.youtube.com/embed/' + listSoal[currentIndex].pembahasan_video"
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
                   </div>
                 </div>
                 <div v-else>
@@ -75,7 +88,13 @@
                 <span>Prev</span>
               </b-button>
 
-              <b-button class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == (jumlahSoal - 1) ? true : false" @click="clickNext">
+              <b-button
+                class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
+                block
+                variant="primary"
+                :disabled="currentIndex == (jumlahSoal - 1) ? true : false"
+                @click="clickNext"
+              >
                 <span>Next</span>
                 <feather-icon icon="ChevronRightIcon" size="20" />
               </b-button>
@@ -83,7 +102,15 @@
             <div>
               <div class="overflow-auto my-1">
                 <div class="d-flex justify-content-center flex-wrap btn-soal">
-                  <b-button v-ripple.400="'rgba(113, 102, 240, 0.15)'" size="sm" style="width:40px; height:40px" :variant="currentIndex == index ? 'primary' : currentIndex != index && jml.is_benar ? 'success' : 'danger'" v-for="(jml,index) in listSoal" :key="jml.id" @click="clickSoal(index)">
+                  <b-button
+                    v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                    size="sm"
+                    style="width:40px; height:40px"
+                    :variant="currentIndex == index ? 'primary' : currentIndex != index && jml.is_benar ? 'success' : 'danger'"
+                    v-for="(jml, index) in listSoal"
+                    :key="jml.id"
+                    @click="clickSoal(index)"
+                  >
                     <div class="d-flex justify-content-center align-items-center">{{ index + 1 }}</div>
                   </b-button>
                 </div>
@@ -212,8 +239,8 @@ export default {
 
     const formatTime = (seconds) => {
       let m = Math.floor(seconds / 60)
-          .toString()
-          .padStart(2, "0"),
+        .toString()
+        .padStart(2, "0"),
         s = Math.floor(seconds % 60)
           .toString()
           .padStart(2, "0");

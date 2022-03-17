@@ -11,10 +11,17 @@ import pengerjaanTryoutRepository from './PengerjaanTryoutRepository'
 import HasilTryOutRepository from './HasilTryOutRepository'
 import KampusJurusanRepository from './KampusJurusanRepository'
 
+//pembayaran
+import Bayar from './Bayar'
+
 //Daerah
 import ProvinsiRepository from './ProvinsiRepository'
 import KotaRepository from './KotaRepository'
 import KecamatanRepository from './KecamatanRepository'
+
+// Cart
+import CartRepository from './CartRepository'
+import Invoice from './Invoice'
 
 const repositories = {
   userRepository,
@@ -32,6 +39,9 @@ const repositories = {
   pengerjaanTryoutRepository,
   HasilTryOutRepository,
   KampusJurusanRepository,
+  CartRepository,
+  Bayar,
+  Invoice,
 }
 export default {
   get: (name) => repositories[name],

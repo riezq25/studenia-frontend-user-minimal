@@ -3,11 +3,15 @@
     <div v-if="isDone">
       <b-card class="text-center">
         <b-card-text>
-          <feather-icon width="100" icon="CheckCircleIcon" />
-          <h3 class="text-primary">Selamat Anda sudah menyelesaikan tryout ini.</h3>
+          <feather-icon size="30" icon="CheckCircleIcon" />
+          <h3 class="text-primary">Selamat Anda sudah menyelesaikan tryout ini</h3>
           <span>Hasil, Nilai, Rangking dan Pembahasan dapat diakses pada tanggal {{ tanggalPenilaian }}</span>
         </b-card-text>
-        <b-button to="/" variant="primary">Kembali</b-button>
+        <b-button :to="{ name: 'halaman-history-tryout', params: { id_paket_tryout: `${id}` } }" variant="primary">
+          <div class="d-flex align-items-center">
+            <feather-icon size="30" icon="EditIcon" class="mr-1" />Lihat Pembahasan
+          </div>
+        </b-button>
       </b-card>
     </div>
 
@@ -26,9 +30,7 @@
           <app-collapse accordion :type="'margin'">
             <b-card-actions title="Sisa Waktu" action-collapse>
               <div class="mx-auto w-100 text-center">
-                <span
-                  class="display-2 text-center mx-auto text-primary display-2 fw-bold"
-                >{{ formatTime(sisaWaktu) }}</span>
+                <span class="display-2 text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
               </div>
             </b-card-actions>
           </app-collapse>
@@ -36,12 +38,7 @@
 
         <b-col cols="12" md="8">
           <div v-if="!isLoading">
-            <app-collapse
-              accordion
-              :type="'margin'"
-              v-for="(item, index_paket_kategori) in tryout.pengerjaan.paket"
-              :key="item.id"
-            >
+            <app-collapse accordion :type="'margin'" v-for="(item, index_paket_kategori) in tryout.pengerjaan.paket" :key="item.id">
               <b-card-actions :title="item.kategori.nama.toUpperCase()" action-collapse>
                 <app-timeline>
                   <app-timeline-item
@@ -88,11 +85,7 @@
           <app-collapse accordion :type="'margin'">
             <b-card-actions title="Akhiri Sesi" action-collapse>
               <div class="mx-auto w-100 text-center">
-                <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                  variant="primary"
-                  v-b-modal.modal-danger
-                >Akhiri Sesi</b-button>
+                <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" v-b-modal.modal-danger>Akhiri Sesi</b-button>
               </div>
             </b-card-actions>
           </app-collapse>
@@ -102,9 +95,7 @@
           <app-collapse accordion :type="'margin'">
             <b-card-actions title="Sisa Waktu" action-collapse>
               <div class="mx-auto w-100 text-center">
-                <span
-                  class="display-2 text-center mx-auto text-primary display-2 fw-bold"
-                >{{ formatTime(sisaWaktu) }}</span>
+                <span class="display-2 text-center mx-auto text-primary display-2 fw-bold">{{ formatTime(sisaWaktu) }}</span>
               </div>
             </b-card-actions>
           </app-collapse>
@@ -112,32 +103,17 @@
           <app-collapse accordion :type="'margin'">
             <b-card-actions title="Akhiri Sesi" action-collapse>
               <div class="mx-auto w-100 text-center">
-                <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                  variant="primary"
-                  v-b-modal.modal-danger
-                >Akhiri Sesi</b-button>
+                <b-button v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="primary" v-b-modal.modal-danger>Akhiri Sesi</b-button>
               </div>
             </b-card-actions>
           </app-collapse>
         </b-col>
       </b-row>
 
-      <b-modal
-        id="modal-danger"
-        ok-variant="danger"
-        ok-title="Yakin"
-        cancel-title="Batal"
-        modal-class="modal-danger"
-        centered
-        title="Danger Modal"
-        @ok="akhiriSesi"
-      >
+      <b-modal id="modal-danger" ok-variant="danger" ok-title="Yakin" cancel-title="Batal" modal-class="modal-danger" centered title="Danger Modal" @ok="akhiriSesi">
         <b-card-text class="text-center text-danger">
           <feather-icon icon="AlertTriangleIcon" size="50" />
-          <h4
-            class="mt-1"
-          >Apakah Anda yakin ingin menyimpan semua jawaban dan mengakhiri sesi tryout?</h4>
+          <h4 class="mt-1">Apakah Anda yakin ingin menyimpan semua jawaban dan mengakhiri sesi tryout?</h4>
         </b-card-text>
       </b-modal>
     </div>
@@ -200,6 +176,7 @@ export default {
     const sisaWaktu = ref(0);
     const countDown = ref(null);
     const tanggalPenilaian = ref(null);
+    const id = ref(route.value.params.id)
 
     const formatTime = (seconds) => {
       let m = Math.floor((seconds) / 60)
@@ -359,6 +336,7 @@ export default {
       tryout,
       isLoading,
       sisaWaktu, isDone, tanggalPenilaian,
+      id,
 
       // method
       redirectHalamanPengerjaan,

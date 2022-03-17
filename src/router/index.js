@@ -10,6 +10,7 @@ import materiRoute from '@/router/materi'
 import kontribusiPengguna from '@/router/kontribusi-pengguna'
 import othersRoute from '@/router/others'
 import pembahasan from '@/router/pembahasan'
+import transaksi from '@/router/transaksi'
 
 import repository from '@repofactory'
 const authRepo = repository.get('auth')
@@ -40,6 +41,7 @@ const router = new VueRouter({
     ...kontribusiPengguna,
     ...pembahasan,
     ...othersRoute,
+    ...transaksi,
     {
       path: '/error-404',
       name: 'error-404',
@@ -57,8 +59,6 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   const isLogin = store.state.auth.isLogin
-  const user = store.state.auth.user
-  const permissions = user ? user.permissions : null
 
   if (!isLogin && localStorage.getItem('token')) {
     authRepo.user().then((response) => {

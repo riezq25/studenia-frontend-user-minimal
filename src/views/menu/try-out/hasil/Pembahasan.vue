@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoaded">
+  <div v-if="isLoaded && isMounted">
     <b-row class="match-height">
       <b-col>
         <statistik-try-out :statistik="hasil"></statistik-try-out>
@@ -31,7 +31,7 @@
       <b-col md="4" class="mx-auto">
         <b-card>
           <b-card-header>
-            <b-card-title>Perbandingan Jawaban {{penilaian.paket_kategori.kategori_soal.nama}}</b-card-title>
+            <b-card-title>Perbandingan Jawaban {{ penilaian.paket_kategori.kategori_soal.nama }}</b-card-title>
           </b-card-header>
           <div class="d-flex justify-content-center md:flex-none">
             <donut-to :total_jawaban="penilaian"></donut-to>
@@ -41,7 +41,7 @@
       <b-col md="8">
         <b-card>
           <b-card-header>
-            <b-card-title>Grafik Per Mapel {{penilaian.paket_kategori.kategori_soal.nama}}</b-card-title>
+            <b-card-title>Grafik Per Mapel {{ penilaian.paket_kategori.kategori_soal.nama }}</b-card-title>
           </b-card-header>
           <batang-to :jawaban_mapel="penilaian"></batang-to>
         </b-card>
@@ -72,7 +72,7 @@
                         </b-avatar>
                         <h6 style="margin-top:7px">
                           Kampus :
-                          <span style="font-weight:700">{{namaKampus?namaKampus:'-'}}</span>
+                          <span style="font-weight:700">{{ namaKampus ? namaKampus : '-' }}</span>
                         </h6>
                       </div>
                     </b-col>
@@ -83,7 +83,7 @@
                         </b-avatar>
                         <h6 style="margin-top:7px">
                           Jurusan :
-                          <span style="font-weight:700">{{namaJurusan?namaJurusan:'-'}}</span>
+                          <span style="font-weight:700">{{ namaJurusan ? namaJurusan : '-' }}</span>
                         </h6>
                       </div>
                     </b-col>
@@ -105,7 +105,7 @@
               <b-row class="mt-2">
                 <b-col cols="12" md="4">
                   <h3 style="font-size:15px;margin:10px 0;font-weight:700">Data Rasio Kelolosan</h3>
-                  <div v-if="items.length>0">
+                  <div v-if="items.length > 0">
                     <b-table responsive :items="items" :fields="fields"></b-table>
                   </div>
                   <div v-else>
@@ -118,22 +118,22 @@
                     <b-col cols="6" md="3" class="text-center">
                       <h5>Nilai Kamu</h5>
                       <div class="mt-0 mt-md-2">
-                        <h1 style="font-weight: 600;">{{nilaiKamu}}</h1>
+                        <h1 style="font-weight: 600;">{{ nilaiKamu }}</h1>
                       </div>
                     </b-col>
                     <b-col cols="6" md="4" class="text-center">
                       <h5>Nilai Minimal Jurusan</h5>
                       <div class="mt-0 mt-md-2">
-                        <h1 style="font-weight: 600;">{{nilaiJurusan}}</h1>
+                        <h1 style="font-weight: 600;">{{ nilaiJurusan }}</h1>
                       </div>
                     </b-col>
                     <b-col cols="12" md="5" class="text-center mt-2 mt-md-0">
                       <h5>Peluang Kamu di Jurusan Ini</h5>
                       <div class="d-flex flex-column justify-content-center align-items = ref([])-center">
                         <div style="margin-bottom:4px">
-                          <span style="font-size:40px">{{nilaiKamu>=nilaiJurusan ? '🙂': '🙁'}}</span>
+                          <span style="font-size:40px">{{ nilaiKamu >= nilaiJurusan ? '🙂' : '🙁' }}</span>
                         </div>
-                        <b-badge :variant=" nilaiKamu>=nilaiJurusan ? 'light-success':'light-danger'" style="font-size:15px">Peluang Lolos {{ nilaiKamu>=nilaiJurusan ? 'Tinggi':'Rendah'}}</b-badge>
+                        <b-badge :variant="nilaiKamu >= nilaiJurusan ? 'light-success' : 'light-danger'" style="font-size:15px">Peluang Lolos {{ nilaiKamu >= nilaiJurusan ? 'Tinggi' : 'Rendah' }}</b-badge>
                       </div>
                     </b-col>
                   </b-row>
@@ -421,13 +421,15 @@ export default {
         });
     };
 
+    let isMounted = ref(false)
+
     const fetchData = async () => {
       await repoHasilTryOut
         .get(route.value.params.id_pengerjaan)
         .then((response) => {
           hasil.value = response.data.data;
           nilaiKamu.value = hasil.value.informasi.total_nilai;
-          isLoaded.value = true;
+          isMounted.value = true;
         })
         .catch((error) => {
           if (error.response) {
@@ -459,6 +461,7 @@ export default {
     return {
       hasil,
       isLoaded,
+      isMounted,
       kampus,
       jurusan,
       nilaiKamu,

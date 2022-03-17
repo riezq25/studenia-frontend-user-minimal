@@ -1,179 +1,17 @@
 <template>
-  <div
-    class="customizer d-none d-md-block"
-    :class="{'open': isCustomizerOpen}"
-  >
+  <div class="customizer" :class="{ 'open': isCustomizerOpen }">
     <!-- Toggler -->
-    <b-link
-      class="customizer-toggle d-flex align-items-center justify-content-center"
-      @click="isCustomizerOpen = !isCustomizerOpen"
-    >
-      <feather-icon
-        icon="SettingsIcon"
-        size="15"
-        class="spinner"
-      />
+    <b-link class="customizer-toggle d-flex align-items-center justify-content-center" v-if="!$route.meta.notRequiredWA">
+      <!-- <feather-icon icon="SettingsIcon" size="15" class="spinner" /> -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+        <path
+          d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+        />
+      </svg>
     </b-link>
     <!-- /Toggler -->
 
     <!-- Header -->
-    <div class="customizer-section d-flex justify-content-between align-items-center">
-      <div>
-        <h4 class="text-uppercase mb-0">
-          Theme Customizer
-        </h4>
-        <small>Customize &amp; Preview in Real Time</small>
-      </div>
-      <feather-icon
-        icon="XIcon"
-        size="18"
-        class="cursor-pointer"
-        @click="isCustomizerOpen = !isCustomizerOpen"
-      />
-    </div>
-    <!-- Header -->
-
-    <vue-perfect-scrollbar
-      :settings="perfectScrollbarSettings"
-      class="ps-customizer-area scroll-area"
-    >
-      <!-- Skin, RTL, Router Animation -->
-      <div class="customizer-section">
-
-        <!-- Skin -->
-        <b-form-group label="Skin">
-          <b-form-radio-group
-            id="skin-radio-group"
-            v-model="skin"
-            name="skin"
-            :options="skinOptions"
-          />
-        </b-form-group>
-
-        <!-- Skin -->
-        <b-form-group label="Content Width">
-          <b-form-radio-group
-            id="content-width-radio-group"
-            v-model="contentWidth"
-            name="content-width"
-            :options="contentWidthOptions"
-          />
-        </b-form-group>
-
-        <!-- RTL -->
-        <b-form-group
-          label="RTL"
-          label-cols="10"
-        >
-          <b-form-checkbox
-            v-model="isRTL"
-            class="mr-0 mt-50"
-            name="is-rtl"
-            switch
-            inline
-          />
-        </b-form-group>
-
-        <!-- Router Transition -->
-        <b-form-group
-          label="Router Transition"
-          label-cols="6"
-        >
-          <v-select
-            v-model="routerTransition"
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :clearable="false"
-            label="title"
-            :options="routerTransitionOptions"
-            :reduce="option => option.value"
-          />
-        </b-form-group>
-      </div>
-      <!-- /Skin, RTL, Router Animation -->
-
-      <!-- SECTION: Menu -->
-      <div class="customizer-section">
-
-        <!-- Layout Type -->
-        <b-form-group
-          label="Menu Layout"
-        >
-          <b-form-radio-group
-            v-model="layoutType"
-            name="layout-type"
-            :options="layoutTypeOptions"
-          />
-        </b-form-group>
-
-        <!-- Collapsible -->
-        <div
-          v-if="layoutType === 'vertical'"
-          class="d-flex justify-content-between align-items-center mt-2"
-        >
-          <span class="font-weight-bold">Menu Collapsed</span>
-          <b-form-checkbox
-            v-model="isVerticalMenuCollapsed"
-            name="is-vertical-menu-collapsed"
-            class="mr-0"
-            switch
-            inline
-          />
-        </div>
-
-        <!-- Menu Visiblity -->
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <span class="font-weight-bold">Menu Hidden</span>
-          <b-form-checkbox
-            v-model="isNavMenuHidden"
-            name="is-menu-visible"
-            class="mr-0"
-            switch
-            inline
-          />
-        </div>
-
-      </div>
-
-      <!-- SECTION: Navbar -->
-      <div class="customizer-section">
-
-        <!-- Navbar Color -->
-        <b-form-group
-          v-show="layoutType === 'vertical'"
-          label="Navbar Color"
-        >
-          <div
-            v-for="(color, index) in navbarColors"
-            :key="color"
-            class="p-1 d-inline-block rounded mr-1 cursor-pointer"
-            :class="[`bg-${color}`, {'border border-light': !index}, {'mark-active': navbarBackgroundColor === color}]"
-            @click="navbarBackgroundColor = color"
-          />
-        </b-form-group>
-
-        <!-- Navbar Type -->
-        <b-form-group :label="layoutType === 'vertical' ? 'Navbar Type' : 'Menu Type'">
-          <b-form-radio-group
-            v-model="navbarType"
-            name="navbar-type"
-            :options="navbarTypes"
-          />
-        </b-form-group>
-      </div>
-
-      <!-- SECTION: Footer -->
-      <div class="customizer-section">
-
-        <!-- Footer Type -->
-        <b-form-group label="Footer Type">
-          <b-form-radio-group
-            v-model="footerType"
-            name="footer-type"
-            :options="footerTypes"
-          />
-        </b-form-group>
-      </div>
-    </vue-perfect-scrollbar>
   </div>
 </template>
 
@@ -184,6 +22,7 @@ import {
 import vSelect from 'vue-select'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import useAppCustomizer from './useAppCustomizer'
+import { useRouter, useRoute } from 'vue-router'
 
 export default {
   components: {
@@ -199,6 +38,7 @@ export default {
 
   },
   setup() {
+
     const {
       // Vertical Menu
       isVerticalMenuCollapsed,
@@ -302,16 +142,16 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
+@import "@core/scss/vue/libs/vue-select.scss";
 </style>
 
 <style lang="scss" scoped>
-@import '~@core/scss/base/bootstrap-extended/include';
-@import '~@core/scss/base/components/variables-dark';
+@import "~@core/scss/base/bootstrap-extended/include";
+@import "~@core/scss/base/components/variables-dark";
 
 .customizer-section {
   padding: 1.5rem;
-    border-bottom: 1px solid #ebe9f1;
+  border-bottom: 1px solid #ebe9f1;
 
   .dark-layout & {
     border-color: $theme-dark-border-color;
@@ -324,9 +164,9 @@ export default {
   }
 
   .form-group {
-    margin-bottom: 1.5rem;;
+    margin-bottom: 1.5rem;
     &:last-of-type {
-    margin-bottom: 0;
+      margin-bottom: 0;
     }
     ::v-deep legend {
       font-weight: 500;
@@ -335,10 +175,10 @@ export default {
 }
 
 .mark-active {
-  box-shadow: 0 0 0 0.2rem rgba(38,143,255,.5);
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 
 .ps-customizer-area {
-  height: calc(100% - 83px)
+  height: calc(100% - 83px);
 }
 </style>

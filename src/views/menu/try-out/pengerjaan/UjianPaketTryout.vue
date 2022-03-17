@@ -7,20 +7,14 @@
                         <div class="card-header px-0 pb-0">
                             <h3 class="card-title">
                                 Sisa Waktu :
-                                <span
-                                    class="text-primary"
-                                    style="color:blue"
-                                >{{ formatTime(sisaWaktu) }}</span>
+                                <span class="text-primary" style="color:blue">{{ formatTime(sisaWaktu) }}</span>
                             </h3>
                         </div>
                     </b-card>
                 </b-col>
 
                 <b-col cols="12" xl="9" md="8" class="mt-4 mt-md-0">
-                    <app-collapse-item
-                        :isVisible="true"
-                        :title="'Kategori Soal: ' + soal[currentIndex].mapel.nama.toUpperCase()"
-                    >
+                    <app-collapse-item :isVisible="true" :title="'Kategori Soal: ' + soal[currentIndex].mapel.nama.toUpperCase()">
                         <b-row class="invoice-spacing my-0">
                             <b-col cols="12" class="mb-lg-1 lh-lg">
                                 <div class="d-flex justify-content-between mb-2">
@@ -31,11 +25,7 @@
                                     </b-badge>
                                 </div>
 
-                                <vue-mathjax
-                                    :safe="false"
-                                    class="resize-font lh-base"
-                                    :formula="soal[currentIndex].pertanyaan"
-                                ></vue-mathjax>
+                                <vue-mathjax :safe="false" class="resize-font lh-base" :formula="soal[currentIndex].pertanyaan"></vue-mathjax>
 
                                 <div class="mt-1">
                                     <b-button
@@ -48,11 +38,7 @@
                                     >
                                         <div class="d-flex lh-lg" style="line-height:1.5">
                                             <span class="mr-1">{{ key.toUpperCase() }}.</span>
-                                            <vue-mathjax
-                                                :safe="false"
-                                                class="resize-font lh-base"
-                                                :formula="pil"
-                                            ></vue-mathjax>
+                                            <vue-mathjax :safe="false" class="resize-font lh-base" :formula="pil"></vue-mathjax>
                                         </div>
                                     </b-button>
                                 </div>
@@ -70,19 +56,8 @@
                                     :disabled="!soal[currentIndex].jawaban"
                                 >
                                     <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="hero-icon"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="hero-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     </span>
                                     <span>Lepas</span>
@@ -98,13 +73,7 @@
                                     :disabled="!soal[currentIndex].jawaban"
                                 >
                                     <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="hero-icon"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="hero-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -126,13 +95,7 @@
                                     :disabled="!soal[currentIndex].jawaban"
                                 >
                                     <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="hero-icon"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="hero-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -145,20 +108,9 @@
                                 </b-button>
                             </b-col>
                             <b-col cols="6" md="3" class="button-pilihan">
-                                <b-button
-                                    block
-                                    class="py-1 d-flex justify-content-center align-items-center"
-                                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                                    variant="dark"
-                                >
+                                <b-button block class="py-1 d-flex justify-content-center align-items-center" v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="dark">
                                     <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="hero-icon"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="hero-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -179,18 +131,8 @@
                         </div>
                         <b-row>
                             <!-- solid color -->
-                            <b-col
-                                v-for="(data) in solidColor"
-                                :key="data.key"
-                                cols="6"
-                                sm="3"
-                                lg="3"
-                            >
-                                <b-card
-                                    :bg-variant="data.bg"
-                                    text-variant="white"
-                                    class="text-center"
-                                >
+                            <b-col v-for="(data) in solidColor" :key="data.key" cols="6" sm="3" lg="3">
+                                <b-card :bg-variant="data.bg" text-variant="white" class="text-center">
                                     <b-card-title class="text-white">{{ data.title }}</b-card-title>
                                     <h3 class="text-white m-0">{{ computedSoal[data.key] }}</h3>
                                 </b-card>
@@ -205,10 +147,7 @@
                         </div>
                         <hr />
                         <div class="text-center">
-                            <h1
-                                class="fw-bold"
-                                style="font-size:40px"
-                            >{{ formatTime(sisaWaktuTryout) }}</h1>
+                            <h1 class="fw-bold" style="font-size:40px">{{ formatTime(sisaWaktuTryout) }}</h1>
                         </div>
                     </b-card>
 
@@ -226,16 +165,8 @@
                             <h4 class="card-title">Nomor Soal</h4>
                         </div>
                         <hr />
-                        <div
-                            class="d-sm-flex my-2 d-none justify-content-between align-items-center nav-bottom"
-                        >
-                            <b-button
-                                class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center"
-                                block
-                                variant="primary"
-                                :disabled="currentIndex == 0 ? true : false"
-                                @click="clickPrev"
-                            >
+                        <div class="d-sm-flex my-2 d-none justify-content-between align-items-center nav-bottom">
+                            <b-button class="m-0 py-1 px-md-0 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == 0 ? true : false" @click="clickPrev">
                                 <feather-icon icon="ChevronLeftIcon" size="20" />
                                 <span>Prev</span>
                             </b-button>
@@ -258,39 +189,20 @@
                                         size="sm"
                                         style="width:40px; height:40px"
                                         :variant="currentIndex == index ? 'primary' : jml.jawaban && !jml.ragu ? 'success' : jml.jawaban && jml.ragu ? 'warning' : 'outline-secondary'"
-                                        v-for="(jml,index) in soal"
+                                        v-for="(jml, index) in soal"
                                         :key="jml.id"
                                         @click="clickSoal(index)"
                                     >
-                                        <div
-                                            class="d-flex justify-content-center align-items-center"
-                                        >{{ index + 1 }}</div>
+                                        <div class="d-flex justify-content-center align-items-center">{{ index + 1 }}</div>
                                     </b-button>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <b-button
-                                block
-                                v-b-modal.modal-danger
-                                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                                variant="success"
-                                class="py-1 d-flex justify-content-center align-items-center"
-                            >
+                            <b-button block v-b-modal.modal-danger v-ripple.400="'rgba(255, 255, 255, 0.15)'" variant="success" class="py-1 d-flex justify-content-center align-items-center">
                                 <span>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="hero-icon"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M5 13l4 4L19 7"
-                                        />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="hero-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                     </svg>
                                 </span>
                                 <span>Selesai</span>
@@ -304,23 +216,11 @@
         <b-card-body class="p-0 pb-0 d-sm-none fixed-bottom">
             <b-card class="mb-0">
                 <div class="d-flex justify-content-between align-items-center nav-bottom">
-                    <b-button
-                        class="m-0 py-1 d-flex align-items-center justify-content-center"
-                        block
-                        variant="primary"
-                        :disabled="currentIndex == 0 ? true : false"
-                        @click="clickPrev"
-                    >
+                    <b-button class="m-0 py-1 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == 0 ? true : false" @click="clickPrev">
                         <feather-icon icon="ChevronLeftIcon" size="20" />
                         <span>Prev</span>
                     </b-button>
-                    <b-button
-                        class="m-0 py-1 d-flex align-items-center justify-content-center"
-                        block
-                        variant="primary"
-                        :disabled="currentIndex == (jumlahSoal - 1) ? true : false"
-                        @click="clickNext"
-                    >
+                    <b-button class="m-0 py-1 d-flex align-items-center justify-content-center" block variant="primary" :disabled="currentIndex == (jumlahSoal - 1) ? true : false" @click="clickNext">
                         <span>Next</span>
                         <feather-icon icon="ChevronRightIcon" size="20" />
                     </b-button>
@@ -328,21 +228,10 @@
             </b-card>
         </b-card-body>
 
-        <b-modal
-            id="modal-danger"
-            ok-variant="danger"
-            ok-title="Yakin"
-            cancel-title="Batal"
-            modal-class="modal-danger"
-            centered
-            title="Danger Modal"
-            @ok="simpanPaket"
-        >
+        <b-modal id="modal-danger" ok-variant="danger" ok-title="Yakin" cancel-title="Batal" modal-class="modal-danger" centered title="Danger Modal" @ok="simpanPaket">
             <b-card-text class="text-center text-danger">
                 <feather-icon icon="AlertTriangleIcon" size="50" />
-                <h4
-                    class="mt-1"
-                >Apakah Anda yakin ingin menyimpan semua jawaban dan kembali ke halaman paket soal?</h4>
+                <h4 class="mt-1">Apakah Anda yakin ingin menyimpan semua jawaban dan kembali ke halaman paket soal?</h4>
             </b-card-text>
         </b-modal>
     </div>

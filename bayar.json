@@ -1,0 +1,62 @@
+{
+  "success": true,
+  "message": "",
+  "data": {
+    "reference": "DEV-T344435452DCUUP",
+    "merchant_ref": "STUDENIA/1231232/234234",
+    "payment_selection_type": "static",
+    "payment_method": "QRIS",
+    "payment_name": "QRIS (ShopeePay)",
+    "customer_name": "Wildan",
+    "customer_email": "wildan@gmail.com",
+    "customer_phone": null,
+    "callback_url": "https://cpns.dosendeso.com/api/transaksi/kelas/tripay/callback",
+    "return_url": null,
+    "amount": 25925,
+    "fee_merchant": 0,
+    "fee_customer": 925,
+    "total_fee": 925,
+    "amount_received": 25000,
+    "pay_code": null,
+    "pay_url": null,
+    "checkout_url": "https://tripay.co.id/checkout/DEV-T344435452DCUUP",
+    "status": "UNPAID",
+    "expired_time": 1644247427,
+    "order_items": [
+      {
+        "sku": "paket-1",
+        "name": "Paket TO premium",
+        "price": 25000,
+        "quantity": 1,
+        "subtotal": 25000,
+        "product_url": null,
+        "image_url": null
+      }
+    ],
+    "instructions": [
+      {
+        "title": "Pembayaran via QRIS (ShopeePay)",
+        "steps": [
+          "Masuk ke aplikasi dompet digital Anda yang telah mendukung QRIS",
+          "Pindai/Scan QR Code yang tersedia",
+          "Akan muncul detail transaksi. Pastikan data transaksi sudah sesuai",
+          "Selesaikan proses pembayaran Anda",
+          "Transaksi selesai. Simpan bukti pembayaran Anda"
+        ]
+      },
+      {
+        "title": "Pembayaran via QRIS (Mobile)",
+        "steps": [
+          "Download QR Code pada invoice",
+          "Masuk ke aplikasi dompet digital Anda yang telah mendukung QRIS",
+          "Upload QR Code yang telah di download tadi",
+          "Akan muncul detail transaksi. Pastikan data transaksi sudah sesuai",
+          "Selesaikan proses pembayaran Anda",
+          "Transaksi selesai. Simpan bukti pembayaran Anda"
+        ]
+      }
+    ],
+    "qr_string": "SANDBOX MODE",
+    "qr_url": "https://tripay.co.id/qr/DEV-T344435452DCUUP"
+  }
+}

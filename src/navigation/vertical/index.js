@@ -32,6 +32,7 @@ tagVariant
 */
 import dashboard from './dashboard'
 import tryOut from './try-out'
+import transaksi from './transaksi'
 import drillingSoal from './drilling-soal'
 import kelasOnline from './kelas-online'
 import materi from './materi'
@@ -39,4 +40,4 @@ import kontribusi from './kontribusi'
 import others from './others'
 
 // Array of sections
-export default [...dashboard, ...tryOut, ...drillingSoal, ...kelasOnline, ...materi, ...kontribusi, ...others]
+export default [...dashboard, ...tryOut, ...transaksi ,...drillingSoal, ...kelasOnline, ...materi, ...kontribusi, ...others]

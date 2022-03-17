@@ -4,46 +4,79 @@ export default [
   },
   {
     title: 'Try Out Gratis',
-    icon: 'MenuIcon',
+    icon: 'FileTextIcon',
     children: [
       {
         title: 'TO Campuran',
         route: {
-          name: 'try-out/gratis/campuran',
+          name: 'try-out-gratis-campuran',
           params: { jenis: 'gratis', kategori: 'campuran' },
+        },
+        icon: 'Edit3Icon',
+        meta: {
+          pageTitle: 'Basir'
         },
       },
       {
         title: 'TO Saintek',
         route: {
-          name: 'try-out/gratis/saintek',
+          name: 'try-out-gratis-saintek',
           params: { jenis: 'gratis', kategori: 'saintek' },
+        },
+        icon: 'Edit3Icon',
+        meta: {
+          pageTitle: 'Basir'
         },
       },
       {
         title: 'TO Soshum',
         route: {
-          name: 'try-out/gratis/soshum',
+          name: 'try-out-gratis-soshum',
           params: { jenis: 'gratis', kategori: 'soshum' },
+        },
+        icon: 'Edit3Icon',
+        meta: {
+          pageTitle: 'Basir'
         },
       },
     ],
   },
   {
     title: 'Try Out Premium',
-    icon: 'MenuIcon',
+    icon: 'FilePlusIcon',
     children: [
       {
         title: 'TO Campuran',
-        route: 'try-out/premium/campuran',
+        route: {
+          name: 'try-out-premium-campuran',
+          params: { jenis: 'premium', kategori: 'campuran' },
+        },
+        icon: 'Edit3Icon',
+        meta: {
+          pageTitle: 'Basir'
+        },
       },
       {
         title: 'TO Saintek',
-        route: 'try-out/premium/saintek',
+        route: {
+          name: 'try-out-premium-saintek',
+          params: { jenis: 'premium', kategori: 'saintek' },
+        },
+        icon: 'Edit3Icon',
+        meta: {
+          pageTitle: 'Basir'
+        },
       },
       {
         title: 'TO Soshum',
-        route: 'try-out/premium/soshum',
+        route: {
+          name: 'try-out-premium-soshum',
+          params: { jenis: 'premium', kategori: 'soshum' },
+        },
+        icon: 'Edit3Icon',
+        meta: {
+          pageTitle: 'Basir'
+        },
       },
     ],
   },

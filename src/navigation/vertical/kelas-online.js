@@ -5,11 +5,11 @@ export default [
   {
     title: 'Video Belajar',
     route: 'kelas-online/video-belajar',
-    icon: 'TypeIcon',
+    icon: 'YoutubeIcon',
   },
   {
     title: 'Kelas Live Zoom',
     route: 'kelas-online/kelas-live',
-    icon: 'DropletIcon',
+    icon: 'VideoIcon',
   },
 ]
