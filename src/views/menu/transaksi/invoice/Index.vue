@@ -4,11 +4,11 @@
         <b-card no-body class="mb-0">
             <div class="m-2">
                 <!-- Table Top -->
-                <b-row class="d-flex align-items-center justify-content-between">
+                <b-row class="d-flex align-items-center justify-content-end">
                     <!-- Per Page -->
-                    <b-col cols="12" md="6" class="mb-1 mb-md-0">
+                    <!-- <b-col cols="12" md="6" class="mb-1 mb-md-0">
                         <b-form-input placeholder="Search Status, Reference, Payment Method" type="text" class="d-inline-block" @input="searchUser" />
-                    </b-col>
+                    </b-col>-->
 
                     <!-- Search -->
                     <b-col cols="12" md="6">
